@@ -1,0 +1,22 @@
+paste:
+    build: .
+    ports:
+       - "3010:8000"
+    environment:
+        HTTP: ":8000"
+        GITHUB_KEY: cc3caa1736ce1df80942
+        GITHUB_SECRET: 3bacf771c685470940a38d97f27ed6ab0dc3f235
+        POSTGRES: "postgres://pg:FCNecNvQrm@postgres/votehub?sslmode=disable"
+        STATICS: /public
+        TEMPLATES: /templates
+        TEMPLATES_CACHE: false
+        SCHEMA: /schema.sql
+    links:
+        - postgres
+postgres:
+    image: postgres:9.5
+    environment:
+        POSTGRES_PASSWORD: FCNecNvQrm
+        POSTGRES_USER: pg
+        LC_ALL: C.UTF-8
+

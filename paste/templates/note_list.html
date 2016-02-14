@@ -1,0 +1,18 @@
+{{template "header.html" .}}
+
+{{if .Notes}}
+    <ul>
+    {{range .Notes}}
+        <li>
+            <a href="/n/{{.NoteID}}">{{.NoteID}}</a>
+            {{if .IsPublic}}public{{else}}private{{end}}
+        </li>
+    {{end}}
+    </ul>
+{{else}}
+    <div class="alert alert-info">
+        No notes
+    </div>
+{{end}}
+
+{{template "footer.html" .}}
