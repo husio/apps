@@ -60,6 +60,20 @@ func VotesByOwner(s pg.Selector, owner int, limit, offset int) ([]*VoteWithCount
 	return res, pg.CastErr(err)
 }
 
+func LatestVotes(s pg.Selector, limit, offset int) ([]*VoteWithCounter, error) {
+	var res []*VoteWithCounter
+	err := s.Select(&res, `
+		SELECT
+			v.*,
+			c.value, c.description, c.url
+		FROM votes v
+			INNER JOIN counters c ON v.counter_id = c.counter_id
+		ORDER BY v.created DESC
+		LIMIT $1 OFFSET $2
+	`, limit, offset)
+	return res, pg.CastErr(err)
+}
+
 type VoteWithCounter struct {
 	Vote
 	CounterValue       int    `db:"value"`
@@ -108,5 +122,15 @@ func CountersByOwner(s pg.Selector, owner int, limit, offset int) ([]*Counter, e
 		ORDER BY created DESC
 		LIMIT $2 OFFSET $3
 	`, owner, limit, offset)
+	return res, pg.CastErr(err)
+}
+
+func LatestCounters(s pg.Selector, limit, offset int) ([]*Counter, error) {
+	var res []*Counter
+	err := s.Select(&res, `
+		SELECT * FROM counters
+		ORDER BY created DESC
+		LIMIT $1 OFFSET $2
+	`, limit, offset)
 	return res, pg.CastErr(err)
 }

@@ -2,7 +2,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-6">
             <h2>FAQ</h2>
             <p>Q: <strong>What is votehub?</strong></p>
             <p>A: It's <strong>+1</strong> for your github project pages.<p>
@@ -20,42 +20,25 @@
             <p>Q: <strong>Who's behind it?</strong></p>
             <p>A: Just <a href="//github.com/husio">me</a>.</p>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
             <h2>Recent votes</h2>
-            {{if .Votes}}
-                {{range .Votes}}
-                    <p>
-                        <img class="card-img" src="//avatars0.githubusercontent.com/u/{{.AccountID}}?v=3&s=32">
-                        voted <a href="{{.CounterURL}}">{{.Created | timesince}}</a>
-                    <p>
-                {{end}}
-            {{else}}
-                <div class="alert alert-info">
-                    You have not voted on anything yet.
-                </div>
-            {{end}}
-        </div>
-        <div class="col-md-4">
-            <h2>Your newest</h2>
-            {{if .Counters}}
-                {{range .Counters}}
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div>
-                                <img src="/v/{{.CounterID}}/banner.svg">
-                                <span class="pull-right">{{.Created | timesince}}</span>
-                            </div>
-                            <p>{{.Description}}</p>
-                            <a href="{{.URL}}">{{.URL}}</a>
-                        </div>
-                    </div>
-                {{end}}
-            {{else}}
-                <div class="alert alert-info">
-                    You do not have any counters registered.
-                    <a href="/webhooks/create">Create webhook</a> for your github repository.
-                </div>
-            {{end}}
+			{{range .Votes}}
+				<hr>
+				<div class="row">
+					<div class="col-md-8">
+						<img class="card-img" src="//avatars0.githubusercontent.com/u/{{.AccountID}}?v=3&s=38">
+						<span class="font-italic">{{.Created | timesince}}</span>
+					</div>
+					<div class="col-md-4 pull-right">
+						<a href="/v/{{.CounterID}}/upvote">
+							<img class="m-a-1" src="/v/{{.CounterID}}/banner.svg">
+						</a>
+					</div>
+				</div>
+				<div  style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+					<a href="{{.CounterURL}}">{{.CounterDescription}}</a>
+				</div>
+			{{end}}
         </div>
     </div>
 </div>

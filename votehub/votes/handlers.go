@@ -19,6 +19,22 @@ import (
 
 func HandleListCounters(ctx context.Context, w http.ResponseWriter, r *http.Request) {
 	db := pg.DB(ctx)
+
+	votes, err := LatestVotes(db, 30, 0)
+	if err != nil {
+		log.Printf("cannot list votes: %s", err)
+	}
+
+	context := struct {
+		Votes []*VoteWithCounter
+	}{
+		Votes: votes,
+	}
+	tmpl.Render(w, "counters_list.html", context)
+}
+
+func HandleListUserCounters(ctx context.Context, w http.ResponseWriter, r *http.Request) {
+	db := pg.DB(ctx)
 	account, ok := auth.AuthRequired(db, w, r)
 	if !ok {
 		return
@@ -45,7 +61,7 @@ func HandleListCounters(ctx context.Context, w http.ResponseWriter, r *http.Requ
 		Counters: counters,
 		Votes:    votes,
 	}
-	tmpl.Render(w, "counters_list.html", context)
+	tmpl.Render(w, "user_counters_list.html", context)
 }
 
 func HandleRenderSVGBanner(ctx context.Context, w http.ResponseWriter, r *http.Request) {
