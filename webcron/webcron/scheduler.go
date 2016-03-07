@@ -2,12 +2,16 @@ package webcron
 
 import (
 	"fmt"
+	"log"
 	"time"
 
 	"golang.org/x/net/context"
 )
 
 type Scheduler struct {
+	ctx     context.Context
+	stop    func()
+	errc    chan error
 	storage storage
 }
 
@@ -17,26 +21,49 @@ type storage interface {
 	Del(string) error
 }
 
-func NewScheduler(s storage) *Scheduler {
-	return &Scheduler{
-		storage: s,
+func RunScheduler(ctx context.Context, storage storage) (*Scheduler, error) {
+	ctx, stop := context.WithCancel(ctx)
+	s := &Scheduler{
+		ctx:     ctx,
+		storage: storage,
+		errc:    make(chan error, 32),
+		stop:    stop,
 	}
+
+	jobs, err := s.storage.List(1000, 0)
+	if err != nil {
+		return nil, fmt.Errorf("cannot list jobs: %s", err)
+	}
+	for _, job := range jobs {
+		go runJob(ctx, job, s.errc)
+	}
+
+	return s, nil
+}
+
+func (s *Scheduler) Stop() {
+	s.stop()
+}
+
+func (s *Scheduler) Errc() <-chan error {
+	return s.errc
 }
 
 // Add creates new job with unique ID assigned by the scheduler.
 func (s *Scheduler) Add(job Job) (Job, error) {
-	// TODO: adding job must reset Runner
 	job.ID = genID()
 	job.Created = time.Now()
 	if err := s.storage.Add(job); err != nil {
 		return job, fmt.Errorf("storage failure: %s", err)
 	}
+	go runJob(s.ctx, job, s.errc)
 	return job, nil
 }
 
 // Del remove job with given ID. It returns ErrNotFound if job with given ID
 // does not exist.
 func (s *Scheduler) Del(jobID string) error {
+	// TODO: stop scheduled job
 	return s.storage.Del(jobID)
 }
 
@@ -44,43 +71,17 @@ func (s *Scheduler) List(limit, offset int) ([]Job, error) {
 	return s.storage.List(limit, offset)
 }
 
-func (s *Scheduler) Run(ctx context.Context) error {
-	var next struct {
-		time time.Time
-		job  *Job
-	}
-	errc := make(chan error, 1)
-
+func runJob(ctx context.Context, job Job, errc chan<- error) {
 	for {
-		jobs, err := s.storage.List(1000, 0)
-		if err != nil {
-			return fmt.Errorf("cannot list jobs: %s", err)
-		}
-		if len(jobs) == 0 {
-			time.Sleep(time.Second)
-			continue
-		}
-
-		now := time.Now().Local()
-		for _, job := range jobs {
-			t := job.Schedule.Next(now)
-			if next.time.IsZero() || t.Before(next.time) && !t.IsZero() {
-				next.time = t
-				next.job = &job
+		if err := job.Start(ctx); err != nil {
+			select {
+			case errc <- err:
+			case <-ctx.Done():
+				return
+			default:
+				log.Print("ignoring error: cannot push through channel")
+				// ignore errors that cannot be pushed through channel
 			}
-		}
-
-		select {
-		case <-time.After(next.time.Sub(now)):
-			go func(job *Job) {
-				if err := job.Run(); err != nil {
-					errc <- fmt.Errorf("job failed: %s", err)
-				}
-			}(next.job)
-		case err := <-errc:
-			return err
-		case <-ctx.Done():
-			return ctx.Err()
 		}
 	}
 }

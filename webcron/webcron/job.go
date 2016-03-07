@@ -9,6 +9,8 @@ import (
 	"net/http"
 	"time"
 
+	"golang.org/x/net/context"
+
 	"github.com/robfig/cron"
 )
 
@@ -36,6 +38,23 @@ func (j *Job) Run() error {
 		return fmt.Errorf("invalid response %d: %s", resp.StatusCode, b)
 	}
 	return nil
+}
+
+// Start periodically run job, as defined in schedule attribute.
+func (j *Job) Start(ctx context.Context) error {
+	for {
+		now := time.Now().Local()
+		next := j.Schedule.Next(now)
+
+		select {
+		case <-time.After(next.Sub(now)):
+			if err := j.Run(); err != nil {
+				return err
+			}
+		case <-ctx.Done():
+			return ctx.Err()
+		}
+	}
 }
 
 type Schedule struct {

@@ -17,6 +17,6 @@ func main() {
 
 func echo(w http.ResponseWriter, r *http.Request) {
 	body, _ := ioutil.ReadAll(r.Body)
-	log.Printf("%s %s", r.Method, r.URL, body)
+	log.Printf("%s %20q %q", r.Method, r.URL, string(body))
 	w.Write(body)
 }

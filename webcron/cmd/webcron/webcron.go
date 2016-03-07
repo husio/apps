@@ -20,6 +20,7 @@ func main() {
 	log.SetOutput(os.Stdout)
 	log.SetFlags(log.Lshortfile | log.Ltime)
 
+	ctx := context.Background()
 	errc := make(chan error, 1)
 
 	storage, err := webcron.NewFileStorage(storagePath)
@@ -29,15 +30,10 @@ func main() {
 	log.Printf("storage initialized: %s", storagePath)
 	defer storage.Close()
 
-	scheduler := webcron.NewScheduler(storage)
-
-	go func() {
-		ctx := context.Background()
-		if err := scheduler.Run(ctx); err != nil {
-			errc <- fmt.Errorf("scheduler error: %s", err)
-			return
-		}
-	}()
+	scheduler, err := webcron.RunScheduler(ctx, storage)
+	if err != nil {
+		log.Fatalf("cannot create scheduler: %s", err)
+	}
 
 	ui := webcron.NewHandler(scheduler)
 
@@ -46,6 +42,12 @@ func main() {
 		if err := http.ListenAndServe(httpAddr, ui); err != nil {
 			errc <- fmt.Errorf("HTTP server error: %s", err)
 			return
+		}
+	}()
+
+	go func() {
+		for err := range scheduler.Errc() {
+			log.Printf("scheduler error: %s", err)
 		}
 	}()
 
