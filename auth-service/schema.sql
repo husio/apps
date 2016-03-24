@@ -1,5 +1,6 @@
 BEGIN;
 
+
 CREATE TYPE account_role AS ENUM ('admin', 'service', 'user');
 
 

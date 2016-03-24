@@ -8,6 +8,7 @@ import (
 	"os"
 	"time"
 
+	_ "github.com/lib/pq"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -41,7 +42,7 @@ func main() {
 		pg = *pgFl
 	}
 	if pg == "" {
-		pg = "host=localhost port=5432 user=postgres dbname=postgres"
+		pg = "host=localhost port=5432 user=postgres dbname=postgres sslmode=disable"
 	}
 
 	db, err := sql.Open("postgres", pg)
@@ -78,6 +79,6 @@ func printUsage() {
 	fmt.Fprintf(os.Stdout, `
 Usage: %s [options]
 
-	`, os.Args[0])
+`, os.Args[0])
 	flag.PrintDefaults()
 }

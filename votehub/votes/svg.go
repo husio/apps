@@ -7,11 +7,20 @@ import (
 )
 
 func RenderBadge(w io.Writer, value int) error {
+	var label string
+	switch value {
+	case 0:
+		label = "no votes"
+	case 1:
+		label = "1 vote"
+	default:
+		label = fmt.Sprintf("%d votes", value)
+	}
 	ctx := badge{
-		TextLeft:   "VOTEHUB",
+		TextLeft:   label,
 		ColorLeft:  "#555",
 		ColorRight: "#DBCB18",
-		TextRight:  fmt.Sprintf("+%d", value),
+		TextRight:  "+1",
 	}
 	return badgeTmpls.ExecuteTemplate(w, "plastic", &ctx)
 }

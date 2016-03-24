@@ -7,26 +7,42 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/husio/x/feedreader/entries"
+	"github.com/husio/apps/feedreader/entries"
+	"github.com/husio/x/envconf"
 	"github.com/husio/x/storage/pg"
+	"github.com/husio/x/tmpl"
 	"github.com/husio/x/web"
+
 	"golang.org/x/net/context"
 )
 
 var router = web.NewRouter("", web.Routes{
-	{"GET ", "^/$", entries.HandleListEntries},
-	{"GET ", "^/resources$", entries.HandleListResources},
-	{"POST", "^/resources$", entries.HandleAddResource},
+	web.GET(`^/$`, "", entries.HandleListEntries),
+	web.GET(`^/resources$`, "", entries.HandleListResources),
+	web.POST(`^/resources$`, "", entries.HandleAddResource),
 
-	{"GET,POST,PUT,DELETE", ".*", handle404},
+	web.ANY(`.*`, "", handle404),
 })
 
 func main() {
 	log.SetFlags(log.Lshortfile)
 
+	conf := struct {
+		HTTP           string
+		Postgres       string `envconf:",required"`
+		Templates      string
+		TemplatesCache bool
+	}{
+		HTTP:      "localhost:8000",
+		Templates: "templates/**.html",
+	}
+	envconf.Must(envconf.LoadEnv(&conf))
+
+	tmpl.MustLoadTemplates(conf.Templates, conf.TemplatesCache)
+
 	ctx := context.Background()
 
-	db, err := sql.Open("postgres", "")
+	db, err := sql.Open("postgres", conf.Postgres)
 	if err != nil {
 		log.Fatalf("cannot connect to PostgreSQL: %s", err)
 	}
@@ -39,7 +55,7 @@ func main() {
 		ctx: ctx,
 		rt:  router,
 	}
-	if err := http.ListenAndServe("localhost:8000", app); err != nil {
+	if err := http.ListenAndServe(conf.HTTP, app); err != nil {
 		log.Fatalf("HTTP error: %s", err)
 	}
 }

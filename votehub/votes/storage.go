@@ -28,6 +28,7 @@ func AddVote(g pg.Getter, counterID, accountID int) (*Vote, error) {
 		VALUES ($1, $2, $3)
 		RETURNING *
 	`, counterID, accountID, time.Now())
+	println("adding vote", err)
 	return &v, pg.CastErr(err)
 }
 

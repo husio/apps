@@ -1,0 +1,5 @@
+.*
+!.gitignore
+
+auth_service
+register_account

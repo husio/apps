@@ -6,10 +6,10 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/husio/apps/votehub/ghub"
+	"github.com/husio/apps/votehub/votes"
 	"github.com/husio/x/auth"
 	"github.com/husio/x/storage/pgtest"
-	"github.com/husio/x/votehub/ghub"
-	"github.com/husio/x/votehub/votes"
 
 	"golang.org/x/net/context"
 )

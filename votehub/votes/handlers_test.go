@@ -7,24 +7,26 @@ import (
 	"time"
 
 	"github.com/husio/x/auth"
+	"github.com/husio/x/cache"
 	"github.com/husio/x/storage/pg"
 	"github.com/husio/x/storage/pgtest"
-	"github.com/husio/x/votehub/cache"
+	"github.com/husio/x/tmpl"
 	"github.com/husio/x/web"
 	"golang.org/x/net/context"
 )
+
+func init() {
+	tmpl.MustLoadTemplates("../**/templates/**.html", true)
+}
 
 func TestHandleListCounters(t *testing.T) {
 	w := httptest.NewRecorder()
 	r, _ := http.NewRequest("GET", "/", nil)
 	r.Header.Set("Authorization", "xyz")
 
-	now := time.Now()
 	db := pgtest.DB{
 		Fatalf: t.Fatalf,
 		Stack: []pgtest.ResultMock{
-			{"Get", auth.Account{AccountID: 321}, nil},
-			{"Select", &[]*Counter{{1, 312, now, "", 4, ""}, {2, 321, now, "", 2, ""}}, nil},
 			{"Select", &[]*VoteWithCounter{}, nil},
 		},
 	}
@@ -51,7 +53,7 @@ func TestHandleRenderCSVBanner(t *testing.T) {
 	}
 
 	ctx := context.Background()
-	ctx = cache.WithIntCache(ctx)
+	ctx = cache.WithLocalCache(ctx, 100)
 	ctx = pgtest.WithDB(ctx, &db)
 	ctx = web.WithArgs(ctx, []string{"counter-id"}, []string{"559"})
 
@@ -80,13 +82,13 @@ func TestHandleClickUpvote_Logged(t *testing.T) {
 	db := pgtest.DB{
 		Fatalf: t.Fatalf,
 		Stack: []pgtest.ResultMock{
-			{"Get", auth.Account{AccountID: 321}, nil},
+			{"Get", auth.AccountWithScopes{Account: &auth.Account{AccountID: 321}}, nil},
 			{"Get", Vote{559, 123, time.Now()}, nil},
 		},
 	}
 
 	ctx := context.Background()
-	ctx = cache.WithIntCache(ctx)
+	ctx = cache.WithLocalCache(ctx, 100)
 	ctx = pgtest.WithDB(ctx, &db)
 	ctx = web.WithArgs(ctx, []string{"counter-id"}, []string{"559"})
 
@@ -116,7 +118,7 @@ func TestHandleClickUpvoteNotExisting_Logged(t *testing.T) {
 	}
 
 	ctx := context.Background()
-	ctx = cache.WithIntCache(ctx)
+	ctx = cache.WithLocalCache(ctx, 100)
 	ctx = pgtest.WithDB(ctx, &db)
 	ctx = web.WithArgs(ctx, []string{"counter-id"}, []string{"559"})
 

@@ -1,14 +1,26 @@
 {{template "header.html" .}}
 
 <div class="row">
-    <div class="col-md-4 col-md-offset-4 text-center">
-        <h1>Votehub</h1>
-        <p>
-            Authenticate first.
-        </p>
-        <p>
-            <a href="/login?next={{.NextURL}}" class="btn btn-success">Login with Github</a>
-        </p>
+    <div class="col-md-8 col-md-offset-2 text-center">
+		<div class="text-xs-center m-a-3">
+			<h1 class="m-b-3">
+				VoteHub
+				<i class="fa fa-dot-circle-o"></i>
+			</h1>
+			<p class="text-center">
+				<a href="/login?next={{.NextURL}}" class="btn btn-lg btn-success">
+					Login with GitHub <i class="fa fa-github"></i>
+				</a>
+			</p>
+		</div>
+		<hr>
+		<div class="m-a-3">
+			<p>
+				<strong>VoteHub</strong> aggregate project votes and rate
+				issues depending on their popularity. Login to add your
+				<strong>+1</strong> vote to help decide what is important.
+			</p>
+		</div>
     </div>
 </div>
 

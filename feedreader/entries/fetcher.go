@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/husio/x/feedreader/format/rss"
+	"github.com/husio/apps/feedreader/format/rss"
 )
 
 func Fetch(urlStr string) ([]*Entry, error) {
@@ -23,7 +23,7 @@ func Fetch(urlStr string) ([]*Entry, error) {
 	for _, item := range feed.Items {
 		e := Entry{
 			Title:   item.Title,
-			Link:    item.Link,
+			URL:     item.Link,
 			Content: coalesce(item.Content, item.Description),
 		}
 		entries = append(entries, &e)

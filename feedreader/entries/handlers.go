@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/husio/x/storage/pg"
+	"github.com/husio/x/tmpl"
 
 	"golang.org/x/net/context"
 )
@@ -13,7 +14,8 @@ func HandleListEntries(ctx context.Context, w http.ResponseWriter, r *http.Reque
 	entries, err := ListEntries(pg.DB(ctx), 100, 0)
 	if err != nil {
 		log.Printf("cannot get entries: %s", err)
-		renderStdResp(w, http.StatusInternalServerError)
+		w.WriteHeader(http.StatusInternalServerError)
+		tmpl.Render(w, "standard_response.html", http.StatusText(http.StatusInternalServerError))
 		return
 	}
 
@@ -22,13 +24,17 @@ func HandleListEntries(ctx context.Context, w http.ResponseWriter, r *http.Reque
 	}{
 		Entries: entries,
 	}
-	render(w, "entry-list", context, http.StatusOK)
+	tmpl.Render(w, "entry_list.html", context)
 }
 
 func HandleListResources(ctx context.Context, w http.ResponseWriter, r *http.Request) {
-	renderStdResp(w, http.StatusNotImplemented)
+	code := http.StatusNotImplemented
+	w.WriteHeader(code)
+	tmpl.Render(w, "standard_response.html", http.StatusText(code))
 }
 
 func HandleAddResource(ctx context.Context, w http.ResponseWriter, r *http.Request) {
-	renderStdResp(w, http.StatusNotImplemented)
+	code := http.StatusNotImplemented
+	w.WriteHeader(code)
+	tmpl.Render(w, "standard_response.html", http.StatusText(code))
 }

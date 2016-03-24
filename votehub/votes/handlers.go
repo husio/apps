@@ -133,6 +133,7 @@ func HandleClickUpvote(ctx context.Context, w http.ResponseWriter, r *http.Reque
 		return
 	}
 
+	fmt.Println("adding vote", ok, account)
 	if _, err := AddVote(tx, counterID, account.AccountID); err != nil {
 		if err == pg.ErrNotFound {
 			tmpl.Render(w, "std_response.html", http.StatusNotFound)

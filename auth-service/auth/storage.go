@@ -6,6 +6,7 @@ import (
 	"github.com/husio/x/storage/pg"
 )
 
+// AccountByLogin return account with given login.
 func AccountByLogin(g pg.Getter, login string) (*Account, error) {
 	var a Account
 	err := g.Get(&a, `
@@ -30,4 +31,14 @@ type Account struct {
 
 func (a *Account) IsActive() bool {
 	return time.Now().Before(a.ValidTill)
+}
+
+func Accounts(s pg.Selector, limit, offset int64) ([]*Account, error) {
+	var accs []*Account
+	err := s.Select(&accs, `
+		SELECT * FROM accounts
+		ORDER BY created_at ASC
+		LIMIT $1 OFFSET $2
+	`, limit, offset)
+	return accs, pg.CastErr(err)
 }
