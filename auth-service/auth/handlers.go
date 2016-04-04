@@ -3,6 +3,7 @@ package auth
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"log"
 	"net/http"
 	"strconv"
@@ -15,6 +16,18 @@ import (
 	"golang.org/x/crypto/bcrypt"
 	"golang.org/x/net/context"
 )
+
+func HandlePublicKey(ctx context.Context, w http.ResponseWriter, r *http.Request) {
+	kid := web.Args(ctx).ByIndex(0)
+	key, ok := keyManager(ctx).KeyByID(kid)
+	if !ok {
+		web.JSONErr(w, "key not found", http.StatusNotFound)
+		return
+	}
+	w.Header().Set("Content-Type", "application/pkix-crl")
+	w.Header().Set("Content-Disposition", fmt.Sprintf(`inline; filename="%s.pub"`, kid))
+	fmt.Fprint(w, key)
+}
 
 // HandleLogin authenticate user using login/password and if successful, return
 // autorization token.
@@ -68,7 +81,7 @@ func HandleLogin(ctx context.Context, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if !ValidPassword(input.Password, acc.PasswordHash) {
+	if !validPassword(input.Password, acc.PasswordHash) {
 		web.StdJSONResp(w, http.StatusUnauthorized)
 		return
 	}
@@ -80,10 +93,9 @@ func HandleLogin(ctx context.Context, w http.ResponseWriter, r *http.Request) {
 
 	payload := struct {
 		stamp.Claims
-		ID       int64    `json:"id"`
-		ClientIP string   `json:"ip"`
-		Role     string   `json:"role"`
-		Scopes   []string `json:"scop,omitempty"`
+		ID       int64    `json:"userid"`
+		ClientIP string   `json:"ip,omitempty"`
+		Scopes   []string `json:"scopes,omitempty"`
 	}{
 		Claims: stamp.Claims{
 			ExpirationTime: min(
@@ -93,12 +105,10 @@ func HandleLogin(ctx context.Context, w http.ResponseWriter, r *http.Request) {
 		},
 		ID:       acc.ID,
 		ClientIP: clientIP(r),
-		Role:     acc.Role,
-		Scopes:   nil,
+		Scopes:   acc.Scopes,
 	}
 
-	signer := tokenSigner(ctx)
-	token, err := stamp.Encode(signer, &payload)
+	token, err := keyManager(ctx).Vault().Encode(&payload)
 	if err != nil {
 		log.Printf("cannot encode token: %s", err)
 		web.StdJSONResp(w, http.StatusInternalServerError)
@@ -113,8 +123,8 @@ func HandleLogin(ctx context.Context, w http.ResponseWriter, r *http.Request) {
 	web.JSONResp(w, resp, http.StatusOK)
 }
 
-// ValidPassword compare and return true if hash was generated for given password.
-func ValidPassword(password, passHash string) bool {
+// validPassword compare and return true if hash was generated for given password.
+func validPassword(password, passHash string) bool {
 	return compareAndHashPassword([]byte(passHash), []byte(password)) == nil
 }
 
@@ -143,39 +153,20 @@ func min(first int64, rest ...int64) int64 {
 	return min
 }
 
-// WithTokenSigner return context with signer attached.
-func WithTokenSigner(ctx context.Context, s stamp.Signer) context.Context {
-	return context.WithValue(ctx, "auth:signer", s)
+func WithKeyManager(ctx context.Context, km *KeyManager) context.Context {
+	return context.WithValue(ctx, "auth:keymanager", km)
 }
 
-// tokenSigner return signer attached to context. User WithTokenSigner prepare
-// context.
-func tokenSigner(ctx context.Context) stamp.Signer {
-	s := ctx.Value("auth:signer")
-	if s == nil {
-		panic("token signer not present in context")
+func keyManager(ctx context.Context) *KeyManager {
+	km := ctx.Value("auth:keymanager")
+	if km == nil {
+		panic("key manager not present in context")
 	}
-	return s.(stamp.Signer)
-}
-
-func AuthPayload(s stamp.Signer, r *http.Request, payload interface{}) error {
-	token := r.URL.Query().Get("authToken")
-	if token == "" {
-		if fs := strings.Fields(r.Header.Get("Authorization")); len(fs) == 2 {
-			token = fs[1]
-		}
-	}
-	if token == "" {
-		return errors.New("no token")
-	}
-	return stamp.Decode(s, &payload, []byte(token))
+	return km.(*KeyManager)
 }
 
 func HandleListAccounts(ctx context.Context, w http.ResponseWriter, r *http.Request) {
-	var authPayload struct {
-		Role string
-	}
-	if err := AuthPayload(tokenSigner(ctx), r, &authPayload); err != nil || authPayload.Role != "admin" {
+	if !isAdmin(keyManager(ctx).Vault(), r) {
 		web.StdJSONResp(w, http.StatusUnauthorized)
 		return
 	}
@@ -195,4 +186,32 @@ func HandleListAccounts(ctx context.Context, w http.ResponseWriter, r *http.Requ
 		Accounts: accs,
 	}
 	web.JSONResp(w, resp, http.StatusOK)
+}
+
+func isAdmin(v *stamp.Vault, r *http.Request) bool {
+	var payload struct {
+		Scopes []string `json:"scopes"`
+	}
+	if err := authPayload(v, r, &payload); err != nil {
+		return false
+	}
+	for _, s := range payload.Scopes {
+		if s == "admin" {
+			return true
+		}
+	}
+	return false
+}
+
+func authPayload(v *stamp.Vault, r *http.Request, payload interface{}) error {
+	token := r.URL.Query().Get("authToken")
+	if token == "" {
+		if fs := strings.Fields(r.Header.Get("Authorization")); len(fs) == 2 {
+			token = fs[1]
+		}
+	}
+	if token == "" {
+		return errors.New("no token")
+	}
+	return v.Decode(&payload, []byte(token))
 }

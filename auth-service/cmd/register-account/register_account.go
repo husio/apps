@@ -6,8 +6,10 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 	"time"
 
+	"github.com/husio/x/storage/pg"
 	_ "github.com/lib/pq"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -15,7 +17,7 @@ import (
 func main() {
 	loginFl := flag.String("login", "", "Account login. Required.")
 	passFl := flag.String("password", "", "Account password, Required.")
-	roleFl := flag.String("role", "", "Account role, Required.")
+	scopesFl := flag.String("scopes", "", "List of coma separated scopes.")
 	pgFl := flag.String("postgres", "", "PostgreSQL connection string.")
 	hashCostFl := flag.Int("hash-cost", bcrypt.DefaultCost+2, "Password hash cost.")
 	flag.Parse()
@@ -32,20 +34,16 @@ func main() {
 		printUsage()
 		os.Exit(2)
 	}
-	if *roleFl == "" {
-		printUsage()
-		os.Exit(2)
-	}
 
-	pg := os.Getenv("POSTGRES")
+	pgconn := os.Getenv("POSTGRES")
 	if *pgFl != "" {
-		pg = *pgFl
+		pgconn = *pgFl
 	}
-	if pg == "" {
-		pg = "host=localhost port=5432 user=postgres dbname=postgres sslmode=disable"
+	if pgconn == "" {
+		pgconn = "host=localhost port=5432 user=postgres dbname=postgres sslmode=disable"
 	}
 
-	db, err := sql.Open("postgres", pg)
+	db, err := sql.Open("postgres", pgconn)
 	if err != nil {
 		log.Fatalf("cannot create database: %s", err)
 	}
@@ -58,11 +56,12 @@ func main() {
 
 	now := time.Now()
 
+	scopes := strings.Split(*scopesFl, ",")
 	row := db.QueryRow(`
-		INSERT INTO accounts (login, password_hash, role, created_at, valid_till)
+		INSERT INTO accounts (login, password_hash, scopes, created_at, valid_till)
 		VALUES ($1, $2, $3, $4, $5)
 		RETURNING id, valid_till
-	`, *loginFl, string(passHash), *roleFl, now, now.Add(24*90*time.Hour))
+	`, *loginFl, string(passHash), pg.StringSlice(scopes), now, now.Add(24*90*time.Hour))
 
 	var (
 		accID     int64

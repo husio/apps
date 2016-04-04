@@ -4,10 +4,10 @@ import (
 	"database/sql"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/husio/apps/auth-service/auth"
 	"github.com/husio/x/envconf"
-	"github.com/husio/x/stamp"
 	"github.com/husio/x/storage/pg"
 
 	_ "github.com/lib/pq"
@@ -18,7 +18,6 @@ func main() {
 	conf := struct {
 		HTTP     string
 		Postgres string
-		Secret   []byte `envconf:",required"`
 	}{
 		HTTP:     "localhost:8000",
 		Postgres: "host=localhost port=5432 user=postgres dbname=postgres sslmode=disable",
@@ -32,9 +31,20 @@ func main() {
 		log.Fatalf("cannot open database: %s", err)
 	}
 	defer db.Close()
-
 	ctx = pg.WithDB(ctx, db)
-	ctx = auth.WithTokenSigner(ctx, stamp.NewHMAC256Signer(conf.Secret))
+	go func() {
+		if err := db.Ping(); err != nil {
+			log.Printf("cannot ping database: %s", err)
+		}
+	}()
+
+	var keys auth.KeyManager
+	ctx = auth.WithKeyManager(ctx, &keys)
+	go func() {
+		if err := keys.GenerateKey(3 * 24 * time.Hour); err != nil {
+			log.Printf("cannot generate new key: %s", err)
+		}
+	}()
 
 	app := auth.NewApp(ctx)
 	log.Printf("running http server: %s", conf.HTTP)

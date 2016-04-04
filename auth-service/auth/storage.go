@@ -22,9 +22,9 @@ func AccountByLogin(g pg.Getter, login string) (*Account, error) {
 
 type Account struct {
 	ID           int64
-	Role         string
 	Login        string
-	PasswordHash string    `db:"password_hash" json:"-"`
+	PasswordHash string `db:"password_hash" json:"-"`
+	Scopes       pg.StringSlice
 	ValidTill    time.Time `db:"valid_till"`
 	CreatedAt    time.Time `db:"created_at"`
 }

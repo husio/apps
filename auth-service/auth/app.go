@@ -12,6 +12,7 @@ func NewApp(ctx context.Context) http.Handler {
 		ctx: ctx,
 		rt: web.NewRouter(web.Routes{
 			{"POST", "/login", HandleLogin},
+			{"GET", "/keys/{key-id}", HandlePublicKey},
 			{"GET", "/accounts", HandleListAccounts},
 			{web.AnyMethod, ".*", web.StdJSONHandler(http.StatusNotFound)},
 		}),

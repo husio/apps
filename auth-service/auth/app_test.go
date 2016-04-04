@@ -5,6 +5,7 @@ import (
 	"errors"
 	"net/http"
 	"net/http/httptest"
+	"reflect"
 	"strings"
 	"testing"
 	"time"
@@ -29,7 +30,6 @@ func TestHandleGetDocument(t *testing.T) {
 				Stack: []pgtest.ResultMock{
 					{"Get", &Account{
 						ID:           1,
-						Role:         "admin",
 						Login:        "bob@example.com",
 						PasswordHash: "hash:secret",
 						ValidTill:    now.Add(time.Hour),
@@ -62,7 +62,6 @@ func TestHandleGetDocument(t *testing.T) {
 				Stack: []pgtest.ResultMock{
 					{"Get", &Account{
 						ID:           1,
-						Role:         "admin",
 						Login:        "bob@example.com",
 						PasswordHash: "hash:secret",
 						ValidTill:    now.Add(-666 * time.Minute),
@@ -89,7 +88,6 @@ func TestHandleGetDocument(t *testing.T) {
 				Stack: []pgtest.ResultMock{
 					{"Get", &Account{
 						ID:           1,
-						Role:         "admin",
 						Login:        "bob@example.com",
 						PasswordHash: "xxxx",
 						ValidTill:    now.Add(-666 * time.Minute),
@@ -107,7 +105,7 @@ func TestHandleGetDocument(t *testing.T) {
 	for tname, tc := range cases {
 		ctx := context.Background()
 		ctx = pgtest.WithDB(ctx, tc.db)
-		ctx = WithTokenSigner(ctx, &xSigner{nil})
+		ctx = WithTokenVault(ctx, xSignerVault(nil, time.Hour))
 		app := NewApp(ctx)
 
 		w := httptest.NewRecorder()
@@ -131,7 +129,6 @@ func TestLoginToken(t *testing.T) {
 		Stack: []pgtest.ResultMock{
 			{"Get", &Account{
 				ID:           519,
-				Role:         "admin",
 				Login:        "bob@example.com",
 				PasswordHash: "hash:secret",
 				ValidTill:    now.Add(time.Hour),
@@ -139,7 +136,7 @@ func TestLoginToken(t *testing.T) {
 			}, nil},
 		},
 	})
-	ctx = WithTokenSigner(ctx, &xSigner{nil})
+	ctx = WithTokenVault(ctx, xSignerVault(nil, time.Hour))
 	app := NewApp(ctx)
 
 	w := httptest.NewRecorder()
@@ -165,15 +162,15 @@ func TestLoginToken(t *testing.T) {
 	}
 
 	var payload struct {
-		ID       int64  `json:"id"`
-		ClientIP string `json:"ip"`
-		Role     string `json:"role"`
+		ID       int64    `json:"id"`
+		ClientIP string   `json:"ip"`
+		Scopes   []string `json:"scop"`
 	}
 	if err := stamp.Decode(&xSigner{nil}, &payload, []byte(resp.Token)); err != nil {
 		t.Fatalf("cannot decode token %q: %s", resp.Token, err)
 	}
 
-	if payload.Role != "admin" || payload.ID != 519 || payload.ClientIP != "6.6.6.6" {
+	if !reflect.DeepEqual(payload.Scopes, []string{"a", "b"}) || payload.ID != 519 || payload.ClientIP != "6.6.6.6" {
 		t.Fatalf("invalid payload: %+v", payload)
 	}
 }
@@ -210,4 +207,10 @@ func (x *xSigner) Verify(signature, data []byte) error {
 		return stamp.ErrInvalidSignature
 	}
 	return x.err
+}
+
+func xSignerVault(sigerr error, expireIn time.Duration) *stamp.Vault {
+	var v stamp.Vault
+	v.Add("xsig", &xSigner{sigerr}, expireIn)
+	return &v
 }
