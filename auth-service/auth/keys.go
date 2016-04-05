@@ -13,6 +13,7 @@ import (
 	"time"
 
 	"github.com/husio/x/stamp"
+	"golang.org/x/net/context"
 )
 
 var rsaKeySize = 1024 * 2
@@ -32,37 +33,43 @@ func (km *KeyManager) Vault() *stamp.Vault {
 	return &km.vault
 }
 
+func (km *KeyManager) Add(id string, key *rsa.PrivateKey, expireIn time.Duration) error {
+	s := stamp.NewRSA256Signer(key)
+	km.vault.Add(id, s, expireIn)
+
+	oldkeys := km.keys()
+	newkeys := make([]PubKey, 0, len(oldkeys))
+	now := time.Now()
+	repr, err := pubKeyStr(&key.PublicKey)
+	if err != nil {
+		return fmt.Errorf("cannot format public key: %s", err)
+	}
+	newkeys = append(newkeys, PubKey{
+		id:        id,
+		repr:      repr,
+		validTill: now.Add(expireIn),
+	})
+
+	for _, key := range oldkeys {
+		if key.validTill.After(now) && key.id != id {
+			newkeys = append(newkeys, key)
+		}
+	}
+
+	km.pubKeys.Store(newkeys)
+	return nil
+}
+
 func (km *KeyManager) GenerateKey(expireIn time.Duration) error {
 	priv, err := rsa.GenerateKey(rand.Reader, rsaKeySize)
 	if err != nil {
 		return err
 	}
 	kid := randStr(6)
-
-	s := stamp.NewRSA256Signer(priv)
-	km.vault.Add(kid, s, expireIn)
-
-	oldkeys := km.keys()
-	newkeys := make([]PubKey, 0, len(oldkeys))
-	now := time.Now()
-	repr, err := pubKeyStr(&priv.PublicKey)
-	if err != nil {
-		return fmt.Errorf("cannot format public key: %s", err)
+	if err := km.Add(kid, priv, expireIn); err != nil {
+		return err
 	}
-	newkeys = append(newkeys, PubKey{
-		id:        kid,
-		repr:      repr,
-		validTill: now.Add(expireIn),
-	})
-
-	for _, key := range oldkeys {
-		if key.validTill.After(now) && key.id != kid {
-			newkeys = append(newkeys, key)
-		}
-	}
-
 	log.Printf("new key generated: %s", kid)
-	km.pubKeys.Store(newkeys)
 	return nil
 }
 
@@ -113,4 +120,16 @@ func pubKeyStr(key *rsa.PublicKey) (string, error) {
 		return "", fmt.Errorf("cannot encode block: %s", err)
 	}
 	return b.String(), nil
+}
+
+func WithKeyManager(ctx context.Context, km *KeyManager) context.Context {
+	return context.WithValue(ctx, "auth:keymanager", km)
+}
+
+func keyManager(ctx context.Context) *KeyManager {
+	km := ctx.Value("auth:keymanager")
+	if km == nil {
+		panic("key manager not present in context")
+	}
+	return km.(*KeyManager)
 }

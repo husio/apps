@@ -36,7 +36,7 @@ func TestAccountByLogin(t *testing.T) {
 				ID:           1,
 				Login:        "bob@example.com",
 				PasswordHash: "xxx",
-				Role:         "admin",
+				Scopes:       []string{"admin"},
 			},
 		},
 		"user_not_found": {
@@ -66,7 +66,7 @@ func TestAccountByLogin(t *testing.T) {
 			if tc.acc.ID != acc.ID ||
 				tc.acc.Login != acc.Login ||
 				tc.acc.PasswordHash != acc.PasswordHash ||
-				tc.acc.Role != acc.Role {
+				!reflect.DeepEqual(tc.acc.Scopes, acc.Scopes) {
 				t.Errorf("%s: want %+v, got %+v", tname, tc.acc, acc)
 			}
 		}

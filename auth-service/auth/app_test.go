@@ -1,6 +1,8 @@
 package auth
 
 import (
+	"crypto/rand"
+	"crypto/rsa"
 	"encoding/json"
 	"errors"
 	"net/http"
@@ -105,7 +107,7 @@ func TestHandleGetDocument(t *testing.T) {
 	for tname, tc := range cases {
 		ctx := context.Background()
 		ctx = pgtest.WithDB(ctx, tc.db)
-		ctx = WithTokenVault(ctx, xSignerVault(nil, time.Hour))
+		ctx = WithKeyManager(ctx, testKeyManager(t, time.Hour))
 		app := NewApp(ctx)
 
 		w := httptest.NewRecorder()
@@ -136,7 +138,7 @@ func TestLoginToken(t *testing.T) {
 			}, nil},
 		},
 	})
-	ctx = WithTokenVault(ctx, xSignerVault(nil, time.Hour))
+	ctx = WithKeyManager(ctx, testKeyManager(t, time.Hour))
 	app := NewApp(ctx)
 
 	w := httptest.NewRecorder()
@@ -209,8 +211,16 @@ func (x *xSigner) Verify(signature, data []byte) error {
 	return x.err
 }
 
-func xSignerVault(sigerr error, expireIn time.Duration) *stamp.Vault {
-	var v stamp.Vault
-	v.Add("xsig", &xSigner{sigerr}, expireIn)
-	return &v
+func testKeyManager(t *testing.T, expireIn time.Duration) *KeyManager {
+	var km KeyManager
+
+	priv, err := rsa.GenerateKey(rand.Reader, 32)
+	if err != nil {
+		t.Fatalf("cannot generate RSA key: %s", err)
+	}
+	if err := km.Add("xsig", priv, expireIn); err != nil {
+		t.Fatalf("cannot add key: %s", err)
+	}
+
+	return &km
 }
