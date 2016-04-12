@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="utf-8">
+    <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
+    <style>
+        .image,
+        .upload-placeholder {
+            margin: 10px;
+            border: 1px solid #696969;
+            background: black;
+            box-shadow: 0 0 10px 2px #292929;
+            width: 200px;
+            height: 140px;
+            display: inline-block;
+        }
+        #search {
+            width: 100%;
+            font-size: 22px;
+            padding: 10px 20px;
+            margin: 2px 0 20px 0;
+            background: white;
+            border: 1px solid #BBBBBB;
+        }
+    </style>
+    </head>
+    <body id="upload-holder">
+        <input id="search" type="search" placeholder="Search using name=value pairs for filtering">
+        <div id="images"></div>
+    </body>
+    <script>
+$(function () {
+
+    var images = $("#images");
+
+    $.getJSON("/api/v1/images").done(function (resp) {
+        $.each(resp.images, function (_, o) {
+            images.append(photo(o.imageId));
+        });
+    });
+
+    function photo(id) {
+        var href = "/api/v1/images/" + id + ".jpg";
+        var src = href + "?resize=200x140";
+        return $('<a href="' + href + '"><img class="image" src="' + src + '"></a>');
+    }
+
+    var holder = document.getElementById('upload-holder'),
+        acceptedTypes = {
+          'image/png': true,
+          'image/jpeg': true,
+          'image/gif': true
+        };
+
+    holder.ondragover = function () {
+        this.className = 'hover';
+        return false;
+    };
+    holder.ondragend = function () {
+        this.className = '';
+        return false;
+    };
+    holder.ondrop = function (ev) {
+        this.className = '';
+        ev.preventDefault();
+        uploadFiles(e.dataTransfer.files);
+    }
+
+
+    function uploadFiles(files) {
+        var files = Array.prototype.slice.call(files),
+            placeholders = [];
+
+        for (var i=0;i<files.length;i++) {
+            var p = $('<div class="upload-placeholder"></div>');
+            images.prepend(p);
+            placeholders.push(p);
+        }
+
+        var uploadNext = function () {
+            var file = files.shift();
+            if (file === undefined) {
+                return
+            }
+            uploadFile(file, function (resp) {
+                placeholders.pop().remove();
+                images.prepend(photo(resp.imageId));
+                uploadNext();
+            });
+        }
+
+        uploadNext();
+    }
+
+    function uploadFile(file, onready) {
+        var data = new FormData();
+        data.append('file', file);
+        var xhr = new XMLHttpRequest();
+        xhr.responseType = 'json';
+        xhr.onload = function () {
+            if (onready) onready(this.response);
+        }
+        xhr.open('POST', '/api/v1/images');
+        xhr.send(data);
+    }
+
+});
+    </script>
+</html>
