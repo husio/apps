@@ -137,18 +137,13 @@ func handleUploadImage(ctx context.Context, w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	// store image locally
-	path := fmt.Sprintf("/tmp/%s.jpg", image.ImageID)
-	if err := imaging.Save(img, path); err != nil {
-		log.Error("cannot store image",
-			"path", path,
-			"error", err.Error())
+	fs := FileStore(ctx)
+	if err := fs.Put(image, img); err != nil {
+		log.Error("cannot store image", "error", err.Error())
 		web.StdJSONResp(w, http.StatusInternalServerError)
 		return
 	}
-	log.Debug("image file created",
-		"id", image.ImageID,
-		"path", path)
+	log.Debug("image file created", "id", image.ImageID)
 
 	web.JSONResp(w, image, http.StatusCreated)
 }
@@ -249,8 +244,8 @@ func handleTagImage(ctx context.Context, w http.ResponseWriter, r *http.Request)
 
 	db := sq.DB(ctx)
 
-	imageID := web.Args(ctx).ByIndex(0)
-	switch err := ImageExists(db, imageID); err {
+	img, err := ImageByID(db, web.Args(ctx).ByIndex(0))
+	switch err {
 	case nil:
 		// all good
 	case sq.ErrNotFound:
@@ -258,26 +253,47 @@ func handleTagImage(ctx context.Context, w http.ResponseWriter, r *http.Request)
 		return
 	default:
 		log.Error("database error",
-			"image", imageID,
+			"image", web.Args(ctx).ByIndex(0),
 			"error", err.Error())
 		web.StdJSONResp(w, http.StatusInternalServerError)
 		return
 	}
 
 	tag, err := CreateTag(db, Tag{
-		ImageID: imageID,
+		ImageID: img.ImageID,
 		Name:    input.Name,
 		Value:   input.Value,
 	})
 	switch err {
 	case nil:
-		web.JSONResp(w, tag, http.StatusCreated)
+		// all good, update storage meta
 	case sq.ErrConflict:
 		web.JSONResp(w, tag, http.StatusOK)
+		return
 	default:
 		log.Error("cannot create object", "error", err.Error())
 		web.StdJSONResp(w, http.StatusInternalServerError)
+		return
 	}
+
+	if img.Tags, err = ImageTags(db, img.ImageID); err != nil {
+		log.Error("cannot get image tags",
+			"image", img.ImageID,
+			"error", err.Error())
+		web.StdJSONResp(w, http.StatusInternalServerError)
+		return
+	}
+
+	fs := FileStore(ctx)
+	if err := fs.PutMeta(img); err != nil {
+		log.Error("cannot store image metadata",
+			"image", img.ImageID,
+			"error", err.Error())
+		web.StdJSONResp(w, http.StatusInternalServerError)
+		return
+	}
+
+	web.JSONResp(w, tag, http.StatusCreated)
 }
 
 func handleServeImage(ctx context.Context, w http.ResponseWriter, r *http.Request) {
@@ -300,13 +316,11 @@ func handleServeImage(ctx context.Context, w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	// TODO: real dir
-	path := fmt.Sprintf("/tmp/%s.jpg", img.ImageID)
-	fd, err := os.Open(path)
+	fs := FileStore(ctx)
+	fd, err := fs.Read(img.Created.Year(), img.ImageID)
 	if err != nil {
-		log.Error("cannot open image file",
+		log.Error("cannot read image file",
 			"image", img.ImageID,
-			"path", path,
 			"error", err.Error())
 		web.StdJSONResp(w, http.StatusInternalServerError)
 		return
@@ -317,7 +331,6 @@ func handleServeImage(ctx context.Context, w http.ResponseWriter, r *http.Reques
 	if err != nil {
 		log.Error("cannot read image file",
 			"image", img.ImageID,
-			"path", path,
 			"error", err.Error())
 		web.StdJSONResp(w, http.StatusInternalServerError)
 		return

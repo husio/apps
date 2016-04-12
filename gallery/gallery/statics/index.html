@@ -4,6 +4,11 @@
     <meta charset="utf-8">
     <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
     <style>
+        #upload-holder {
+        }
+        #upload-holder.hover {
+            background: #ECF5D2;
+        }
         .image,
         .upload-placeholder {
             margin: 10px;
@@ -27,17 +32,38 @@
     <body id="upload-holder">
         <input id="search" type="search" placeholder="Search using name=value pairs for filtering">
         <div id="images"></div>
+        &nbsp;
     </body>
     <script>
 $(function () {
 
-    var images = $("#images");
+    var $images = $("#images");
 
-    $.getJSON("/api/v1/images").done(function (resp) {
-        $.each(resp.images, function (_, o) {
-            images.append(photo(o.imageId));
-        });
+    loadImages("/api/v1/images");
+
+    $("#search").on("keypress", function (ev) {
+        if (ev.keyCode === 13) {
+            var filters = ev.target.value.split(/\s+/).map(function (pair) {
+                if (pair.length) {
+                    return "tag_" + pair;
+                }
+            })
+            var query = filters.join("&");
+            loadImages("/api/v1/images?" + query);
+        }
     });
+
+
+
+    function loadImages(url) {
+        $images.html('Loading...');
+        $.getJSON(url).done(function (resp) {
+            $images.html('');
+            $.each(resp.images, function (_, o) {
+                $images.append(photo(o.imageId));
+            });
+        });
+    }
 
     function photo(id) {
         var href = "/api/v1/images/" + id + ".jpg";
@@ -63,7 +89,7 @@ $(function () {
     holder.ondrop = function (ev) {
         this.className = '';
         ev.preventDefault();
-        uploadFiles(e.dataTransfer.files);
+        uploadFiles(ev.dataTransfer.files);
     }
 
 
@@ -73,7 +99,7 @@ $(function () {
 
         for (var i=0;i<files.length;i++) {
             var p = $('<div class="upload-placeholder"></div>');
-            images.prepend(p);
+            $images.prepend(p);
             placeholders.push(p);
         }
 
@@ -84,7 +110,7 @@ $(function () {
             }
             uploadFile(file, function (resp) {
                 placeholders.pop().remove();
-                images.prepend(photo(resp.imageId));
+                $images.prepend(photo(resp.imageId));
                 uploadNext();
             });
         }
@@ -100,7 +126,7 @@ $(function () {
         xhr.onload = function () {
             if (onready) onready(this.response);
         }
-        xhr.open('POST', '/api/v1/images');
+        xhr.open('PUT', '/api/v1/images');
         xhr.send(data);
     }
 

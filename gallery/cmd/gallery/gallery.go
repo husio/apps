@@ -23,6 +23,8 @@ func main() {
 	}
 	ctx = sq.WithDB(ctx, db)
 
+	ctx = gallery.WithFileStore(ctx, "/tmp/gallery")
+
 	app := gallery.NewApplication(ctx)
 
 	log.Debug("running HTTP server", "address", ":8000")

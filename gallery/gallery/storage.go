@@ -7,6 +7,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/husio/x/log"
 	"github.com/husio/x/storage/qb"
 	"github.com/husio/x/storage/sq"
 )
@@ -16,14 +17,15 @@ type Image struct {
 	Width   int       `db:"width"    json:"width"`
 	Height  int       `db:"height"   json:"height"`
 	Created time.Time `db:"created"  json:"created"`
+	Tags    []*Tag    `db:"-"        json:"tags"`
 }
 
 func Images(s sq.Selector, opts ImagesOpts) ([]*Image, error) {
 	var q qb.Query
 	if len(opts.Tags) == 0 {
-		q = qb.Q("SELECT * FROM images i")
+		q = qb.Q("SELECT i.* FROM images i")
 	} else {
-		q = qb.Q("SELECT * FROM images i INNER JOIN tags t")
+		q = qb.Q("SELECT i.* FROM images i INNER JOIN tags t ON i.image_id = t.image_id")
 		for _, kv := range opts.Tags {
 			q.Where("t.name = ? AND t.value = ?", kv.Key, kv.Value)
 		}
@@ -31,6 +33,8 @@ func Images(s sq.Selector, opts ImagesOpts) ([]*Image, error) {
 
 	q.OrderBy("i.created DESC").Limit(opts.Limit, opts.Offset)
 	query, args := q.Build()
+
+	log.Debug("images listing", "query", query)
 
 	var imgs []*Image
 	err := s.Select(&imgs, query, args...)
@@ -52,7 +56,6 @@ func CreateImage(e sq.Execer, img Image) (*Image, error) {
 	if img.Created.IsZero() {
 		img.Created = time.Now()
 	}
-
 	_, err := e.Exec(`
 		INSERT INTO images (image_id, width, height, created)
 		VALUES (?, ?, ?, ?)
@@ -73,14 +76,17 @@ func ImageByID(g sq.Getter, imageID string) (*Image, error) {
 	return &img, nil
 }
 
-func ImageExists(g sq.Getter, imageID string) error {
-	var ok int
-	err := g.Get(&ok, `
-		SELECT 1 FROM images
+func ImageTags(s sq.Selector, imageID string) ([]*Tag, error) {
+	var tags []*Tag
+	err := s.Select(&tags, `
+		SELECT * FROM tags
 		WHERE image_id = ?
-		LIMIT 1
+		LIMIT 1000
 	`, imageID)
-	return sq.CastErr(err)
+	if err != nil {
+		return nil, sq.CastErr(err)
+	}
+	return tags, nil
 }
 
 type Tag struct {

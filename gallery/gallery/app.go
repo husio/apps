@@ -24,11 +24,11 @@ func NewApplication(ctx context.Context) http.Handler {
 		ctx: ctx,
 		rt: web.NewRouter(web.Routes{
 
-			{"POST", `/api/v1/images`, handleUploadImage},
+			{"PUT", `/api/v1/images`, handleUploadImage},
 			{"GET", `/api/v1/images`, handleListImages},
 			{"GET", `/api/v1/images/{id}\.jpg`, handleServeImage},
 			{"GET", `/api/v1/images/{id}/tags`, handleImageTags},
-			{"POST", `/api/v1/images/{id}/tags`, handleTagImage},
+			{"PUT", `/api/v1/images/{id}/tags`, handleTagImage},
 
 			{"GET", `.*`, handleStatics},
 
