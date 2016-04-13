@@ -3,28 +3,30 @@ package gallery
 import (
 	"encoding/json"
 	"fmt"
-	"image"
 	"io"
 	"os"
 	"path/filepath"
 
 	"golang.org/x/net/context"
-
-	"github.com/disintegration/imaging"
 )
 
 type fileStore struct {
 	root string
 }
 
-func (fs *fileStore) Put(img *Image, content image.Image) error {
+func (fs *fileStore) Put(img *Image, content io.Reader) error {
 	dir := filepath.Join(fs.root, fmt.Sprint(img.Created.Year()))
 
 	os.MkdirAll(dir, 0776)
 
 	imgPath := filepath.Join(dir, fmt.Sprintf("%s.jpg", img.ImageID))
-	if err := imaging.Save(content, imgPath); err != nil {
+	fd, err := os.OpenFile(imgPath, os.O_CREATE|os.O_WRONLY, 0640)
+	if err != nil {
 		return fmt.Errorf("cannot create %q: %s", imgPath, err)
+	}
+	defer fd.Close()
+	if _, err := io.Copy(fd, content); err != nil {
+		return fmt.Errorf("cannot write image: %s", err)
 	}
 
 	if err := fs.PutMeta(img); err != nil {

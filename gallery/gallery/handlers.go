@@ -1,11 +1,9 @@
 package gallery
 
 import (
-	"bytes"
 	"crypto/sha256"
 	"encoding/json"
 	"fmt"
-	"image"
 	"image/jpeg"
 	"io"
 	"mime/multipart"
@@ -24,7 +22,33 @@ import (
 	"golang.org/x/net/context"
 )
 
-func handleImageTags(ctx context.Context, w http.ResponseWriter, r *http.Request) {
+func handleImageDetails(ctx context.Context, w http.ResponseWriter, r *http.Request) {
+	db := sq.DB(ctx)
+	img, err := ImageByID(db, web.Args(ctx).ByIndex(0))
+	switch err {
+	case nil:
+		// all good
+	case sq.ErrNotFound:
+		web.StdHTMLResp(w, http.StatusNotFound)
+		return
+	default:
+		log.Error("cannot get image",
+			"image", web.Args(ctx).ByIndex(0),
+			"error", err.Error())
+		web.StdJSONResp(w, http.StatusInternalServerError)
+		return
+	}
+
+	img.Tags, err = ImageTags(db, img.ImageID)
+	if err != nil {
+		log.Error("cannot get image",
+			"image", web.Args(ctx).ByIndex(0),
+			"error", err.Error())
+		web.StdJSONResp(w, http.StatusInternalServerError)
+		return
+	}
+
+	web.JSONResp(w, img, http.StatusOK)
 }
 
 func handleListImages(ctx context.Context, w http.ResponseWriter, r *http.Request) {
@@ -83,6 +107,11 @@ func handleUploadImage(ctx context.Context, w http.ResponseWriter, r *http.Reque
 		web.JSONErr(w, "image file missing", http.StatusBadRequest)
 		return
 	}
+	if !strings.HasSuffix(header.Filename, ".jpg") {
+		// XXX this is not the best validation
+		web.JSONErr(w, "only JPEG format is allowed", http.StatusBadRequest)
+		return
+	}
 
 	fd, err := header.Open()
 	if err != nil {
@@ -94,32 +123,12 @@ func handleUploadImage(ctx context.Context, w http.ResponseWriter, r *http.Reque
 	}
 	defer fd.Close()
 
-	img, image, err := prepareImage(fd)
+	image, err := imageMeta(fd)
 	if err != nil {
 		log.Error("cannot extract image metadata", "error", err.Error())
 		web.StdJSONResp(w, http.StatusInternalServerError)
 		return
 	}
-
-	// encode image as JPEG
-	var b bytes.Buffer
-	if err := jpeg.Encode(&b, img, &jpeg.Options{100}); err != nil {
-		log.Error("cannot store image", "error", err.Error())
-		web.StdJSONResp(w, http.StatusInternalServerError)
-		return
-	}
-	imgb := b.Bytes()
-
-	// compute image hash from image content
-	oid := sha256.New()
-	if _, err := oid.Write(imgb); err != nil {
-		log.Error("cannot hash file",
-			"name", header.Filename,
-			"error", err.Error())
-		web.StdJSONResp(w, http.StatusInternalServerError)
-		return
-	}
-	image.ImageID = encode(oid)
 
 	// store image in database
 	db := sq.DB(ctx)
@@ -137,8 +146,14 @@ func handleUploadImage(ctx context.Context, w http.ResponseWriter, r *http.Reque
 		return
 	}
 
+	if _, err := fd.Seek(0, os.SEEK_SET); err != nil {
+		log.Error("cannot seek image", "error", err.Error())
+		web.StdJSONResp(w, http.StatusInternalServerError)
+		return
+	}
+
 	fs := FileStore(ctx)
-	if err := fs.Put(image, img); err != nil {
+	if err := fs.Put(image, fd); err != nil {
 		log.Error("cannot store image", "error", err.Error())
 		web.StdJSONResp(w, http.StatusInternalServerError)
 		return
@@ -148,18 +163,25 @@ func handleUploadImage(ctx context.Context, w http.ResponseWriter, r *http.Reque
 	web.JSONResp(w, image, http.StatusCreated)
 }
 
-func prepareImage(r io.ReadSeeker) (image.Image, *Image, error) {
-	img, err := jpeg.Decode(r)
+func imageMeta(r io.ReadSeeker) (*Image, error) {
+	conf, err := jpeg.DecodeConfig(r)
 	if err != nil {
-		return nil, nil, fmt.Errorf("cannot decode JPEG: %s", err)
+		return nil, fmt.Errorf("cannot decode JPEG: %s", err)
 	}
-	image := Image{
-		Width:  img.Bounds().Max.X,
-		Height: img.Bounds().Max.Y,
+
+	// compute image hash from image content
+	oid := sha256.New()
+	if _, err := io.Copy(oid, r); err != nil {
+		return nil, fmt.Errorf("cannot compute SHA: %s", err)
+	}
+	img := Image{
+		ImageID: encode(oid),
+		Width:   conf.Width,
+		Height:  conf.Height,
 	}
 
 	if _, err := r.Seek(0, os.SEEK_SET); err != nil {
-		return nil, nil, fmt.Errorf("cannot seek: %s", err)
+		return nil, fmt.Errorf("cannot seek: %s", err)
 	}
 	if meta, err := exif.Decode(r); err != nil {
 		log.Error("cannot extract EXIF metadata", "error", err.Error())
@@ -174,20 +196,7 @@ func prepareImage(r io.ReadSeeker) (image.Image, *Image, error) {
 					"decoder", "EXIF",
 					"error", err.Error())
 			} else {
-				switch o {
-				case 1:
-					// rotation is ok
-				case 3:
-					img = imaging.Rotate180(img)
-				case 8:
-					img = imaging.Rotate90(img)
-				case 6:
-					img = imaging.Rotate270(img)
-				default:
-					log.Debug("unknown image orientation",
-						"decoder", "EXIF",
-						"value", fmt.Sprint(o))
-				}
+				img.Orientation = o
 			}
 		}
 		if dt, err := meta.Get(exif.DateTimeOriginal); err != nil {
@@ -200,7 +209,7 @@ func prepareImage(r io.ReadSeeker) (image.Image, *Image, error) {
 					"decoder", "EXIF",
 					"error", err.Error())
 			} else {
-				image.Created, err = time.Parse("2006:01:02 15:04:05", raw)
+				img.Created, err = time.Parse("2006:01:02 15:04:05", raw)
 				if err != nil {
 					log.Debug("cannot parse datetime original",
 						"decoder", "EXIF",
@@ -211,7 +220,7 @@ func prepareImage(r io.ReadSeeker) (image.Image, *Image, error) {
 		}
 	}
 
-	return img, &image, nil
+	return &img, nil
 }
 
 const (
@@ -353,6 +362,21 @@ func handleServeImage(ctx context.Context, w http.ResponseWriter, r *http.Reques
 			"error", err.Error())
 	} else {
 		image = imaging.Fill(image, width, height, imaging.Center, imaging.Linear)
+		switch img.Orientation {
+		case 1:
+			// all good
+		case 3:
+			image = imaging.Rotate180(image)
+		case 8:
+			image = imaging.Rotate90(image)
+		case 6:
+			image = imaging.Rotate270(image)
+		default:
+			log.Debug("unknown image orientation",
+				"decoder", "EXIF",
+				"image", img.ImageID,
+				"value", fmt.Sprint(img.Orientation))
+		}
 	}
 	imaging.Encode(w, image, imaging.JPEG)
 }

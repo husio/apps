@@ -26,8 +26,8 @@ func NewApplication(ctx context.Context) http.Handler {
 
 			{"PUT", `/api/v1/images`, handleUploadImage},
 			{"GET", `/api/v1/images`, handleListImages},
+			{"GET", `/api/v1/images/{id}`, handleImageDetails},
 			{"GET", `/api/v1/images/{id}\.jpg`, handleServeImage},
-			{"GET", `/api/v1/images/{id}/tags`, handleImageTags},
 			{"PUT", `/api/v1/images/{id}/tags`, handleTagImage},
 
 			{"GET", `.*`, handleStatics},

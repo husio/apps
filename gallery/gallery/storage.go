@@ -13,11 +13,12 @@ import (
 )
 
 type Image struct {
-	ImageID string    `db:"image_id" json:"imageId"`
-	Width   int       `db:"width"    json:"width"`
-	Height  int       `db:"height"   json:"height"`
-	Created time.Time `db:"created"  json:"created"`
-	Tags    []*Tag    `db:"-"        json:"tags"`
+	ImageID     string    `db:"image_id"    json:"imageId"`
+	Width       int       `db:"width"       json:"width"`
+	Height      int       `db:"height"      json:"height"`
+	Orientation int       `db:"orientation" json:"orientation"`
+	Created     time.Time `db:"created"     json:"created"`
+	Tags        []*Tag    `db:"-"           json:"tags"`
 }
 
 func Images(s sq.Selector, opts ImagesOpts) ([]*Image, error) {
@@ -57,9 +58,9 @@ func CreateImage(e sq.Execer, img Image) (*Image, error) {
 		img.Created = time.Now()
 	}
 	_, err := e.Exec(`
-		INSERT INTO images (image_id, width, height, created)
-		VALUES (?, ?, ?, ?)
-	`, img.ImageID, img.Width, img.Height, img.Created)
+		INSERT INTO images (image_id, width, height, created, orientation)
+		VALUES (?, ?, ?, ?, ?)
+	`, img.ImageID, img.Width, img.Height, img.Created, img.Orientation)
 	return &img, sq.CastErr(err)
 }
 
