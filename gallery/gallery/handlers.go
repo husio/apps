@@ -327,6 +327,17 @@ func handleServeImage(ctx context.Context, w http.ResponseWriter, r *http.Reques
 	}
 	defer fd.Close()
 
+	w.Header().Set("X-Image-ID", img.ImageID)
+	w.Header().Set("X-Image-Width", fmt.Sprint(img.Width))
+	w.Header().Set("X-Image-Height", fmt.Sprint(img.Height))
+	w.Header().Set("X-Image-Created", img.Created.Format(time.RFC3339))
+	w.Header().Set("Content-Type", "image/jpeg")
+
+	if r.URL.Query().Get("resize") == "" {
+		io.Copy(w, fd)
+		return
+	}
+
 	image, err := jpeg.Decode(fd)
 	if err != nil {
 		log.Error("cannot read image file",
@@ -335,18 +346,13 @@ func handleServeImage(ctx context.Context, w http.ResponseWriter, r *http.Reques
 		web.StdJSONResp(w, http.StatusInternalServerError)
 		return
 	}
-
-	if resize := r.URL.Query().Get("resize"); resize != "" {
-		var w, h int
-		if _, err := fmt.Sscanf(resize, "%dx%d", &w, &h); err == nil {
-			image = imaging.Fill(image, w, h, imaging.Center, imaging.Linear)
-		}
+	var width, height int
+	if _, err := fmt.Sscanf(r.URL.Query().Get("resize"), "%dx%d", &width, &height); err != nil {
+		log.Error("cannot resize image",
+			"image", img.ImageID,
+			"error", err.Error())
+	} else {
+		image = imaging.Fill(image, width, height, imaging.Center, imaging.Linear)
 	}
-
-	w.Header().Set("X-Image-ID", img.ImageID)
-	w.Header().Set("X-Image-Width", fmt.Sprint(img.Width))
-	w.Header().Set("X-Image-Height", fmt.Sprint(img.Height))
-	w.Header().Set("X-Image-Created", img.Created.Format(time.RFC3339))
-	w.Header().Set("Content-Type", "image/jpeg")
 	imaging.Encode(w, image, imaging.JPEG)
 }
