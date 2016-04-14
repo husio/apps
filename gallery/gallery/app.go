@@ -1,6 +1,7 @@
 package gallery
 
 import (
+	"fmt"
 	"net/http"
 	"time"
 
@@ -26,9 +27,9 @@ func NewApplication(ctx context.Context) http.Handler {
 
 			{"PUT", `/api/v1/images`, handleUploadImage},
 			{"GET", `/api/v1/images`, handleListImages},
-			{"GET", `/api/v1/images/{id}`, handleImageDetails},
 			{"GET", `/api/v1/images/{id}\.jpg`, handleServeImage},
 			{"PUT", `/api/v1/images/{id}/tags`, handleTagImage},
+			{"GET", `/api/v1/images/{id}`, handleImageDetails},
 
 			{"GET", `.*`, handleStatics},
 
@@ -38,11 +39,40 @@ func NewApplication(ctx context.Context) http.Handler {
 }
 
 func (app *application) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	start := time.Now()
-	app.rt.ServeCtxHTTP(app.ctx, w, r)
-	work := time.Now().Sub(start)
-	log.Debug("request served",
+	rl := responseLogger{
+		start: time.Now(),
+		code:  http.StatusOK,
+		w:     w,
+	}
+	app.rt.ServeCtxHTTP(app.ctx, &rl, r)
+	work := time.Now().Sub(rl.start)
+
+	writelog := log.Debug
+	if rl.code >= 500 {
+		writelog = log.Error
+	}
+	writelog("request served",
 		"workTime", work.String(),
+		"code", fmt.Sprint(rl.code),
 		"method", r.Method,
 		"url", r.URL.String())
+}
+
+type responseLogger struct {
+	start time.Time
+	code  int
+	w     http.ResponseWriter
+}
+
+func (rl *responseLogger) Header() http.Header {
+	return rl.w.Header()
+}
+
+func (rl *responseLogger) Write(b []byte) (int, error) {
+	return rl.w.Write(b)
+}
+
+func (rl *responseLogger) WriteHeader(code int) {
+	rl.code = code
+	rl.w.WriteHeader(code)
 }

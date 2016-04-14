@@ -107,7 +107,7 @@ func handleUploadImage(ctx context.Context, w http.ResponseWriter, r *http.Reque
 		web.JSONErr(w, "image file missing", http.StatusBadRequest)
 		return
 	}
-	if !strings.HasSuffix(header.Filename, ".jpg") {
+	if !strings.HasSuffix(strings.ToLower(header.Filename), ".jpg") {
 		// XXX this is not the best validation
 		web.JSONErr(w, "only JPEG format is allowed", http.StatusBadRequest)
 		return
@@ -361,7 +361,6 @@ func handleServeImage(ctx context.Context, w http.ResponseWriter, r *http.Reques
 			"image", img.ImageID,
 			"error", err.Error())
 	} else {
-		image = imaging.Fill(image, width, height, imaging.Center, imaging.Linear)
 		switch img.Orientation {
 		case 1:
 			// all good
@@ -377,6 +376,7 @@ func handleServeImage(ctx context.Context, w http.ResponseWriter, r *http.Reques
 				"image", img.ImageID,
 				"value", fmt.Sprint(img.Orientation))
 		}
+		image = imaging.Fill(image, width, height, imaging.Center, imaging.Linear)
 	}
 	imaging.Encode(w, image, imaging.JPEG)
 }
