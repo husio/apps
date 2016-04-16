@@ -1,0 +1,5 @@
+http://ubuntu.pl/feed/
+http://feeds.feedburner.com/HighScalability
+http://antirez.com/rss
+http://blog.golang.org/feed.atom
+http://feeds.feedburner.com/codinghorror

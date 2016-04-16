@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<style>
+body {
+	margin: 0;
+	padding: 30px;
+	background: #E8E8E8;
+}
+#container, #header {
+	width: 900px;
+	margin: 0 auto;
+	box-sizing: border-box;
+}
+#container {
+	font-family: Arial, sans-serif;
+	font-size: 15px;
+	line-height: 34px;
+	background-color: #FFF;
+	color: #555;
+	padding: 10px 20px;
+	border: 1px solid #ADADAD;
+	box-shadow: 0 6px 10px 1px #888;
+}
+#header {
+	text-align: right;
+	padding-bottom: 8px;
+	color: #888;
+	font-size: 12px;
+}
+#container .entry .info {
+	font-size: 10px;
+	color: #888;
+}
+a {
+	text-decoration:none;
+	color:#009FC6;
+	outline:none;
+}
+a::selection{
+	color:#849f27;
+}
+a:hover {
+	color:#009FC6;
+	text-decoration:underline;
+}
+	</style>
+</head>
+<body>
+	<div id="header">
+		<a href="/">listing</a>
+		| <a href="/sources">sources</a>
+	</div>
+	<div id="container">
+	{{range .Sources -}}
+		<p>{{.}}</p>
+	{{- end}}
+	</div>
+</body>
+</html>
