@@ -7,6 +7,7 @@ import (
 	"github.com/husio/apps/bb/bb"
 	"github.com/husio/x/envconf"
 	"github.com/husio/x/log"
+	"github.com/husio/x/stamp"
 	"github.com/husio/x/storage/pg"
 	"golang.org/x/net/context"
 )
@@ -17,7 +18,7 @@ func main() {
 		Postgres string
 	}{
 		HTTP:     "localhost:8000",
-		Postgres: "host=localhost port=5432 user=postgres dbname=postgres sslmode=disable",
+		Postgres: "host=localhost port=5432 user=postgres dbname=bb sslmode=disable",
 	}
 	envconf.Must(envconf.LoadEnv(&conf))
 
@@ -34,6 +35,9 @@ func main() {
 			log.Error("cannot ping database", "error", err.Error())
 		}
 	}()
+
+	var vault stamp.Vault
+	ctx = stamp.WithVault(ctx, &vault)
 
 	app := bb.NewApp(ctx)
 	log.Debug("running HTTP server", "address", conf.HTTP)

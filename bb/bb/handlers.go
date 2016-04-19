@@ -112,7 +112,7 @@ func handleCreateTopic(ctx context.Context, w http.ResponseWriter, r *http.Reque
 	defer tx.Rollback()
 
 	topic := Topic{
-		AuthorID: "author:1",
+		AuthorID: 1,
 		Title:    input.Title,
 		Tags:     input.Tags,
 	}
@@ -154,7 +154,7 @@ func handleCreateComment(ctx context.Context, w http.ResponseWriter, r *http.Req
 	c, err := CreateComment(db, Comment{
 		TopicID:  tid,
 		Content:  input.Content,
-		AuthorID: "user:1",
+		AuthorID: 1,
 	})
 	switch err {
 	case nil:

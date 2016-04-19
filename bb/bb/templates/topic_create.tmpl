@@ -1,6 +1,9 @@
 {{define "title"}}Create new topic{{end}}
 
 {{define "content"}}
+    <a href="/t">Topics list</a>
+
+    <h1>Create new topic</h1>
     <form method="POST" action="/t/new">
         <div>
             <input name="title" type="text" value="{{.Title}}" required placeholder="Title">

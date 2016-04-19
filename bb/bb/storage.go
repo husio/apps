@@ -10,7 +10,7 @@ import (
 
 type Topic struct {
 	TopicID  int64          `db:"topic_id"  json:"topic_id"`
-	AuthorID string         `db:"author_id" json:"author_id"`
+	AuthorID int64          `db:"author_id" json:"author_id"`
 	Title    string         `db:"title"     json:"title"`
 	Tags     pg.StringSlice `db:"tags"      json:"tags"`
 	Created  time.Time      `db:"created"   json:"created"`
@@ -50,7 +50,7 @@ type TopicsOpts struct {
 func TopicByID(g pg.Getter, topicID int64) (*Topic, error) {
 	var t Topic
 	err := g.Get(&t, `
-		SELECT * FROM topics WHERE topic_id = $1
+		SELECT * FROM topics WHERE topic_id = $1 LIMIT 1
 	`, topicID)
 	if err != nil {
 		return &t, pg.CastErr(err)
@@ -82,7 +82,7 @@ func CreateTopic(g pg.Getter, t Topic) (*Topic, error) {
 type Comment struct {
 	CommentID int64     `db:"comment_id" json:"comment_id"`
 	TopicID   int64     `db:"topic_id"   json:"topic_id"`
-	AuthorID  string    `db:"author_id"  json:"author_id"`
+	AuthorID  int64     `db:"author_id"  json:"author_id"`
 	Content   string    `db:"content"    json:"content"`
 	Created   time.Time `db:"created"    json:"created"`
 	Updated   time.Time `db:"updated"    json:"updated"`
@@ -154,4 +154,36 @@ type CommentsOpts struct {
 	Offset   int64
 	TopicID  int64
 	AuthorID string
+}
+
+type Account struct {
+	AccountID int64     `db:"account_id" json:"account_id"`
+	Name      string    `db:"name"       json:"name"`
+	Created   time.Time `db:"created"    json:"created"`
+	Updated   time.Time `db:"updated"    json:"updated"`
+}
+
+func CreateAccount(g pg.Getter, a Account) (*Account, error) {
+	var aid int64
+	err := g.Get(&aid, `
+		INSERT INTO accounts (name, created, updated)
+		VALUES ($1, $2, $3)
+		RETURNING account_id
+	`, a.Name, a.Created, a.Updated)
+	if err != nil {
+		return nil, pg.CastErr(err)
+	}
+	a.AccountID = aid
+	return &a, nil
+}
+
+func AccountByID(g pg.Getter, accountID int64) (*Account, error) {
+	var a Account
+	err := g.Get(&a, `
+		SELECT * FROM accounts WHERE account_id = $1 LIMIT 1
+	`, accountID)
+	if err != nil {
+		return nil, pg.CastErr(err)
+	}
+	return &a, nil
 }
