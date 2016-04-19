@@ -3,3 +3,9 @@ http://feeds.feedburner.com/HighScalability
 http://antirez.com/rss
 http://blog.golang.org/feed.atom
 http://feeds.feedburner.com/codinghorror
+http://research.swtch.com/feed.atom
+http://www.joelonsoftware.com/rss.xml
+http://dave.cheney.net/feed
+http://golangweekly.com/rss/1070o4b7
+https://blog.gopheracademy.com/index.xml
+http://thecodist.com/rss.php
