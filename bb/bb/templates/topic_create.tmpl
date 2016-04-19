@@ -1,0 +1,16 @@
+{{define "title"}}Create new topic{{end}}
+
+{{define "content"}}
+    <form method="POST" action="/t/new">
+        <div>
+            <input name="title" type="text" value="{{.Title}}" required placeholder="Title">
+        </div>
+        <div>
+            <input name="tags" type="text" value="{{join .Tags " "}}" placeholder="Tags">
+        </div>
+        <div>
+            <textarea name="content" required placeholder="Content">{{.Content}}</textarea>
+        </div>
+        <button type="submit">Create</button>
+    </form>
+{{end}}

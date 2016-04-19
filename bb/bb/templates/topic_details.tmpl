@@ -1,0 +1,29 @@
+{{define "title"}}Topic: {{.Topic.Title}}{{ end}}
+
+{{define "content"}}
+    <h1>
+        {{.Topic.Title}}
+        <small>
+            {{range .Topic.Tags -}}
+                <span style="margin: 0 4px; padding:0 5px; border: 1px solid #ddd;">{{.}}</span>
+            {{- end}}
+        </small>
+    </h1>
+
+    <p>{{len .Comments}} comments</p>
+
+	{{range .Comments}}
+		<div>
+			#{{.CommentID}}: {{.Content}}
+		</div>
+	{{end}}
+
+    <div>
+        <form action="/t/{{.Topic.TopicID}}/comment" method="POST">
+            <div>
+                <textarea name="content" required placeholder="Content"></textarea>
+            </div>
+            <button type="submit">Comment</button>
+        </form>
+    </div>
+{{end}}

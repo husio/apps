@@ -1,0 +1,10 @@
+{{define "title"}}Topic listing{{end}}
+
+{{define "content"}}
+	<h1>Topics</h1>
+	{{range .Topics}}
+		<div>
+			<a href="/t/{{.TopicID}}">{{.Title}}</a>
+		</div>
+	{{end}}
+{{end}}
