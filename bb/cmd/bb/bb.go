@@ -5,11 +5,14 @@ import (
 	"net/http"
 
 	"github.com/husio/apps/bb/bb"
+	"github.com/husio/x/auth"
+	"github.com/husio/x/cache"
 	"github.com/husio/x/envconf"
 	"github.com/husio/x/log"
-	"github.com/husio/x/stamp"
 	"github.com/husio/x/storage/pg"
 	"golang.org/x/net/context"
+	"golang.org/x/oauth2"
+	oauth2google "golang.org/x/oauth2/google"
 )
 
 func main() {
@@ -24,6 +27,20 @@ func main() {
 
 	ctx := context.Background()
 
+	ctx = auth.WithOAuth(ctx, map[string]*oauth2.Config{
+		"google": &oauth2.Config{
+			ClientID:     "352914691292-2h70272sb408r3vibe4jm4egote804ka.apps.googleusercontent.com",
+			ClientSecret: "L_bgOHLCgNYL-3KG8a5u99mF",
+			Scopes: []string{
+				"https://www.googleapis.com/auth/userinfo.profile",
+				"https://www.googleapis.com/auth/userinfo.email",
+			},
+			Endpoint: oauth2google.Endpoint,
+		},
+	})
+
+	ctx = cache.WithLocalCache(ctx, 1000)
+
 	db, err := sql.Open("postgres", conf.Postgres)
 	if err != nil {
 		log.Fatal("cannot open database", "error", err.Error())
@@ -35,9 +52,6 @@ func main() {
 			log.Error("cannot ping database", "error", err.Error())
 		}
 	}()
-
-	var vault stamp.Vault
-	ctx = stamp.WithVault(ctx, &vault)
 
 	app := bb.NewApp(ctx)
 	log.Debug("running HTTP server", "address", conf.HTTP)

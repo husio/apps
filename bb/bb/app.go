@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/husio/x/auth"
 	"github.com/husio/x/log"
 	"github.com/husio/x/web"
 	"golang.org/x/net/context"
@@ -20,6 +21,9 @@ func NewApp(ctx context.Context) http.Handler {
 			{"POST", `/t/new`, handleCreateTopic},
 			{"GET", `/t/{topic-id}`, handleTopicDetails},
 			{"POST", `/t/{topic-id}/comment`, handleCreateComment},
+
+			{"GET", `/login/google`, auth.LoginHandler("google")},
+			{"GET", `/login/success`, auth.HandleLoginCallback},
 
 			{web.AnyMethod, `.*`, handle404},
 		}),
