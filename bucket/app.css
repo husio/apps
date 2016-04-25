@@ -1,0 +1,41 @@
+body {
+    background: #eee;
+    padding: 0;
+    margin: 40px;
+}
+
+a {
+    color: #428BCA;
+}
+a:hover {
+    color: #944D90;
+}
+
+.navigation {
+    color: #929292;
+    text-align: right;
+    padding: 4px 0;
+}
+.navigation a {
+    text-decoration: none;
+}
+
+.entries {
+    box-shadow: 0 0 10px 2px #ddd;
+}
+
+.entry {
+    background: #fff;
+    padding: 10px;
+    margin: 0;
+    border-top: 1px solid #eee;
+    position: relative;
+}
+
+.entry .attrs {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 80%;
+    color: #333;
+}
