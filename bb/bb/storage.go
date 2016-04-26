@@ -3,6 +3,7 @@ package bb
 import (
 	"time"
 
+	"github.com/husio/x/auth"
 	"github.com/husio/x/storage/pg"
 	"github.com/husio/x/storage/qb"
 	"github.com/jmoiron/sqlx"
@@ -17,23 +18,31 @@ type Topic struct {
 	Updated  time.Time      `db:"updated"   json:"updated"`
 }
 
+type TopicWithAuthor struct {
+	*Topic
+	*auth.Account
+}
+
 // Topics return slice of topics that match given query criteria.
-func Topics(s pg.Selector, o TopicsOpts) ([]*Topic, error) {
+func Topics(s pg.Selector, o TopicsOpts) ([]*TopicWithAuthor, error) {
 	if o.Offset < 0 {
 		o.Offset = 0
 	}
-	q := qb.Q("SELECT * FROM topics").Limit(o.Limit, o.Offset).OrderBy("created ASC")
+	q := qb.Q(`
+		SELECT t.*, a.*
+		FROM topics t LEFT JOIN accounts a ON t.author_id = a.account_id
+	`).Limit(o.Limit, o.Offset).OrderBy("t.created ASC")
 
 	if len(o.Tags) > 0 {
 		// TODO
 	}
 	if !o.OlderThan.IsZero() {
-		q.Where("created < ?", o.OlderThan)
+		q.Where("t.created < ?", o.OlderThan)
 	}
 
 	query, args := q.Build()
 	query = sqlx.Rebind(sqlx.DOLLAR, query)
-	var topics []*Topic
+	var topics []*TopicWithAuthor
 	if err := s.Select(&topics, query, args...); err != nil {
 		return nil, pg.CastErr(err)
 	}
@@ -154,36 +163,4 @@ type CommentsOpts struct {
 	Offset   int64
 	TopicID  int64
 	AuthorID string
-}
-
-type Account struct {
-	AccountID int64     `db:"account_id" json:"account_id"`
-	Name      string    `db:"name"       json:"name"`
-	Created   time.Time `db:"created"    json:"created"`
-	Updated   time.Time `db:"updated"    json:"updated"`
-}
-
-func CreateAccount(g pg.Getter, a Account) (*Account, error) {
-	var aid int64
-	err := g.Get(&aid, `
-		INSERT INTO accounts (name, created, updated)
-		VALUES ($1, $2, $3)
-		RETURNING account_id
-	`, a.Name, a.Created, a.Updated)
-	if err != nil {
-		return nil, pg.CastErr(err)
-	}
-	a.AccountID = aid
-	return &a, nil
-}
-
-func AccountByID(g pg.Getter, accountID int64) (*Account, error) {
-	var a Account
-	err := g.Get(&a, `
-		SELECT * FROM accounts WHERE account_id = $1 LIMIT 1
-	`, accountID)
-	if err != nil {
-		return nil, pg.CastErr(err)
-	}
-	return &a, nil
 }

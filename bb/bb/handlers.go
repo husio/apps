@@ -6,6 +6,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/husio/x/auth"
 	"github.com/husio/x/log"
 	"github.com/husio/x/storage/pg"
 	"github.com/husio/x/web"
@@ -26,7 +27,7 @@ func handleListTopics(ctx context.Context, w http.ResponseWriter, r *http.Reques
 	}
 
 	context := struct {
-		Topics []*Topic
+		Topics []*TopicWithAuthor
 	}{
 		Topics: topics,
 	}
@@ -77,6 +78,11 @@ func handleTopicDetails(ctx context.Context, w http.ResponseWriter, r *http.Requ
 }
 
 func handleCreateTopic(ctx context.Context, w http.ResponseWriter, r *http.Request) {
+	account, ok := auth.AuthRequired(pg.DB(ctx), w, r)
+	if !ok {
+		return
+	}
+
 	input := struct {
 		Title   string
 		Tags    []string
@@ -112,7 +118,7 @@ func handleCreateTopic(ctx context.Context, w http.ResponseWriter, r *http.Reque
 	defer tx.Rollback()
 
 	topic := Topic{
-		AuthorID: 1,
+		AuthorID: int64(account.AccountID),
 		Title:    input.Title,
 		Tags:     input.Tags,
 	}

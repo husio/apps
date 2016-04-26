@@ -31,6 +31,7 @@ func main() {
 		"google": &oauth2.Config{
 			ClientID:     "352914691292-2h70272sb408r3vibe4jm4egote804ka.apps.googleusercontent.com",
 			ClientSecret: "L_bgOHLCgNYL-3KG8a5u99mF",
+			RedirectURL:  "http://bb.example.com:8000/login/success",
 			Scopes: []string{
 				"https://www.googleapis.com/auth/userinfo.profile",
 				"https://www.googleapis.com/auth/userinfo.email",

@@ -22,7 +22,7 @@ func NewApp(ctx context.Context) http.Handler {
 			{"GET", `/t/{topic-id}`, handleTopicDetails},
 			{"POST", `/t/{topic-id}/comment`, handleCreateComment},
 
-			{"GET", `/login/google`, auth.LoginHandler("google")},
+			{"GET", `/login`, auth.LoginHandler("google")},
 			{"GET", `/login/success`, auth.HandleLoginCallback},
 
 			{web.AnyMethod, `.*`, handle404},
