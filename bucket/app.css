@@ -20,12 +20,12 @@ a:hover {
     text-decoration: none;
 }
 
-.entries {
+.content {
     box-shadow: 0 0 10px 2px #ddd;
+    background: #fff;
 }
 
 .entry {
-    background: #fff;
     padding: 10px;
     margin: 0;
     border-top: 1px solid #eee;

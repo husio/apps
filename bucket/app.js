@@ -3,6 +3,8 @@
 (function() {
   "use strict"
 
+  var storage = window.localStorage
+
   var Entry = {
     list: function() {
       return  {
@@ -18,7 +20,24 @@
         ],
       }
     }
-  };
+  }
+
+
+  var header = {
+    view: function() {
+      return m("div", [
+          m("div", {className: "navigation"}, [
+            a({href: "/ui/add/bookmark", confif: m.route}, ["add bookmark"]),
+            m("span", [" | "]),
+            a({href: "/ui/add/feed"}, ["add feed"]),
+            m("span", [" | "]),
+            a({href: "/ui/add/note"}, ["add note"]),
+            m("span", [" | "]),
+            a({href: "/ui/"}, ["index"]),
+          ]),
+      ])
+    }
+  }
 
 
   var listing = {
@@ -27,16 +46,8 @@
     },
     view: function(ctrl) {
       return m("div", [
-          m("div", {className: "navigation"}, [
-            a({href: "/e/new", confif: m.route}, ["add url"]),
-            m("span", [" | "]),
-            m("a", {href: ""}, ["add note"]),
-            m("span", [" | "]),
-            m("a", {href: ""}, ["index"]),
-            m("span", [" | "]),
-            m("a", {href: ""}, ["sources"]),
-          ]),
-          m("div", {className: "entries"}, [
+          header,
+          m("div", {className: "content"}, [
             ctrl.entries.map(function(e) {
               return m("div", {className: "entry"}, [
                   m("a", {href: e.url}, [e.title]),
@@ -48,23 +59,85 @@
     },
   }
 
-  var entryDetails = {
+  var addNote = {
     controller: function() {
-      return {
-        entryId: parseInt(m.route.param("entryId"), 10),
+      var ctrl = {
+        content: m.prop(storage.getItem("__new_note__")),
+        contentChange: function(e) {
+          ctrl.content(e.target.value)
+          storage.setItem("__new_note__", e.target.value)
+        }
       }
+      return ctrl
     },
-    view: function() {
+    view: function(ctrl) {
+      return m("div", [
+          header,
+          m("div", {className: "content"}, [
+            m("h1", ["add note"]),
+            m("form", [
+              m("textarea", {
+                required: true,
+                value: ctrl.content(),
+                onkeypress: ctrl.contentChange,
+                onchange: ctrl.contentChange,
+              }),
+              m("button", {type: 'submit'}, ["save"]),
+            ]),
+          ]),
+      ])
     },
   }
 
-  var newEntry = {
+  var addBookmark = {
     controller: function() {
+      return {
+        url: m.prop(""),
+      }
     },
-    view: function() {
-      return m("form", [
-          m("input", {value: "foobar", placeholder: "hey, rule #1"}, []),
-      ]);
+    view: function(ctrl) {
+      return m("div", [
+          header,
+          m("div", {className: "content"}, [
+            m("h1", ["add bookmark"]),
+            m("form", [
+              m("input", {
+                required: true,
+                type: "url",
+                value: ctrl.url(),
+                onkeypress: m.withAttr("value", ctrl.url),
+                onchange: m.withAttr("value", ctrl.url),
+              }),
+              m("button", {type: "submit"}, ["add"]),
+            ]),
+          ]),
+      ])
+    },
+  }
+
+  var addFeed = {
+    controller: function() {
+      return {
+        url: m.prop(""),
+      }
+    },
+    view: function(ctrl) {
+      return m("div", [
+          header,
+          m("div", {className: "content"}, [
+            m("h1", ["add feed"]),
+            m("form", [
+              m("input", {
+                required: true,
+                type: "url",
+                value: ctrl.url(),
+                onkeypress: m.withAttr("value", ctrl.url),
+                onchange: m.withAttr("value", ctrl.url),
+              }),
+              m("button", {type: "submit"}, ["add"]),
+            ]),
+          ]),
+      ])
     },
   }
 
@@ -73,16 +146,17 @@
       e.preventDefault()
       m.route(attrs.href)
     }
-    return m("a", attrs, content);
+    return m("a", attrs, content)
   }
 
   m.route.mode = 'pathname'
 
   window.onload = function() {
-    m.route(document.getElementById("application"), "/", {
-      '/': listing,
-      '/e/new': newEntry,
-      '/e/:entryId': entryDetails,
+    m.route(document.getElementById("application"), "/ui/", {
+      '/ui/': listing,
+      '/ui/add/note': addNote,
+      '/ui/add/bookmark': addBookmark,
+      '/ui/add/feed': addFeed,
     })
   }
 

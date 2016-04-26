@@ -1,0 +1,29 @@
+body {
+    background: #eee;
+}
+
+a {
+    color: #428BCA;
+}
+a:hover {
+    color: #944D90;
+}
+
+.box {
+	max-width: 800px;
+	margin: 30px auto;
+}
+
+.box .actions {
+	text-align: right;
+	color: #ccc;
+}
+.box .actions a {
+	text-decoration: none;
+}
+
+.box .content {
+	background: #fff;
+	box-sizing: border-box;
+	padding: 10px 20px;
+}
