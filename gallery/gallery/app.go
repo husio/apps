@@ -20,10 +20,15 @@ func NewApplication(ctx context.Context) http.Handler {
 	handleStatics := func(ctx context.Context, w http.ResponseWriter, r *http.Request) {
 		statics.ServeHTTP(w, r)
 	}
+	handleUI := func(ctx context.Context, w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "gallery/statics/index.html")
+	}
 
 	return &application{
 		ctx: ctx,
 		rt: web.NewRouter(web.Routes{
+			{"GET", `/`, web.RedirectHandler("/ui/", http.StatusMovedPermanently)},
+			{"GET", `/ui/.*`, handleUI},
 
 			{"PUT", `/api/v1/images`, handleUploadImage},
 			{"GET", `/api/v1/images`, handleListImages},
