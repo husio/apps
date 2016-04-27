@@ -9,7 +9,7 @@
     },
     getItem: function(key, fallback) {
       var it = localStorage.getItem(key)
-      if (it === undefined) {
+      if (!it) {
         return fallback
       }
       return JSON.parse(it)
@@ -56,7 +56,7 @@
 
       var lst = localdb.getItem("unote:list", [])
       if (!lst.includes(note.noteId())) {
-        lst.push(note.noteId())
+        lst.unshift(note.noteId())
         localdb.setItem("unote:list", lst)
       }
 
@@ -85,6 +85,8 @@
             a({href: "/ui/add"}, "create new"),
             m("span", "|"),
             a({href: "/ui"}, "list all"),
+            m("span", "|"),
+            a({href: "/#TODO"}, "logout"),
           ]),
           m("div", {className: "content"}, view(ctrl, extra)),
       ])
@@ -98,13 +100,19 @@
       }
     },
     view: stdview(function(ctrl) {
-      return m("div", [
-        m("p", "recent notes"),
-        ctrl.notes().map(function(n) {
-          return m("div", [
+      var notes
+      if (ctrl.notes().length === 0) {
+        notes = "no notes"
+      } else {
+        notes = ctrl.notes().map(function(n) {
+          return m("div", {className: "entry"}, [
               a({href: "/ui/" + n.noteId()}, n.content().substring(0, 80)),
           ])
-        }),
+        })
+      }
+
+      return m("div", {className: "listing"}, [
+          notes,
       ])
     }),
   }
@@ -141,21 +149,18 @@
       return ctrl
     },
     view: stdview(function(ctrl) {
-      return m("div", [
-          m("div", {className: "content"}, [
-            m("form", [
-              m("textarea", {
-                className: "unote-input",
-                placeholder: "Create new note..",
-                required: true,
-                onkeypress: ctrl.contentChange,
-                onchange: ctrl.contentChange,
-              }, ctrl.content()),
-              m("div", {className: "unote-input-actions"}, [
-                m("span", {className: "link", onclick: ctrl.cleanForm}, ["clean form"]),
-                m("button", {type: 'submit', onclick: ctrl.submit}, ["save"]),
-              ]),
-            ]),
+      return m("form", [
+          m("textarea", {
+            className: "unote-input",
+            placeholder: "Create new note..",
+            required: true,
+            style: {height: textareaHeight()},
+            onkeypress: ctrl.contentChange,
+            onchange: ctrl.contentChange,
+          }, ctrl.content()),
+          m("div", {className: "unote-input-actions"}, [
+            m("span", {className: "link", onclick: ctrl.cleanForm}, ["clean form"]),
+            m("button", {type: 'submit', onclick: ctrl.submit}, ["save"]),
           ]),
       ])
     }),
@@ -179,25 +184,26 @@
     },
     view: stdview(function(ctrl) {
       var noChange = ctrl.content() === ctrl.note.content()
-
-      return m("div", [
-          m("div", {className: "content"}, [
-            m("form", [
-              m("textarea", {
-                className: "unote-input",
-                placeholder: "Create new note..",
-                required: true,
-                onkeypress: ctrl.contentChange,
-                onchange: ctrl.contentChange,
-              }, ctrl.content()),
-              m("div", {className: "unote-input-actions"}, [
-                m("span", {className: "link", onclick: ctrl.cleanForm}, ["reset"]),
-                m("button", {type: 'submit', onclick: ctrl.submit, disabled: noChange}, ["update"]),
-              ]),
-            ]),
+      return m("form", [
+          m("textarea", {
+            className: "unote-input",
+            placeholder: "Create new note..",
+            required: true,
+            style: {height: textareaHeight()},
+            onkeypress: ctrl.contentChange,
+            onchange: ctrl.contentChange,
+          }, ctrl.content()),
+          m("div", {className: "unote-input-actions"}, [
+            m("span", {className: "link", onclick: ctrl.cleanForm}, ["revert changes"]),
+            m("span", {className: "link", onclick: ctrl.deleteEntry}, ["delete note"]),
+            m("button", {type: 'submit', onclick: ctrl.submit, disabled: noChange}, ["update"]),
           ]),
       ])
     }),
+  }
+
+  function textareaHeight() {
+    return window.innerHeight - 140 + 'px';
   }
 
   function a(attrs, content) {

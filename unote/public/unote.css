@@ -1,5 +1,6 @@
 body {
     background: #eee;
+    font-family: Verdana, Geneva, sans-serif;
 }
 
 * {
@@ -8,15 +9,18 @@ body {
 
 a, .link {
     cursor: pointer;
-    color: #428BCA;
+    color: #7747A7;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
 }
 a:hover, .link:hover {
-    color: #944D90;
+    color: #BF0081;
 }
 
 .box {
-	max-width: 800px;
-	margin: 30px auto;
+	margin: 10px 20px;
 }
 
 .box .actions {
@@ -34,6 +38,7 @@ a:hover, .link:hover {
 }
 
 .box .content {
+    box-shadow: 0 0 10px 3px #B5B5B5;
 	background: #fff;
 	padding: 10px;
 }
@@ -52,4 +57,11 @@ a:hover, .link:hover {
 }
 .box .content .unote-input-actions * {
     margin-left: 20px;
+}
+
+.box .content .listing {
+}
+
+.box .content .listing .entry {
+    padding: 10px 5px;
 }
