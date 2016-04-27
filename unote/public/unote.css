@@ -2,10 +2,15 @@ body {
     background: #eee;
 }
 
-a {
+* {
+	box-sizing: border-box;
+}
+
+a, .link {
+    cursor: pointer;
     color: #428BCA;
 }
-a:hover {
+a:hover, .link:hover {
     color: #944D90;
 }
 
@@ -17,13 +22,34 @@ a:hover {
 .box .actions {
 	text-align: right;
 	color: #ccc;
+    margin-bottom: 10px;
 }
+
+.box .actions * {
+    padding: 0 5px;
+}
+
 .box .actions a {
 	text-decoration: none;
 }
 
 .box .content {
 	background: #fff;
-	box-sizing: border-box;
-	padding: 10px 20px;
+	padding: 10px;
+}
+
+.box .content .unote-input {
+    width: 100%;
+    min-height: 200px;
+    border: 1px solid #eee;
+    border-radius: 0;
+    resize: none;
+    padding: 10px;
+}
+.box .content .unote-input-actions {
+    text-align: right;
+    margin-top: 20px;
+}
+.box .content .unote-input-actions * {
+    margin-left: 20px;
 }
