@@ -4,12 +4,14 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+
         <link href="//cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.min.css" rel="stylesheet">
-        <link href="/public/unote.css" rel="stylesheet">
+        <link href="/public/css/main.css" rel="stylesheet">
+
+        <script src="/public/js/lib/require.js"></script>
+        <script>require.config({baseUrl: "/public/js", urlArgs: "v=" + Date.now()}); require(['main'], function(main) { main() })</script>
     </head>
     <body>
         <div id="application"></div>
     </body>
-    <script src="/public/mithril.js"></script>
-    <script src="/public/unote.js"></script>
 </html>

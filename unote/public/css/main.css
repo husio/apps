@@ -1,0 +1,77 @@
+body {
+    background: #fff;
+    font-family: Verdana, Geneva, sans-serif;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+a, .link             { text-decoration: none; }
+a:hover, .link:hover { text-decoration: underline; }
+
+.btn {
+    padding: 4px 6px;
+    margin: 4px;
+    background: #799AD2;
+    border-radius: 2px;
+    display: inline-block;
+    border: 1px solid #799AD2;
+    box-shadow: inset 0 0 1px #fff;
+    color: #fff;
+}
+.btn:hover, .btn.green:hover, .btn.red:hover {
+    /* todo */
+}
+.btn.green {
+    background: #89D175;
+    border-color: #89D175;
+    box-shadow: inset 0 0 1px #fff;
+}
+.btn.red {
+    background: #C34B63;
+    border-color: #C34B63;
+    box-shadow: inset 0 0 1px #fff;
+}
+.btn:disabled {
+    background: #BFBFBF;
+    border-color: #BFBFBF;
+    color: #969696;
+    box-shadow: inset 0 0 1px #fff;
+}
+
+.pull-right {
+    float: right !important;
+}
+
+.toolbar {
+    background: #EFEFEF;
+    border-bottom: 1px solid #ddd
+}
+
+
+
+
+.content .unote-input {
+ width: 100%;
+ border: none;
+ resize: none;
+ padding: 10px;
+}
+
+.content .listing .entry {
+ min-width: 150px;
+ max-width: 45%;
+ height: 100px;
+ float: left;
+ padding: 10px 5px;
+ margin: 4px;
+ background: #E8F4F7;
+}
+.content .listing .entry,
+.content .listing .entry a {
+    color: #000;
+}
+.content .listing .entry.create {
+    background-color: #ECF1D5;
+}

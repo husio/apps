@@ -1,0 +1,9 @@
+{
+    "asi": true,
+    "unused": true,
+    "undef": true,
+    "globals": {
+        "define": true,
+        "require": true
+    }
+}
