@@ -27,18 +27,18 @@ func NewApplication(ctx context.Context) http.Handler {
 	return &application{
 		ctx: ctx,
 		rt: web.NewRouter(web.Routes{
-			{"GET", `/`, web.RedirectHandler("/ui/", http.StatusMovedPermanently)},
-			{"GET", `/ui/.*`, handleUI},
+			{`/`, web.RedirectHandler("/ui/", http.StatusMovedPermanently), "GET"},
+			{`/ui/.*`, handleUI, "GET"},
 
-			{"PUT", `/api/v1/images`, handleUploadImage},
-			{"GET", `/api/v1/images`, handleListImages},
-			{"GET", `/api/v1/images/{id}\.jpg`, handleServeImage},
-			{"PUT", `/api/v1/images/{id}/tags`, handleTagImage},
-			{"GET", `/api/v1/images/{id}`, handleImageDetails},
+			{`/api/v1/images`, handleUploadImage, "PUT"},
+			{`/api/v1/images`, handleListImages, "GET"},
+			{`/api/v1/images/{id}\.jpg`, handleServeImage, "GET"},
+			{`/api/v1/images/{id}/tags`, handleTagImage, "PUT"},
+			{`/api/v1/images/{id}`, handleImageDetails, "GET"},
 
-			{"GET", `.*`, handleStatics},
+			{`.*`, handleStatics, "GET"},
 
-			{web.AnyMethod, `.*`, web.StdJSONHandler(http.StatusNotFound)},
+			{`.*`, web.StdJSONHandler(http.StatusNotFound), web.AnyMethod},
 		}),
 	}
 }

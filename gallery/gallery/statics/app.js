@@ -4,20 +4,22 @@
   "use strict"
 
 
-  function a(attrs, content) {
-    attrs.onclick = function(e) {
-      e.preventDefault()
-      m.route(attrs.href)
-    }
-    return m("a", attrs, content);
-  }
 
-  var search = {
+
+  var pictureUploaderCategory = {
     controller: function() {
       var ctrl = {
-        searchTerm: m.prop(""),
-        applyFilter: function() {
-          console.log("filter!")
+        categoryName: m.prop(m.route.param("categoryName") || ""),
+        updateCategoryName: function(e) {
+          // enter or button press
+          if (e.keyCode === 13 || e.keyCode === undefined) {
+            e.preventDefault()
+            m.route("/ui/upload/" + ctrl.categoryName())
+            return
+          }
+
+          // normal input
+          ctrl.categoryName(e.target.value)
         },
       }
       return ctrl
@@ -25,137 +27,58 @@
     view: function(ctrl) {
       return m("div", [
           m("input", {
-            onkeypress: function(e) {
-              ctrl.searchTerm(e.target.value)
-              if (e.keyCode === 13) {
-                ctrl.applyFilter()
-              }
-            },
-            value: ctrl.searchTerm(),
-            id: "search",
-            placeholder: "Search using name=value pairs for filtering",
+            value: ctrl.categoryName(),
+            placeholder: "Category name",
+            onkeyup: ctrl.updateCategoryName,
           }),
+          m("button", {onclick: ctrl.updateCategoryName}, "ok"),
       ])
-    },
+    }
   }
 
-  var pictures = {
-    model: function(attrs) {
-      this.selected = m.prop(false)
-      this.imageId = m.prop(attrs.imageId)
-      this.width = m.prop(attrs.width)
-      this.height = m.prop(attrs.height)
-      this.orientation = m.prop(attrs.orientation)
-      this.tags = m.prop(attrs.tags || [])
-      this.created = m.prop(new Date(attrs.created))
-
-      var that = this
-      this.src = function(query) {
-        var url = "/api/v1/images/" + that.imageId() + ".jpg"
-        if (!query) {
-          return url
-        }
-        var pairs = []
-        for (var k in query) {
-          pairs.push(encodeURIComponent(k) + '=' + encodeURIComponent(query[k]))
-        }
-        return url + '?' + pairs.join('&');
-      }
-    },
-    fetch: function(offset) {
-      var off = offset || 0
-      return m.request({method: "GET", url: "/api/v1/images?offset=" + off}).then(function(r) {
-        return r.images.map(function (attrs) { return new pictures.model(attrs) });
-      })
-    },
+  var pictureUploader = {
     controller: function() {
-      var ps = pictures.fetch(0)
+      var cname = m.route.param("categoryName")
+      if (!cname) {
+        m.route("/ui/upload")
+        return
+      }
+
       var ctrl = {
-        search: search,
-        pictures: ps,
-        selected: function() {
-          return ps().filter(function (p) { return p.selected() })
-        },
-        toggleAllSelected: function() {
-          ps().forEach(function(p) { p.selected(!p.selected()) })
-        },
-        toggleSelected: function(p) {
-          p.selected(!p.selected())
-          ctrl.tagUI.display(ctrl.selected().length !== 0)
-        },
-        tagUI: {
-          tag: m.prop(""),
-          display: m.prop(false),
-          loading: m.prop(false),
-        },
-        tagSelected: function(e) {
-          e.preventDefault()
-          ctrl.tagUI.loading(true);
-          var selected = ctrl.selected()
-          var sep = ctrl.tagUI.tag().indexOf("=")
-          var data = {
-            name: ctrl.tagUI.tag().slice(0,sep),
-            value: ctrl.tagUI.tag().slice(sep + 1),
-          }
-          var waiting = selected.length
-          selected.forEach(function(p) {
-            m.request({
-              method: "PUT",
-              url: "/api/v1/images/" + p.imageId() + "/tags",
-              data: data,
-            }).then(function() {
-              waiting--
-              if (waiting === 0) {
-                ctrl.tagUI.loading(false);
-              }
-            })
-          });
-        },
+        categoryName: cname,
       }
       return ctrl
     },
     view: function(ctrl) {
-      var tagUI = null
-      if (ctrl.tagUI.display()) {
-        tagUI = m("div", [
-            m("span", ["tag selected pictures"]),
-            m("input", {
-              placeholder: "Write tag as name=value pair",
-              required: true,
-              onchange: m.withAttr("value", ctrl.tagUI.tag),
-              disabled: ctrl.tagUI.loading(),
-              value: ctrl.tagUI.tag(),
-            }),
-            m("button", {
-              onclick: ctrl.tagSelected,
-              disabled: ctrl.tagUI.loading(),
-            }, ["save"]),
-        ])
-      }
-
       return m("div", [
-          ctrl.search,
-          m("div", {id: "images"}, [
-            m("div", [
-              m("button", {onclick: ctrl.toggleAllSelected}, ["toggle selected"]),
-              tagUI,
-            ]),
-            ctrl.pictures().map(function(p) {
-              var className = "picture " + (p.selected() ? "selected" : "")
-                return m("img", {
-                  className: className,
-                  src: p.src({resize: '200x140'}),
-                  onclick: function(e) {
-                    e.preventDefault()
-                      ctrl.toggleSelected(p)
-                  },
-                })
-              //return a({href: "/ui/picture/" + p.imageId()}, [
-              //  m("img", {className: className, src: p.src({resize: '200x140'})}),
-              //])
-            })
-          ]),
-        ])
+          m("h1", "Upload photos to category ", m("em", ctrl.categoryName)),
+      ])
+    }
+  }
+
+
+
+  var fileUploader = {
+    controller: function () {
+      return {
+        hover: m.prop(false),
+      }
+    },
+    view: function(ctrl) {
+      return m("div", {
+        ondragover: function() {
+          ctrl.hover(true)
+        },
+        ondragend: function() {
+          ctrl.hover(false)
+        },
+        ondrop: function(e) {
+          e.preventDefault()
+          ctrl.hover(false)
+          uploadFiles(e.dataTransfer.files)
+        },
+      }, [
+      ])
     },
   }
 
@@ -170,15 +93,52 @@
     view: function(ctrl) {
       return m("div", [
         m("img", {className: "full-size", src: ctrl.picture.src()}),
+        fileUploader,
       ])
     },
   }
+
+
+  function uploadFiles(toUpload, ondone) {
+    var files = Array.prototype.slice.call(toUpload)
+
+    function uploadNext() {
+      var file = files.shift()
+      if (file === undefined) {
+        return
+      }
+      uploadFile(file, function (resp, xhr) {
+        ondone(file, xhr.status)
+        uploadNext()
+      })
+    }
+
+    uploadNext()
+  }
+
+  function uploadFile(file, onready) {
+    var data = new FormData()
+    data.append('file', file)
+    var xhr = new XMLHttpRequest()
+    xhr.responseType = 'json'
+    xhr.onload = function () {
+      if (onready) onready(this.response, xhr)
+    }
+    xhr.open('PUT', '/api/v1/images') // XXX
+    xhr.send(data)
+  }
+
+
+
+
 
   m.route.mode = 'pathname'
 
   window.onload = function() {
     m.route(document.getElementById("application"), "/ui/", {
       "/ui/": pictures,
+      "/ui/upload": pictureUploaderCategory,
+      "/ui/upload/:categoryName": pictureUploader,
       "/ui/picture/:imageId": pictureDetails,
     })
   }

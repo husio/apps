@@ -2,8 +2,14 @@
 <html>
     <head>
     <meta charset="utf-8">
-    <script src="/gallery/statics/mithril.js"></script>
-    <script src="/gallery/statics/app.js"></script>
+    <script src="/gallery/statics/mithril.js" data-require="mithril@*"></script>
+    <script src="/gallery/statics/require.js" data-require="requirejs@*"></script>
+    <script>
+    (function() {
+        require.config({baseUrl: "/gallery/statics/"})
+        require(["main"], function(app) { app() })
+    }())
+    </script>
     <style>
         #upload-holder {
         }

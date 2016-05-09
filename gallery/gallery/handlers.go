@@ -77,6 +77,9 @@ func handleListImages(ctx context.Context, w http.ResponseWriter, r *http.Reques
 		web.StdJSONResp(w, http.StatusInternalServerError)
 		return
 	}
+	if imgs == nil {
+		imgs = make([]*Image, 0)
+	}
 
 	resp := struct {
 		Images []*Image `json:"images"`
