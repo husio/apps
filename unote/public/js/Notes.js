@@ -1,4 +1,4 @@
-define(["localdb", "lib/mithril"], function(localdb, m) {
+define(["db", "lib/mithril"], function(db, m) {
 
   var Notes = {
     model: function(a) {
@@ -14,7 +14,7 @@ define(["localdb", "lib/mithril"], function(localdb, m) {
     },
     getById: function(noteId) {
       var d = m.deferred()
-      var obj = localdb.getItem("unote:" + noteId)
+      var obj = db.getItem("unote:" + noteId)
       if (obj) {
         d.resolve(obj)
       } else {
@@ -27,12 +27,12 @@ define(["localdb", "lib/mithril"], function(localdb, m) {
       if (!note.noteId()) {
         note.noteId(randomid(64))
       }
-      localdb.setItem("unote:" + note.noteId(), note)
+      db.setItem("unote:" + note.noteId(), note)
 
-      var lst = localdb.getItem("unote:list", [])
+      var lst = db.getItem("unote:list", [])
       if (!lst.includes(note.noteId())) {
         lst.unshift(note.noteId())
-        localdb.setItem("unote:list", lst)
+        db.setItem("unote:list", lst)
       }
 
       d.resolve(note)
@@ -40,21 +40,21 @@ define(["localdb", "lib/mithril"], function(localdb, m) {
     },
     list: function() {
       var d = m.deferred()
-      var notes = localdb.getItem("unote:list", []).map(function(noteId) {
-        return new Notes.model(localdb.getItem("unote:" + noteId))
+      var notes = db.getItem("unote:list", []).map(function(noteId) {
+        return new Notes.model(db.getItem("unote:" + noteId))
       })
       d.resolve(notes)
       return d.promise
     },
     destroy: function(noteId) {
       var d = m.deferred()
-      localdb.removeItem("unote:" + noteId)
+      db.removeItem("unote:" + noteId)
 
-      var lst = localdb.getItem("unote:list", [])
+      var lst = db.getItem("unote:list", [])
       for (var i=0;i<lst.length;i++) {
         if (lst[i] === noteId) {
           lst.splice(i, 1)
-          localdb.setItem("unote:list", lst)
+          db.setItem("unote:list", lst)
           break
         }
       }

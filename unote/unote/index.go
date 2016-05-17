@@ -4,13 +4,17 @@ import (
 	"html/template"
 	"net/http"
 	"strings"
+
+	"github.com/husio/x/web"
+
+	"golang.org/x/net/context"
 )
 
-func handleIndex(w http.ResponseWriter, r *http.Request) {
+func handleIndex(ctx context.Context, w http.ResponseWriter, r *http.Request) {
 	if u := r.URL.Path; u == "/" || strings.HasPrefix(u, "/ui") {
 		tmpl.Execute(w, nil)
 	} else {
-		StdJSONResp(w, http.StatusNotFound)
+		web.StdJSONResp(w, http.StatusNotFound)
 	}
 }
 

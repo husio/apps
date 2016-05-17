@@ -2,13 +2,14 @@ package unote
 
 import (
 	"encoding/json"
-	"log"
 	"net/http"
 	"time"
 
+	"github.com/husio/x/log"
+	"github.com/husio/x/web"
+
 	"golang.org/x/net/context"
 
-	"google.golang.org/appengine"
 	"google.golang.org/appengine/datastore"
 )
 
@@ -18,11 +19,10 @@ type Note struct {
 	Created time.Time `json:"created"`
 }
 
-func handleListNotes(w http.ResponseWriter, r *http.Request) {
-	ctx := appengine.NewContext(r)
+func handleListNotes(ctx context.Context, w http.ResponseWriter, r *http.Request) {
 	notes, err := ListNotes(ctx)
 	if err != nil {
-		log.Printf("cannot read note: %s", err)
+		log.Error("cannot read note", "error", err.Error())
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -32,7 +32,7 @@ func handleListNotes(w http.ResponseWriter, r *http.Request) {
 	}{
 		Notes: notes,
 	}
-	JSONResp(w, resp, http.StatusOK)
+	web.JSONResp(w, resp, http.StatusOK)
 }
 
 func ListNotes(ctx context.Context) ([]*Note, error) {
@@ -55,14 +55,14 @@ func ListNotes(ctx context.Context) ([]*Note, error) {
 	}
 }
 
-func handleAddNote(w http.ResponseWriter, r *http.Request) {
+func handleAddNote(ctx context.Context, w http.ResponseWriter, r *http.Request) {
 	var input struct {
 		Content string    `json:"content"`
 		Created time.Time `json:"created"`
 	}
 
 	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
-		JSONErr(w, err.Error(), http.StatusBadRequest)
+		web.JSONErr(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
@@ -71,7 +71,7 @@ func handleAddNote(w http.ResponseWriter, r *http.Request) {
 		errs = append(errs, `"content" is required`)
 	}
 	if len(errs) != 0 {
-		JSONErrs(w, errs, http.StatusBadRequest)
+		web.JSONErrs(w, errs, http.StatusBadRequest)
 		return
 	}
 
@@ -85,18 +85,27 @@ func handleAddNote(w http.ResponseWriter, r *http.Request) {
 		Created: input.Created,
 	}
 
-	ctx := appengine.NewContext(r)
 	key := datastore.NewKey(ctx, "Note", n.NoteID, 0, nil)
 	_, err := datastore.Put(ctx, key, &n)
 	if err != nil {
-		log.Printf("cannot put note: %s", err)
-		StdJSONResp(w, http.StatusInternalServerError)
+		log.Debug("cannot put note", "error", err.Error())
+		web.StdJSONResp(w, http.StatusInternalServerError)
 		return
 	}
 
-	JSONResp(w, &n, http.StatusCreated)
+	web.JSONResp(w, &n, http.StatusCreated)
 }
 
-func handleUpdateNote(w http.ResponseWriter, r *http.Request) {
-	StdJSONResp(w, http.StatusNotImplemented)
+func handleGetNote(ctx context.Context, w http.ResponseWriter, r *http.Request) {
+	var note Note
+	key := datastore.NewKey(ctx, "Note", web.Args(ctx).ByIndex(0), 0, nil)
+	if err := datastore.Get(ctx, key, &note); err != nil {
+		log.Debug("cannot get note",
+			"noteId", web.Args(ctx).ByIndex(0),
+			"error", err.Error())
+		// XXX - what about not found?
+		web.StdJSONResp(w, http.StatusInternalServerError)
+		return
+	}
+	web.JSONResp(w, note, http.StatusOK)
 }
