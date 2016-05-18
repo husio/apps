@@ -1,0 +1,2450 @@
+<!DOCTYPE html>
+<html itemscope="itemscope" itemtype="http://schema.org/Article" lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="google-site-verification" content="dQIcgy2eQ8-zyE6l15aOsCdxiVDUKl84C_zi-lJivYE" />
+<meta name="viewport" content="width=960">
+<title>New Part Day: A BeagleBone On A Chip | Hackaday</title>
+<script>document.documentElement.className = "js"</script>
+
+<link rel="shortcut icon" href="https://s0.wp.com/wp-content/themes/vip/hackaday-2/favicon.ico" />
+<link rel="profile" href="http://gmpg.org/xfn/11">
+<link rel="pingback" href="http://hackaday.com/xmlrpc.php">
+<link href="http://google.com/+hackaday" rel="publisher" />
+
+<!--[if lt IE 9]>
+    <script src="https://s0.wp.com/wp-content/themes/vip/hackaday-2/js/html5.js"></script>
+<![endif]-->
+
+		<script src='https://r-login.wordpress.com/remote-login.php?action=js&amp;host=hackaday.com&amp;id=4779443&amp;t=1463257277&amp;back=http%3A%2F%2Fhackaday.com%2F2016%2F05%2F10%2Fnew-part-day-a-beaglebone-on-a-chip%2F' type="text/javascript"></script>
+		<script type="text/javascript">
+		/* <![CDATA[ */
+			if ( 'function' === typeof WPRemoteLogin ) {
+				document.cookie = "wordpress_test_cookie=test; path=/";
+				if ( document.cookie.match( /(;|^)\s*wordpress_test_cookie\=/ ) ) {
+					WPRemoteLogin();
+				}
+			}
+		/* ]]> */
+		</script>
+		<link rel="alternate" type="application/rss+xml" title="Hackaday &raquo; Feed" href="http://hackaday.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Hackaday &raquo; Comments Feed" href="http://hackaday.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Hackaday &raquo; New Part Day: A BeagleBone On A Chip Comments Feed" href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/feed/" />
+	<script type="text/javascript">
+		/* <![CDATA[ */
+		function addLoadEvent(func) {
+			var oldonload = window.onload;
+			if (typeof window.onload != 'function') {
+				window.onload = func;
+			} else {
+				window.onload = function () {
+					oldonload();
+					func();
+				}
+			}
+		}
+		/* ]]> */
+	</script>
+	<link rel='stylesheet' id='all-css-0' href='https://s1.wp.com/_static/??-eJx9jl0OgkAMhC9kbRTCm/Esy1qXQvcn7KLx9haJRqPy0sw033SK1wQ2hkKhoJ8gyeQ4ZBQeKGNPJRk7wMNtbc4b/I3bOJLufTJlJjyd2JCQV2wt5lPzTM2y067VmmtSGto2jZQz6PQ8eSidFn3nljVeOOF82JzMDfaYy01oYRlDLKx4fom1ckcRJFpTOIYPA2cxPK5FR2olOpUOlXqz/57uanQSWyMzcPSHXd3sqmZfNVV/BwcUoN8=' type='text/css' media='all' />
+<script type='text/javascript'>
+/* <![CDATA[ */
+var SafeCommentsAjax = {"ajaxurl":"http:\/\/hackaday.com\/wp-admin\/admin-ajax.php"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s2.wp.com/_static/??-eJyFz10KwjAMAOALWetEhy/iWerMZurS1ibd1NMbRR/EoRAIpF9+asdkMDR9OQBbr3EukK+vNPc8s7+AIeyyE5gThjduYhAI8rAU99iDKQzZdVrTQW2ccCmyEDArmnj9PAnDgDD+ZR4kueZkMjDevqbKEXSfHTDZ1JcOA1t2LahOMYsyImXP/zrvLtq+o221qqvFplrWa38HPh9zrg=='></script>
+<link rel='stylesheet' id='all-css-0' href='https://s1.wp.com/wp-content/mu-plugins/highlander-comments/style.css?m=1377793621h' type='text/css' media='all' />
+<!--[if lt IE 8]>
+<link rel='stylesheet' id='highlander-comments-ie7-css'  href='https://s1.wp.com/wp-content/mu-plugins/highlander-comments/style-ie7.css?m=1351637563h&#038;ver=20110606' type='text/css' media='all' />
+<![endif]-->
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://hackadaycom.wordpress.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://s1.wp.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress.com" />
+<link rel="canonical" href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/" />
+<link rel='shortlink' href='http://wp.me/pk3lN-R97' />
+<link rel="alternate" type="application/json+oembed" href="https://public-api.wordpress.com/oembed/1.0/?format=json&amp;url=http%3A%2F%2Fhackaday.com%2F2016%2F05%2F10%2Fnew-part-day-a-beaglebone-on-a-chip%2F&amp;for=wpcom-auto-discovery" /><link rel="alternate" type="application/xml+oembed" href="https://public-api.wordpress.com/oembed/1.0/?format=xml&amp;url=http%3A%2F%2Fhackaday.com%2F2016%2F05%2F10%2Fnew-part-day-a-beaglebone-on-a-chip%2F&amp;for=wpcom-auto-discovery" /><link rel='openid.server' href='http://hackadaycom.wordpress.com/?openidserver=1' />
+<link rel='openid.delegate' href='http://hackadaycom.wordpress.com/' />
+<link rel="search" type="application/opensearchdescription+xml" href="http://hackaday.com/osd.xml" title="Hackaday" />
+<link rel="search" type="application/opensearchdescription+xml" href="https://s1.wp.com/opensearch.xml" title="WordPress.com" />
+<meta property="og:title" content="New Part Day: A BeagleBone On A Chip" />
+<meta property="og:type" content="article" />
+<meta property="og:image" content="https://hackadaycom.files.wordpress.com/2016/05/bga.png?w=600&amp;h=600" />
+<meta property="og:url" content="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/" />
+<meta property="og:description" content="The current crop of ARM single board computers have a lot in common. Everything from the Odroid to the Raspberry Pi are built around Systems on a Chip, a piece of silicon that has just about everythin..." />
+<meta property="og:site_name" content="Hackaday" />
+
+<link rel="image_src" href="https://hackadaycom.files.wordpress.com/2016/05/bga.png?w=600&amp;h=600"/>
+<meta itemprop="name" content="New Part Day: A BeagleBone On A Chip">
+<meta itemprop="description" content="The current crop of ARM single board computers have a lot in common. Everything from the Odroid to the Raspberry Pi are built around Systems on a Chip, a piece of silicon that has just about everythin...">
+<meta itemprop="image" content="https://hackadaycom.files.wordpress.com/2016/05/bga.png?w=600&amp;h=600">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@hackaday">
+		<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+				<style type="text/css">
+			.recentcomments a {
+				display: inline !important;
+				padding: 0 !important;
+				margin: 0 !important;
+			}
+
+			table.recentcommentsavatartop img.avatar, table.recentcommentsavatarend img.avatar {
+				border: 0px;
+				margin: 0;
+			}
+
+			table.recentcommentsavatartop a, table.recentcommentsavatarend a {
+				border: 0px !important;
+				background-color: transparent !important;
+			}
+
+			td.recentcommentsavatarend, td.recentcommentsavatartop {
+				padding: 0px 0px 1px 0px;
+				margin: 0px;
+			}
+
+			td.recentcommentstextend {
+				border: none !important;
+				padding: 0px 0px 2px 10px;
+			}
+
+			.rtl td.recentcommentstextend {
+				padding: 0px 10px 2px 0px;
+			}
+
+			td.recentcommentstexttop {
+				border: none;
+				padding: 0px 0px 0px 10px;
+			}
+
+			.rtl td.recentcommentstexttop {
+				padding: 0px 10px 0px 0px;
+			}
+		</style>
+		<meta name="application-name" content="Hackaday" /><meta name="msapplication-window" content="width=device-width;height=device-height" /><meta name="msapplication-tooltip" content="Fresh hacks every day" /><meta name="msapplication-task" content="name=Subscribe;action-uri=http://hackaday.com/feed/;icon-uri=http://0.gravatar.com/blavatar/4f3e6b6daa090af416a1ba595885efd1?s=16" /><link rel="amphtml" href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/amp/" /><style type="text/css" id="syntaxhighlighteranchor"></style>
+		<link rel="stylesheet" id="custom-css-css" type="text/css" href="https://s1.wp.com/?custom-css=1&#038;csblog=k3lN&#038;cscache=6&#038;csrev=70" />
+		
+<script src="//use.typekit.net/mpm6gph.js"></script>
+<script>try{Typekit.load();}catch(e){}</script>
+<!-- Supplyframe Ads -->
+<!--<script type='text/javascript' src='http://ads.supplyframe.com/openads/www/delivery/spcjs.php?id=31&amp;block=1'></script>-->
+<script type='text/javascript'>
+function OA_show(e){if(typeof OA_output[e]=="undefined"){return}else{document.write(OA_output[e])}}function OA_showpop(e){zones=window.OA_zones?window.OA_zones:false;var t=e;if(typeof window.OA_zones!="undefined"){if(typeof zones[e]=="undefined"){return}t=zones[e]}var n="<"+"script type='text/javascript' ";n+="src='"+OA_p+"?zoneid="+t;n+="&source="+escape(OA_source)+"&r="+OA_r;OA_spc+="&amp%3Bblock=1";if(window.location)n+="&loc="+escape(window.location);if(document.referrer)n+="&referer="+escape(document.referrer);n+="'><"+"/script>";document.write(n)}if(typeof OA_zones!="undefined"){var OA_zoneids="";for(var zonename in OA_zones)OA_zoneids+=escape(zonename+"="+OA_zones[zonename]+"|");OA_zoneids+="&nz=1"}else{var OA_zoneids=escape("426|427|428|429|468")}if(typeof OA_source=="undefined"){OA_source=""}var OA_p=location.protocol=="https:"?"https://ads.supplyframe.com/openads/www/delivery/spc.php":"http://ads.supplyframe.com/openads/www/delivery/spc.php";var OA_r=Math.floor(Math.random()*99999999);OA_output=new Array;var OA_spc="<"+"script type='text/javascript' ";OA_spc+="src='"+OA_p+"?zones="+OA_zoneids;OA_spc+="&source="+escape(OA_source)+"&r="+OA_r;OA_spc+="&amp%3Bblock=1";OA_spc+=document.charset?"&charset="+document.charset:document.characterSet?"&charset="+document.characterSet:"";if(window.location)OA_spc+="&loc="+escape(window.location);if(document.referrer)OA_spc+="&referer="+escape(document.referrer);OA_spc+="'><"+"/script>";document.write(OA_spc);var OA_fo="";OA_fo+="<"+"script type='text/javascript' src='//ads.supplyframe.com/openads/www/delivery/fl.js'><"+"/script>\n";document.write(OA_fo);
+</script>
+
+</head>
+
+<body class="single single-post postid-204297 single-format-standard mp6 customizer-styles-applied group-blog highlander-enabled highlander-light">
+<div id="page" class="hfeed site">
+
+    <div id="leaderboard">
+        <script type='text/javascript'>
+            /* [id426] 728x90 */
+            OA_show(426);
+        </script>
+    </div>
+
+    <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
+
+    <header id="masthead" class="site-header" role="banner">
+        <div class="site-branding">
+            <a href="http://hackaday.com/" rel="home">
+                <img src="https://s0.wp.com/wp-content/themes/vip/hackaday-2/img/logo.png" alt="Logo" class="logo-img">
+            </a>
+            <h1 class="site-title">
+                <a href="http://hackaday.com/" rel="home">Hackaday</a>
+            </h1>
+        </div>
+
+        <button class="menu-toggle"><span class="icon icon-navbar-toggle">Primary Menu</span></button>
+
+        <nav id="site-navigation" class="main-navigation" role="navigation">
+            <div class="menu-main-container"><ul id="menu-main" class="menu"><li id="menu-item-90201" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-90201"><a href="http://www.hackaday.com/">Home</a></li>
+<li id="menu-item-136904" class="menu-item menu-item-type-post_type menu-item-object-page current_page_parent menu-item-136904"><a href="http://hackaday.com/blog/">Blog</a></li>
+<li id="menu-item-115276" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-115276"><a href="http://hackaday.io?from=had&#038;utm_source=hackaday&#038;utm_medium=menu&#038;utm_campaign=blog">Hackaday.io</a></li>
+<li id="menu-item-97770" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-97770"><a href="http://store.hackaday.com?from=had&#038;utm_source=hackaday&#038;utm_medium=menu&#038;utm_campaign=blog">Store</a></li>
+<li id="menu-item-136905" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-136905"><a title="Build Something that Matters" href="http://hackaday.io/prize">Hackaday Prize</a></li>
+<li id="menu-item-77211" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-77211"><a href="http://hackaday.com/submit-a-tip/">Submit</a></li>
+<li id="menu-item-101802" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-101802"><a href="http://hackaday.com/about/">About</a></li>
+</ul></div>		<aside id="hackaday_calendar-2" class="widget widget_hackaday_calendar"><div id="hackaday_calendar_wrap"><label class="calendar_current_time">May 14, 2016</label></div></aside>        </nav><!-- #site-navigation -->
+    </header><!-- #masthead -->
+
+    <div id="content" class="site-content">
+
+    <div id="primary" class="content-area">
+        <main id="main" class="site-main" role="main">
+
+        
+            
+<article itemscope itemtype="http://schema.org/Article" id="post-204297" class="post-204297 post type-post status-publish format-standard has-post-thumbnail hentry category-arm-2 category-hackaday-columns category-news category-slider tag-beaglebone tag-osd3358 tag-osd335x">
+    <header class="entry-header">
+        <h1 class="entry-title" itemprop="name">New Part Day: A BeagleBone On A Chip</h1>
+        <div class="entry-meta">
+            <a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comments" class="comments-counts"><span class="icon-hackaday icon-hackaday-comment"></span>
+                62 Comments            </a>
+            <ul class="meta-authors vcard author">
+                <li>by:</li>
+                <span class="fn"><a href="http://hackaday.com/author/brianbenchoff/" title="Posts by Brian Benchoff" class="author url fn" rel="author">Brian Benchoff</a></span>
+            </ul>
+        </div><!-- .entry-meta -->
+
+        <div class="entry-meta entry-meta-last">
+            <span class="entry-date published updated" itemprop="datePublished" content="May 10, 2016"><a href="http://hackaday.com/2016/05/10/" title="May 10, 2016 - 1:01 am">May 10, 2016</a></span>
+            <ul class="share-post">
+                <li><a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fhackaday.com%2F2016%2F05%2F10%2Fnew-part-day-a-beaglebone-on-a-chip%2F" target="_blank"><span class="icon-hackaday icon-hackaday-facebook"></span></a></li>
+               <li><a href="https://twitter.com/intent/tweet?text=New+Part+Day%3A+A+BeagleBone+On+A+Chip via @hackaday&amp;url=http%3A%2F%2Fhackaday.com%2F2016%2F05%2F10%2Fnew-part-day-a-beaglebone-on-a-chip%2F" target="_blank"><span class="icon-hackaday icon-hackaday-twitter"></span></a></li>
+                <li><a href="https://plus.google.com/share?url=http%3A%2F%2Fhackaday.com%2F2016%2F05%2F10%2Fnew-part-day-a-beaglebone-on-a-chip%2F&h1=en-US" target="_blank"><span class="icon-hackaday icon-hackaday-google"></span></a></li>
+            </ul>
+        </div><!-- .entry-meta -->
+
+        <div class="entry-featured-image"><img itemprop="image" content="https://hackadaycom.files.wordpress.com/2016/05/bga.png?w=600&h=600" src="https://hackadaycom.files.wordpress.com/2016/05/octavo.jpg?w=800" alt=""></a></div>
+    </header><!-- .entry-header -->
+
+    <div class="entry-content" itemprop="articleBody">
+        <p>The current crop of ARM single board computers have a lot in common. Everything from the Odroid to the Raspberry Pi are built around Systems on a Chip, a piece of silicon that has just about everything you need to build a bare minimum board. You won&#8217;t find many hardware hackers playing around with these chips, though. That would require putting some RAM on the board, and some other high-speed connectors. Until now, the only people building these ARM boards were Real Engineers™, with a salary commensurate of their skills.</p>
+<p>This is now about to change. Octavo Systems has launched a new product that&#8217;s more or less <a href="http://octavosystems.com/octavo_products/osd335x/" target="_blank">a BeagleBone on a chip</a>. If you can handle putting a PCB with a BGA package in a toaster oven, you too can build your own ARM single board computer running Linux.</p>
+<p>Octavo&#8217;s new System in Package is the OSD335x family, featuring a Texas Instruments AM335x ARM Cortex A8 CPU, up to 1GB of DDR3, and peripherals that include 114 GPIOs, 6 UARTs, 2 SPIs, 2 I2Cs, 2x Gigabit Ethernet, and USB.</p>
+<p>The chips used in commercially available single board computers like the Pi and BeagleBone have hundreds of passive components sprinkled around the board. This makes designing one of these single board computers challenging, to say nothing about actually assembling the thing. Octavo is baking a bunch of these resistors, capacitors, and inductors right into this chip, allowing for extremely minimal boards running Linux. [Jason Kridner] &#8211; the BeagleBone guy &#8211; <a href="https://oshpark.com/shared_projects/GWqtFu43" target="_blank">is working on a PocketBone</a>, a full-fledged Linux computer that will fit inside an Altoids tin.</p>
+<p>Of course, with this degree of integration, a BeagleBone on a chip won&#8217;t be cheap. The first part number of this family to be released, with the AM3358 CPU and 1GB of RAM, <a href="http://www.digikey.com/product-detail/en/octavo-systems-llc/OSD3358-512M-BAS/1676-1000-ND/6012564" target="_blank">sells for $50 in quantity one</a>.</p>
+<p>Still, this is something we haven&#8217;t seen before. It&#8217;s a Linux computer on a chip that <em>anyone</em> can use. There is an Eagle symbol for this module. This is a chip designed for hardware hackers, and we can&#8217;t wait to see what people using this chip will come up with.</p>
+            </div><!-- .entry-content -->
+
+    <footer class="entry-footer">
+        <span class="cat-links">Posted in <a href="http://hackaday.com/category/arm-2/" rel="category tag">ARM</a>, <a href="http://hackaday.com/category/hackaday-columns/" rel="category tag">Hackaday Columns</a>, <a href="http://hackaday.com/category/news/" rel="category tag">news</a>, <a href="http://hackaday.com/category/slider/" rel="category tag">slider</a></span><span class="tags-links">Tagged <a href="http://hackaday.com/tag/beaglebone/" rel="tag">beaglebone</a>, <a href="http://hackaday.com/tag/osd3358/" rel="tag">OSD3358</a>, <a href="http://hackaday.com/tag/osd335x/" rel="tag">OSD335x</a></span><meta itemprop="url" content="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/"/>    </footer><!-- .entry-footer -->
+</article><!-- #post-## -->
+
+            	<nav class="navigation post-navigation" role="navigation">
+		<h1 class="screen-reader-text">Post navigation</h1>
+		<div class="nav-links">
+			<div class="nav-previous"><a href="http://hackaday.com/2016/05/09/hackaday-prize-entry-a-programmable-calculator-with-nixie-tubes/" rel="prev"><span class="meta-nav">&larr;</span>&nbsp;Hackaday Prize Entry: A Programmable Calculator With Nixie Tubes</a></div><div class="nav-next"><a href="http://hackaday.com/2016/05/10/solar-fpv-plane-flies-forever/" rel="next">Solar FPV Plane Flies Forever&nbsp;<span class="meta-nav">&rarr;</span></a></div>		</div><!-- .nav-links -->
+	</nav><!-- .navigation -->
+	
+            <div class="content-ads-holder">
+                <script type='text/javascript'>
+                    /* [id429] 300x250 */
+                    OA_show(429);
+                </script>
+            </div>
+
+            
+<div id="comments" class="comments-area">
+
+    
+            <h2 class="comments-title">
+            62 thoughts on &ldquo;<span>New Part Day: A BeagleBone On A Chip</span>&rdquo;        </h2>
+
+        
+        <ol class="comment-list">
+            	<li id="comment-3016441" class="comment even thread-even depth-1 parent  highlander-comment">
+		<article id="div-comment-3016441" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn"><a href='https://dmitry.gr' rel='external nofollow' class='url'>Dmitry Grinberg</a></b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016441">
+						<time datetime="2016-05-10T01:06:46+00:00">
+							May 10, 2016 at 1:06 am						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>This is actually pretty cool. The large ball pitch should allow even a 2-layer board to work. I do wonder how well this package will handle thermals though. Will it crumble under full load? The datasheet is mum on the subject.</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016441"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016441', '108d198a50', 'safe-comments-result-3016441');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3016441#respond' onclick='return addComment.moveForm( "div-comment-3016441", "3016441", "respond", "204297" )' aria-label='Reply to Dmitry Grinberg'>Reply</a></div>		</article><!-- .comment-body -->
+	<ol class="children">
+	<li id="comment-3016546" class="comment odd alt depth-2 parent  highlander-comment">
+		<article id="div-comment-3016546" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">EE</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016546">
+						<time datetime="2016-05-10T04:01:50+00:00">
+							May 10, 2016 at 4:01 am						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>2 layer board is thing of the past. For a 20&#215;20 BGA is at least 6 layers, event with large ball pitch.</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016546"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016546', '108d198a50', 'safe-comments-result-3016546');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3016546#respond' onclick='return addComment.moveForm( "div-comment-3016546", "3016546", "respond", "204297" )' aria-label='Reply to EE'>Reply</a></div>		</article><!-- .comment-body -->
+	<ol class="children">
+	<li id="comment-3016555" class="comment even depth-3 parent  highlander-comment">
+		<article id="div-comment-3016555" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">dana</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016555">
+						<time datetime="2016-05-10T04:13:42+00:00">
+							May 10, 2016 at 4:13 am						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>That kinda takes it out of the &#8220;PCB in a toaster oven&#8221; difficulty range, doesn&#8217;t it?</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016555"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016555', '108d198a50', 'safe-comments-result-3016555');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3016555#respond' onclick='return addComment.moveForm( "div-comment-3016555", "3016555", "respond", "204297" )' aria-label='Reply to dana'>Reply</a></div>		</article><!-- .comment-body -->
+	<ol class="children">
+	<li id="comment-3016587" class="comment odd alt depth-4   highlander-comment">
+		<article id="div-comment-3016587" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">Annie</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016587">
+						<time datetime="2016-05-10T05:03:37+00:00">
+							May 10, 2016 at 5:03 am						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>No.</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016587"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016587', '108d198a50', 'safe-comments-result-3016587');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3016587#respond' onclick='return addComment.moveForm( "div-comment-3016587", "3016587", "respond", "204297" )' aria-label='Reply to Annie'>Reply</a></div>		</article><!-- .comment-body -->
+	</li><!-- #comment-## -->
+	<li id="comment-3017000" class="comment even depth-4 parent  highlander-comment">
+		<article id="div-comment-3017000" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn"><a href='http://www.moonbaseotago.com' rel='external nofollow' class='url'>Paul Campbell</a></b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3017000">
+						<time datetime="2016-05-10T13:36:19+00:00">
+							May 10, 2016 at 1:36 pm						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>Yeah, what she said, no</p>
+<p>Probably you should buy a real reflow oven though &#8211; and get a stencil made and use paste</p>
+<p>Depending on the application, the decoupling requirements (sounds like ma lot of that is already onboard), and the PC house layout rules (how tiny are those vias?) you might get away 4 layers, there&#8217;s no dram to route, don&#8217;t be tempted to putting vias in your pads</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3017000"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3017000', '108d198a50', 'safe-comments-result-3017000');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3017000#respond' onclick='return addComment.moveForm( "div-comment-3017000", "3017000", "respond", "204297" )' aria-label='Reply to Paul Campbell'>Reply</a></div>		</article><!-- .comment-body -->
+	<ol class="children">
+	<li id="comment-3017053" class="comment odd alt depth-5  max-depth highlander-comment">
+		<article id="div-comment-3017053" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn"><a href='http://www.moonbaseotago.com' rel='external nofollow' class='url'>Paul Campbell</a></b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3017053">
+						<time datetime="2016-05-10T15:00:28+00:00">
+							May 10, 2016 at 3:00 pm						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>reading further, yes all the decoupling is internal, the app note says that no external decoupling required, that frees up routing space on thye bottom and around the edges and means you can potentially build a board with components on just one side.</p>
+<p>In addition the power controller is also on the inside, that means you don&#8217;t need to hook up power pins, and as a result don&#8217;t need any planes, the grounds are nicely grouped, with (very!) careful routing you may be able to do away with a full ground plane as well &#8211; so yes, I think a 2-layer board is doable.</p>
+<p>I downloaded the Eagle footprint, and hooked up the grounds &#8211; in DirtyPCB&#8217;s 2-layer rules there&#8217;s enough space to route 1 wire out between pads on the top layer and to drop minimal (.35mm) vias between pads &#8211; that means you can likely route out one wire on that layer too<br />
+(note there&#8217;s a row of grounds on one side that would be a routing block on the top layer)</p>
+<p>Probably you can&#8217;t route everything out in 2 layers (you couldn&#8217;t build a beaglebone), you don&#8217;t have to route the DRAM so that&#8217;s probably half of the wires, you do have to hook up an 8-bit EMC (flash) bus</p>
+<p>I&#8217;m kind of liking this for the core of a gigbit open source home firewall/appliance, esp. if 1000 of prices are a bit smaller</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3017053"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3017053', '108d198a50', 'safe-comments-result-3017053');">Report comment</a></span>            </div>
+					</article><!-- .comment-body -->
+	</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+	<li id="comment-3016671" class="comment byuser comment-author-korishev even depth-3 parent  highlander-comment">
+		<article id="div-comment-3016671" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">korishev</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016671">
+						<time datetime="2016-05-10T06:56:30+00:00">
+							May 10, 2016 at 6:56 am						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>hmm&#8230;  The PocketBone page linked in TFA says &#8220;2 layer board of 2.17&#215;1.38 inches (55.02&#215;35.03 mm)&#8221;.  It may not do everything like break out every single I/O, but it does what the creator wants it to do.</p>
+<p>I&#8217;m likely to agree that if you want a fully functional board with all of the I/O broken out, etc., you&#8217;ll probably need more layers, but to say that 2 layer boards are a thing of the past is naive.</p>
+<p>My BS meter tends to peg all the way to the right when people speak in absolutes without regard to intent, ingenuity, or intelligence.  It tends to show a lack of either depth of understanding or breadth of experience.</p>
+<p>Thanks for playing.</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016671"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016671', '108d198a50', 'safe-comments-result-3016671');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3016671#respond' onclick='return addComment.moveForm( "div-comment-3016671", "3016671", "respond", "204297" )' aria-label='Reply to korishev'>Reply</a></div>		</article><!-- .comment-body -->
+	<ol class="children">
+	<li id="comment-3016959" class="comment byuser comment-author-fustini odd alt depth-4   highlander-comment">
+		<article id="div-comment-3016959" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">fustini</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016959">
+						<time datetime="2016-05-10T12:37:08+00:00">
+							May 10, 2016 at 12:37 pm						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>Yeah, I believe Jason Kridner designed PocketBone to be a starting point in a free-of-cost tool (EAGLE) for people to make derivatives that use the new Octavo SiP. I&#8217;d like to get the design in Kicad, too, for those looking to designer bigger boards or use more layers.</p>
+<p>The Octavo reference board design may be better for those that have OrCad and want to take advantage of all the peripherals that the BeagleBone Black has:<br />
+OSD3358 SBC Reference Design OrCad Files (RAR) | Version: B | May 3, 2016<br />
+<a href="http://octavosystems.com/octavosystems.com/wp-content/uploads/2016/05/OSD3358_SBC_RefDesign.rar" rel="nofollow" target="_blank">http://octavosystems.com/octavosystems.com/wp-content/uploads/2016/05/OSD3358_SBC_RefDesign.rar</a></p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016959"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016959', '108d198a50', 'safe-comments-result-3016959');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3016959#respond' onclick='return addComment.moveForm( "div-comment-3016959", "3016959", "respond", "204297" )' aria-label='Reply to fustini'>Reply</a></div>		</article><!-- .comment-body -->
+	</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+	<li id="comment-3016674" class="comment even depth-2 parent  highlander-comment">
+		<article id="div-comment-3016674" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">evad</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016674">
+						<time datetime="2016-05-10T07:03:09+00:00">
+							May 10, 2016 at 7:03 am						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>2 Layers?</p>
+<p>Have you submitted a product like this to the FCC yet?  Unintentional radiator with a clock above  9kHz, part 15 B.</p>
+<p>Good luck with a 2 layer board.</p>
+<p>Also, a toaster oven?  How about an X-ray machine to validate that the BGA balls actually soldered properly.</p>
+<p>The greatest thing about this system on chip is that it includes the power management system and the RAM.  Hopefully this thing doesn&#8217;t get too hot when running full speed.</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016674"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016674', '108d198a50', 'safe-comments-result-3016674');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3016674#respond' onclick='return addComment.moveForm( "div-comment-3016674", "3016674", "respond", "204297" )' aria-label='Reply to evad'>Reply</a></div>		</article><!-- .comment-body -->
+	<ol class="children">
+	<li id="comment-3016709" class="comment odd alt depth-3   highlander-comment">
+		<article id="div-comment-3016709" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">Planet10</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016709">
+						<time datetime="2016-05-10T07:36:52+00:00">
+							May 10, 2016 at 7:36 am						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>Please don&#8217;t invade their reality with logic. Silly Engineers are way overpaid&#8230;..</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016709"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016709', '108d198a50', 'safe-comments-result-3016709');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3016709#respond' onclick='return addComment.moveForm( "div-comment-3016709", "3016709", "respond", "204297" )' aria-label='Reply to Planet10'>Reply</a></div>		</article><!-- .comment-body -->
+	</li><!-- #comment-## -->
+	<li id="comment-3016853" class="comment byuser comment-author-russdill even depth-3 parent  highlander-comment">
+		<article id="div-comment-3016853" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">russdill</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016853">
+						<time datetime="2016-05-10T09:51:36+00:00">
+							May 10, 2016 at 9:51 am						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>Everything high speed is contained within the package so 2 layer is fine.  It&#8217;s the same as if you were designing a cape.</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016853"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016853', '108d198a50', 'safe-comments-result-3016853');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3016853#respond' onclick='return addComment.moveForm( "div-comment-3016853", "3016853", "respond", "204297" )' aria-label='Reply to russdill'>Reply</a></div>		</article><!-- .comment-body -->
+	<ol class="children">
+	<li id="comment-3016856" class="comment byuser comment-author-russdill odd alt depth-4 parent  highlander-comment">
+		<article id="div-comment-3016856" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">russdill</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016856">
+						<time datetime="2016-05-10T09:53:00+00:00">
+							May 10, 2016 at 9:53 am						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>And you don&#8217;t need to x ray a 1.27mm pitch bga.</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016856"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016856', '108d198a50', 'safe-comments-result-3016856');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3016856#respond' onclick='return addComment.moveForm( "div-comment-3016856", "3016856", "respond", "204297" )' aria-label='Reply to russdill'>Reply</a></div>		</article><!-- .comment-body -->
+	<ol class="children">
+	<li id="comment-3016880" class="comment even depth-5  max-depth highlander-comment">
+		<article id="div-comment-3016880" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">evad</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016880">
+						<time datetime="2016-05-10T10:20:02+00:00">
+							May 10, 2016 at 10:20 am						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>Do you guys actually make high pin count BGA products and skip AOI X-RAY?</p>
+<p>What does IP-610 say?  </p>
+<p>Close your eyes, think happy thoughts and hope for the best?</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016880"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016880', '108d198a50', 'safe-comments-result-3016880');">Report comment</a></span>            </div>
+					</article><!-- .comment-body -->
+	</li><!-- #comment-## -->
+	<li id="comment-3016963" class="comment odd alt depth-5  max-depth highlander-comment">
+		<article id="div-comment-3016963" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">Bill</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016963">
+						<time datetime="2016-05-10T12:47:50+00:00">
+							May 10, 2016 at 12:47 pm						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>I&#8217;m pretty sure most hobby projects don&#8217;t follow IP-610 or go for FCC certification. There are probably useful devices that could be made with this on a two layer board and home soldering, but they couldn&#8217;t be made to sell.</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016963"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016963', '108d198a50', 'safe-comments-result-3016963');">Report comment</a></span>            </div>
+					</article><!-- .comment-body -->
+	</li><!-- #comment-## -->
+	<li id="comment-3016969" class="comment byuser comment-author-russdill even depth-5  max-depth highlander-comment">
+		<article id="div-comment-3016969" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">russdill</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016969">
+						<time datetime="2016-05-10T12:58:40+00:00">
+							May 10, 2016 at 12:58 pm						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>Unless you are in something like aerospace or medical, x-ray testing is typically only done on samples especially with such a large pitch part for process monitoring and improvement. There is just no need to x-ray every board. And if you don&#8217;t care about destroying your sample, you don&#8217;t even need x-ray. Just pry the chip off the board, or for greater visibility, apply dye first.</p>
+<p>And here you are talking about hobbyists.</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016969"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016969', '108d198a50', 'safe-comments-result-3016969');">Report comment</a></span>            </div>
+					</article><!-- .comment-body -->
+	</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+	<li id="comment-3016885" class="comment odd alt depth-4 parent  highlander-comment">
+		<article id="div-comment-3016885" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">evad</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016885">
+						<time datetime="2016-05-10T10:31:05+00:00">
+							May 10, 2016 at 10:31 am						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>Everything except for all of the serial port PHY&#8217;s? Would you really route these without a ground layer beneath?</p>
+<p>Don&#8217;t get me wrong, I think this is great and I can use something like this but the 2 layer advertisement&#8230; seems like a reach.</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016885"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016885', '108d198a50', 'safe-comments-result-3016885');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3016885#respond' onclick='return addComment.moveForm( "div-comment-3016885", "3016885", "respond", "204297" )' aria-label='Reply to evad'>Reply</a></div>		</article><!-- .comment-body -->
+	<ol class="children">
+	<li id="comment-3016939" class="comment byuser comment-author-collinsjdan even depth-5  max-depth highlander-comment">
+		<article id="div-comment-3016939" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">collinsjdan</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016939">
+						<time datetime="2016-05-10T12:01:18+00:00">
+							May 10, 2016 at 12:01 pm						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>Gmii on two layers? You&#8217;ve got to be kidding!</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016939"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016939', '108d198a50', 'safe-comments-result-3016939');">Report comment</a></span>            </div>
+					</article><!-- .comment-body -->
+	</li><!-- #comment-## -->
+	<li id="comment-3016970" class="comment byuser comment-author-russdill odd alt depth-5  max-depth highlander-comment">
+		<article id="div-comment-3016970" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">russdill</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016970">
+						<time datetime="2016-05-10T12:59:49+00:00">
+							May 10, 2016 at 12:59 pm						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>If you are using high speed phys, you are going to need a 4 layer board. It&#8217;s not a big step up.</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016970"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016970', '108d198a50', 'safe-comments-result-3016970');">Report comment</a></span>            </div>
+					</article><!-- .comment-body -->
+	</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+	<li id="comment-3016982" class="comment even depth-4   highlander-comment">
+		<article id="div-comment-3016982" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">evad</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016982">
+						<time datetime="2016-05-10T13:21:59+00:00">
+							May 10, 2016 at 1:21 pm						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>&#8220;Unless you are in something like aerospace or medical, x-ray testing is typically only done on samples especially with such a large pitch part for process monitoring and improvement. There is just no need to x-ray every board. And if you don’t care about destroying your sample, you don’t even need x-ray. Just pry the chip off the board, or for greater visibility, apply dye first.</p>
+<p>And here you are talking about hobbyists.&#8221;</p>
+<p>Sorry, I&#8217;m used to ISO factories making product for sale that meet assembly specifications.  If prototype makers are the target market, then by all means ignore what i&#8217;ve said about AOI etc.</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016982"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016982', '108d198a50', 'safe-comments-result-3016982');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3016982#respond' onclick='return addComment.moveForm( "div-comment-3016982", "3016982", "respond", "204297" )' aria-label='Reply to evad'>Reply</a></div>		</article><!-- .comment-body -->
+	</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+	<li id="comment-3016961" class="comment byuser comment-author-fustini odd alt depth-3   highlander-comment">
+		<article id="div-comment-3016961" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">fustini</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016961">
+						<time datetime="2016-05-10T12:42:17+00:00">
+							May 10, 2016 at 12:42 pm						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>I think the PocketBone is aimed at people who want to use a EAGLE to create low-cost prototypes with batch PCB services.   I know Jason would appreciate it if people forked PocketBone and created pull requests with improvements:<br />
+<a href="https://github.com/jadonk/PocketBone/" rel="nofollow" target="_blank">https://github.com/jadonk/PocketBone/</a></p>
+<p>I think the Octavo reference design may be a better starting point for people looking to design a product: OSD3358 SBC Reference Design OrCad Files<br />
+<a href="http://octavosystems.com/octavosystems.com/wp-content/uploads/2016/05/OSD3358_SBC_RefDesign.rar" rel="nofollow" target="_blank">http://octavosystems.com/octavosystems.com/wp-content/uploads/2016/05/OSD3358_SBC_RefDesign.rar</a></p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016961"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016961', '108d198a50', 'safe-comments-result-3016961');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3016961#respond' onclick='return addComment.moveForm( "div-comment-3016961", "3016961", "respond", "204297" )' aria-label='Reply to fustini'>Reply</a></div>		</article><!-- .comment-body -->
+	</li><!-- #comment-## -->
+	<li id="comment-3016967" class="comment even depth-3   highlander-comment">
+		<article id="div-comment-3016967" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">Dodo</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016967">
+						<time datetime="2016-05-10T12:53:03+00:00">
+							May 10, 2016 at 12:53 pm						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>If you want to be sure all the balls soldered properly you will need to X-ray it. Even if you just reflow the BGA with hot-air the failure rate is very low. For a prototype you can solder it and hope for the best. If it doesn&#8217;t work try another one&#8230;</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016967"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016967', '108d198a50', 'safe-comments-result-3016967');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3016967#respond' onclick='return addComment.moveForm( "div-comment-3016967", "3016967", "respond", "204297" )' aria-label='Reply to Dodo'>Reply</a></div>		</article><!-- .comment-body -->
+	</li><!-- #comment-## -->
+	<li id="comment-3017872" class="comment odd alt depth-3   highlander-comment">
+		<article id="div-comment-3017872" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn"><a href='http://essentialscrap.com' rel='external nofollow' class='url'>jpa</a></b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3017872">
+						<time datetime="2016-05-11T11:33:43+00:00">
+							May 11, 2016 at 11:33 am						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>Most hackaday projects never get to the stage where FCC tests or X-ray verification are needed. If it works, it works; once it breaks, you try to figure it out and fix it, and if you fail, well, it is just a hobby.</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3017872"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3017872', '108d198a50', 'safe-comments-result-3017872');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3017872#respond' onclick='return addComment.moveForm( "div-comment-3017872", "3017872", "respond", "204297" )' aria-label='Reply to jpa'>Reply</a></div>		</article><!-- .comment-body -->
+	</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+	<li id="comment-3016449" class="comment even thread-odd thread-alt depth-1   highlander-comment">
+		<article id="div-comment-3016449" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn"><a href='http://sinusoid.in' rel='external nofollow' class='url'>Vikas</a></b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016449">
+						<time datetime="2016-05-10T01:16:52+00:00">
+							May 10, 2016 at 1:16 am						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>Isn&#8217;t it more of a module than a chip? Sort of like a multi-chip module with epoxy encapsulation.</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016449"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016449', '108d198a50', 'safe-comments-result-3016449');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3016449#respond' onclick='return addComment.moveForm( "div-comment-3016449", "3016449", "respond", "204297" )' aria-label='Reply to Vikas'>Reply</a></div>		</article><!-- .comment-body -->
+	</li><!-- #comment-## -->
+	<li id="comment-3016459" class="comment odd alt thread-even depth-1   highlander-comment">
+		<article id="div-comment-3016459" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">freelancer</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016459">
+						<time datetime="2016-05-10T01:42:25+00:00">
+							May 10, 2016 at 1:42 am						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>What is the big difference to the traditional processor &amp; POP-memory approach with the RAM on top of the processor? The PMIC-chips and the passives?</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016459"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016459', '108d198a50', 'safe-comments-result-3016459');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3016459#respond' onclick='return addComment.moveForm( "div-comment-3016459", "3016459", "respond", "204297" )' aria-label='Reply to freelancer'>Reply</a></div>		</article><!-- .comment-body -->
+	</li><!-- #comment-## -->
+	<li id="comment-3016461" class="comment byuser comment-author-imqqmi even thread-odd thread-alt depth-1 parent  highlander-comment">
+		<article id="div-comment-3016461" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">imqqmi</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016461">
+						<time datetime="2016-05-10T01:46:11+00:00">
+							May 10, 2016 at 1:46 am						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>TQFP package is about as small as I can practically design and make a PCB at home. I can&#8217;t image doing that with a BGA, how would one route all the inner pads to outside pins? Using multi layer PCB and vias? It&#8217;s probably easier and cheaper to get a PI zero if you have to break out the pins of the BGA chip, you&#8217;ll loose the compactness anyway. Maybe someone will get creative using the dead bug method on an epic (miniature) scale :)</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016461"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016461', '108d198a50', 'safe-comments-result-3016461');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3016461#respond' onclick='return addComment.moveForm( "div-comment-3016461", "3016461", "respond", "204297" )' aria-label='Reply to imqqmi'>Reply</a></div>		</article><!-- .comment-body -->
+	<ol class="children">
+	<li id="comment-3016516" class="comment byuser comment-author-russdill odd alt depth-2 parent  highlander-comment">
+		<article id="div-comment-3016516" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">russdill</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016516">
+						<time datetime="2016-05-10T03:19:45+00:00">
+							May 10, 2016 at 3:19 am						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>You really don&#8217;t need to route very much depending on your application. And 1.27mm is seriously huge. We are talking 50 mil spacing. If your pad size is 20 mil, you can fit 2 traces between them at 6 mil design rules (20 + 6 + 6 + 6 + 6 + 6 = 50). That means on the top layer, you can escape the first three rows completely. You can then drop down some vias and escape the next 2 rows completely (27 mil via, 27 + 6 + 6 + 6 = 45). That&#8217;s 300 signals. You actually get more due to extra escapes on the corners. The module is 20&#215;20, so that&#8217;s 400 pads. The module has far fewer than 300 unique signals, such as NC pads (55) and GND pads (80).</p>
+<p>So no, you&#8217;d have no issues with a 2 layer oshpark board.</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016516"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016516', '108d198a50', 'safe-comments-result-3016516');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3016516#respond' onclick='return addComment.moveForm( "div-comment-3016516", "3016516", "respond", "204297" )' aria-label='Reply to russdill'>Reply</a></div>		</article><!-- .comment-body -->
+	<ol class="children">
+	<li id="comment-3019384" class="comment even depth-3   highlander-comment">
+		<article id="div-comment-3019384" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">Drone</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3019384">
+						<time datetime="2016-05-13T03:14:48+00:00">
+							May 13, 2016 at 3:14 am						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>6 mil rules then breaking out and routing hundreds of signals on a 2-layer board is asking for trouble from a signal integrity standpoint. Never underestimate the value of (at-least) a ground plane in-between.</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3019384"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3019384', '108d198a50', 'safe-comments-result-3019384');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3019384#respond' onclick='return addComment.moveForm( "div-comment-3019384", "3019384", "respond", "204297" )' aria-label='Reply to Drone'>Reply</a></div>		</article><!-- .comment-body -->
+	</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+	<li id="comment-3016810" class="comment odd alt depth-2   highlander-comment">
+		<article id="div-comment-3016810" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">zerg</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016810">
+						<time datetime="2016-05-10T09:01:54+00:00">
+							May 10, 2016 at 9:01 am						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>You&#8217;re better off with a BB Black or PI Zero unless you&#8217;re a wizard at routing and designing PCB&#8217;s.</p>
+<p>Not to mention having a lot of experience with large BGA&#8217;s.</p>
+<p>As far as a designing a two layer board goes for this monster chip, I&#8217;ll believe it when I see those who are promoting this idea do it for real.</p>
+<p>There are far too many vaporware guys out there bragging they can do just anything with a two layer board and a oven yet I don&#8217;t so see no end product from them.</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016810"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016810', '108d198a50', 'safe-comments-result-3016810');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3016810#respond' onclick='return addComment.moveForm( "div-comment-3016810", "3016810", "respond", "204297" )' aria-label='Reply to zerg'>Reply</a></div>		</article><!-- .comment-body -->
+	</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+	<li id="comment-3016473" class="comment byuser comment-author-werecatf even thread-even depth-1   highlander-comment">
+		<article id="div-comment-3016473" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">werecatf</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016473">
+						<time datetime="2016-05-10T02:06:54+00:00">
+							May 10, 2016 at 2:06 am						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>&#8220;If you can handle putting a PCB with a BGA package in a toaster oven, you too can build your own ARM single board computer running Linux.&#8221; &#8212; Oooooh.</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016473"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016473', '108d198a50', 'safe-comments-result-3016473');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3016473#respond' onclick='return addComment.moveForm( "div-comment-3016473", "3016473", "respond", "204297" )' aria-label='Reply to werecatf'>Reply</a></div>		</article><!-- .comment-body -->
+	</li><!-- #comment-## -->
+	<li id="comment-3016475" class="comment odd alt thread-odd thread-alt depth-1   highlander-comment">
+		<article id="div-comment-3016475" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">ludwig</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016475">
+						<time datetime="2016-05-10T02:09:29+00:00">
+							May 10, 2016 at 2:09 am						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>&#8220;The first part number of this family to be released, with the AM3358 CPU and 1GB of RAM, sells for $50 in quantity one.&#8221;</p>
+<p>That part seems to have 512MB of RAM</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016475"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016475', '108d198a50', 'safe-comments-result-3016475');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3016475#respond' onclick='return addComment.moveForm( "div-comment-3016475", "3016475", "respond", "204297" )' aria-label='Reply to ludwig'>Reply</a></div>		</article><!-- .comment-body -->
+	</li><!-- #comment-## -->
+	<li id="comment-3016484" class="comment byuser comment-author-chaozlabs even thread-even depth-1 parent  highlander-comment">
+		<article id="div-comment-3016484" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn"><a href='http://www.chaozlabs.de' rel='external nofollow' class='url'>4ndreas</a></b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016484">
+						<time datetime="2016-05-10T02:23:05+00:00">
+							May 10, 2016 at 2:23 am						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>wow got to the site and look at the reference design, this &#8220;chip&#8221; is huge, somehow it remembers me of an old x486 processor,&#8230; don&#8217;t know why.</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016484"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016484', '108d198a50', 'safe-comments-result-3016484');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3016484#respond' onclick='return addComment.moveForm( "div-comment-3016484", "3016484", "respond", "204297" )' aria-label='Reply to 4ndreas'>Reply</a></div>		</article><!-- .comment-body -->
+	<ol class="children">
+	<li id="comment-3016878" class="comment odd alt depth-2   highlander-comment">
+		<article id="div-comment-3016878" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">Doc Oct</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016878">
+						<time datetime="2016-05-10T10:16:09+00:00">
+							May 10, 2016 at 10:16 am						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>I&#8217;ve had a 486 chip on my desk for nearly 20 years. It&#8217;s more like half-dollar sized, larger than a quarter.</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016878"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016878', '108d198a50', 'safe-comments-result-3016878');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3016878#respond' onclick='return addComment.moveForm( "div-comment-3016878", "3016878", "respond", "204297" )' aria-label='Reply to Doc Oct'>Reply</a></div>		</article><!-- .comment-body -->
+	</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+	<li id="comment-3016491" class="comment even thread-odd thread-alt depth-1 parent  highlander-comment">
+		<article id="div-comment-3016491" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">John U</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016491">
+						<time datetime="2016-05-10T02:31:10+00:00">
+							May 10, 2016 at 2:31 am						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>If this has the same level of support as TI&#8217;s other stuff I&#8217;m not touching it.</p>
+<p>They offer two sources of support: A forum full of people just like you (also getting no support), and wiki which is a wasteland of half-finished pages and broken links.</p>
+<p>Current project uses a TI SoC, if we realised when we started, well, we wouldn&#8217;t have started.</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016491"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016491', '108d198a50', 'safe-comments-result-3016491');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3016491#respond' onclick='return addComment.moveForm( "div-comment-3016491", "3016491", "respond", "204297" )' aria-label='Reply to John U'>Reply</a></div>		</article><!-- .comment-body -->
+	<ol class="children">
+	<li id="comment-3016567" class="comment odd alt depth-2 parent  highlander-comment">
+		<article id="div-comment-3016567" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">Rev Tactule</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016567">
+						<time datetime="2016-05-10T04:33:30+00:00">
+							May 10, 2016 at 4:33 am						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>You have to know what you are doing before you start any embedded Linux project. I never used the TI kernel; just the mainstream. While I did run into SPI kernel issues it was nothing that couldn&#8217;t be fixed using, well, debugging skills.</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016567"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016567', '108d198a50', 'safe-comments-result-3016567');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3016567#respond' onclick='return addComment.moveForm( "div-comment-3016567", "3016567", "respond", "204297" )' aria-label='Reply to Rev Tactule'>Reply</a></div>		</article><!-- .comment-body -->
+	<ol class="children">
+	<li id="comment-3016675" class="comment even depth-3 parent  highlander-comment">
+		<article id="div-comment-3016675" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">evad</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016675">
+						<time datetime="2016-05-10T07:04:21+00:00">
+							May 10, 2016 at 7:04 am						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>No, really, he&#8217;s right.</p>
+<p>Please explain when the babble USB error on the BBB gets fixed.</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016675"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016675', '108d198a50', 'safe-comments-result-3016675');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3016675#respond' onclick='return addComment.moveForm( "div-comment-3016675", "3016675", "respond", "204297" )' aria-label='Reply to evad'>Reply</a></div>		</article><!-- .comment-body -->
+	<ol class="children">
+	<li id="comment-3016696" class="comment odd alt depth-4 parent  highlander-comment">
+		<article id="div-comment-3016696" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">Rev Tactule</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016696">
+						<time datetime="2016-05-10T07:22:15+00:00">
+							May 10, 2016 at 7:22 am						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>No, really, he&#8217;s not. I&#8217;ve developed products using the AM335X and the USB babble error has never been a problem. Complain to Gerald and not TI about the USB babble error.</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016696"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016696', '108d198a50', 'safe-comments-result-3016696');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3016696#respond' onclick='return addComment.moveForm( "div-comment-3016696", "3016696", "respond", "204297" )' aria-label='Reply to Rev Tactule'>Reply</a></div>		</article><!-- .comment-body -->
+	<ol class="children">
+	<li id="comment-3016730" class="comment even depth-5  max-depth highlander-comment">
+		<article id="div-comment-3016730" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">evad</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016730">
+						<time datetime="2016-05-10T07:58:10+00:00">
+							May 10, 2016 at 7:58 am						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>I did.</p>
+<p>It&#8217;s not fixed.</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016730"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016730', '108d198a50', 'safe-comments-result-3016730');">Report comment</a></span>            </div>
+					</article><!-- .comment-body -->
+	</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+	<li id="comment-3016507" class="comment odd alt thread-even depth-1   highlander-comment">
+		<article id="div-comment-3016507" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">Sykobee</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016507">
+						<time datetime="2016-05-10T02:51:34+00:00">
+							May 10, 2016 at 2:51 am						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>So this is a SiP (System in Package) right? co-located SoC, RAM, passive components, etc.</p>
+<p>Or is it a SoC + PoP RAM? With passives around the outside, and then another pretty cap boxing it all in.</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016507"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016507', '108d198a50', 'safe-comments-result-3016507');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3016507#respond' onclick='return addComment.moveForm( "div-comment-3016507", "3016507", "respond", "204297" )' aria-label='Reply to Sykobee'>Reply</a></div>		</article><!-- .comment-body -->
+	</li><!-- #comment-## -->
+	<li id="comment-3016539" class="comment even thread-odd thread-alt depth-1   highlander-comment">
+		<article id="div-comment-3016539" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">oni305</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016539">
+						<time datetime="2016-05-10T03:55:30+00:00">
+							May 10, 2016 at 3:55 am						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>Finally!</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016539"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016539', '108d198a50', 'safe-comments-result-3016539');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3016539#respond' onclick='return addComment.moveForm( "div-comment-3016539", "3016539", "respond", "204297" )' aria-label='Reply to oni305'>Reply</a></div>		</article><!-- .comment-body -->
+	</li><!-- #comment-## -->
+	<li id="comment-3016554" class="comment odd alt thread-even depth-1   highlander-comment">
+		<article id="div-comment-3016554" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">Freire</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016554">
+						<time datetime="2016-05-10T04:12:11+00:00">
+							May 10, 2016 at 4:12 am						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>PocketBone is a  example of board with OSD3358, created in Eagle PCB with only two layer:<br />
+<a href="https://github.com/jadonk/PocketBone" rel="nofollow" target="_blank">https://github.com/jadonk/PocketBone</a></p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016554"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016554', '108d198a50', 'safe-comments-result-3016554');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3016554#respond' onclick='return addComment.moveForm( "div-comment-3016554", "3016554", "respond", "204297" )' aria-label='Reply to Freire'>Reply</a></div>		</article><!-- .comment-body -->
+	</li><!-- #comment-## -->
+	<li id="comment-3016600" class="comment even thread-odd thread-alt depth-1 parent  highlander-comment">
+		<article id="div-comment-3016600" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">quarterturn</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016600">
+						<time datetime="2016-05-10T05:34:32+00:00">
+							May 10, 2016 at 5:34 am						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>Ironically, the BBB actually does fit in an Altoids tin.</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016600"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016600', '108d198a50', 'safe-comments-result-3016600');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3016600#respond' onclick='return addComment.moveForm( "div-comment-3016600", "3016600", "respond", "204297" )' aria-label='Reply to quarterturn'>Reply</a></div>		</article><!-- .comment-body -->
+	<ol class="children">
+	<li id="comment-3016662" class="comment byuser comment-author-ekriirke odd alt depth-2   highlander-comment">
+		<article id="div-comment-3016662" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn"><a href='http://www.ekriirke.com/' rel='external nofollow' class='url'>Erik Johnson</a></b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016662">
+						<time datetime="2016-05-10T06:37:24+00:00">
+							May 10, 2016 at 6:37 am						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>It was (one of the ones I have, at least) even shipped in one.</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016662"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016662', '108d198a50', 'safe-comments-result-3016662');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3016662#respond' onclick='return addComment.moveForm( "div-comment-3016662", "3016662", "respond", "204297" )' aria-label='Reply to Erik Johnson'>Reply</a></div>		</article><!-- .comment-body -->
+	</li><!-- #comment-## -->
+	<li id="comment-3016685" class="comment even depth-2 parent  highlander-comment">
+		<article id="div-comment-3016685" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">Rotopants</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016685">
+						<time datetime="2016-05-10T07:12:05+00:00">
+							May 10, 2016 at 7:12 am						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>They&#8217;re refering to the altoid smalls tins: <a href="http://jimdoran.net/joy/wp-content/uploads/2011/02/tiny-tin.jpg" rel="nofollow" target="_blank">http://jimdoran.net/joy/wp-content/uploads/2011/02/tiny-tin.jpg</a></p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016685"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016685', '108d198a50', 'safe-comments-result-3016685');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3016685#respond' onclick='return addComment.moveForm( "div-comment-3016685", "3016685", "respond", "204297" )' aria-label='Reply to Rotopants'>Reply</a></div>		</article><!-- .comment-body -->
+	<ol class="children">
+	<li id="comment-3016815" class="comment odd alt depth-3 parent  highlander-comment">
+		<article id="div-comment-3016815" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">zerg</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016815">
+						<time datetime="2016-05-10T09:08:57+00:00">
+							May 10, 2016 at 9:08 am						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>So their goal is to produce a really small and useless Linux SBC that you really can&#8217;t do meaningful real world interfacing without adding a I.O board.</p>
+<p>But it does run Linux. BFD.</p>
+<p>This isn&#8217;t a hack, it&#8217;s just a form of &#8220;look what impractical BS I can make&#8221;</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016815"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016815', '108d198a50', 'safe-comments-result-3016815');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3016815#respond' onclick='return addComment.moveForm( "div-comment-3016815", "3016815", "respond", "204297" )' aria-label='Reply to zerg'>Reply</a></div>		</article><!-- .comment-body -->
+	<ol class="children">
+	<li id="comment-3016953" class="comment byuser comment-author-fustini even depth-4   highlander-comment">
+		<article id="div-comment-3016953" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">fustini</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016953">
+						<time datetime="2016-05-10T12:30:24+00:00">
+							May 10, 2016 at 12:30 pm						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>I think the PocketBone is meant to be a starting point in a free-of-cost tool (EAGLE) for people to make derivatives that use the new Octavo SiP.   I&#8217;m hoping to get the design into Kicad, too, for those looking to designer bigger boards or use more layers.</p>
+<p>The Octavo reference design might be better starting point for people looking to take more advantage of the functionality in the SiP:<br />
+OSD3358 SBC Reference Design OrCad Files (RAR) | Version: B | May 3, 2016<br />
+<a href="http://octavosystems.com/octavo_products/osd335x/" rel="nofollow" target="_blank">http://octavosystems.com/octavo_products/osd335x/</a></p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016953"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016953', '108d198a50', 'safe-comments-result-3016953');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3016953#respond' onclick='return addComment.moveForm( "div-comment-3016953", "3016953", "respond", "204297" )' aria-label='Reply to fustini'>Reply</a></div>		</article><!-- .comment-body -->
+	</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+	<li id="comment-3016604" class="comment odd alt thread-even depth-1 parent  highlander-comment">
+		<article id="div-comment-3016604" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">David Kuder</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016604">
+						<time datetime="2016-05-10T05:43:49+00:00">
+							May 10, 2016 at 5:43 am						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>Anyone else tempted to deadbug it?</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016604"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016604', '108d198a50', 'safe-comments-result-3016604');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3016604#respond' onclick='return addComment.moveForm( "div-comment-3016604", "3016604", "respond", "204297" )' aria-label='Reply to David Kuder'>Reply</a></div>		</article><!-- .comment-body -->
+	<ol class="children">
+	<li id="comment-3016945" class="comment even depth-2   highlander-comment">
+		<article id="div-comment-3016945" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">a Jaded Hobo</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016945">
+						<time datetime="2016-05-10T12:11:28+00:00">
+							May 10, 2016 at 12:11 pm						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>Tempting, but the result would more resemble a nice mold than a dead bug.</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016945"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016945', '108d198a50', 'safe-comments-result-3016945');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3016945#respond' onclick='return addComment.moveForm( "div-comment-3016945", "3016945", "respond", "204297" )' aria-label='Reply to a Jaded Hobo'>Reply</a></div>		</article><!-- .comment-body -->
+	</li><!-- #comment-## -->
+	<li id="comment-3017009" class="comment byuser comment-author-crjeea odd alt depth-2   highlander-comment">
+		<article id="div-comment-3017009" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn"><a href='http://crjeeablog.wordpress.com' rel='external nofollow' class='url'>CRJEEA</a></b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3017009">
+						<time datetime="2016-05-10T13:47:50+00:00">
+							May 10, 2016 at 1:47 pm						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>A breakout board version, pre-soldered [or perhaps sandwiched onto a sheet of pins] with a multi row dip or standard header style connection would be good though.</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3017009"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3017009', '108d198a50', 'safe-comments-result-3017009');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3017009#respond' onclick='return addComment.moveForm( "div-comment-3017009", "3017009", "respond", "204297" )' aria-label='Reply to CRJEEA'>Reply</a></div>		</article><!-- .comment-body -->
+	</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+	<li id="comment-3016621" class="comment even thread-odd thread-alt depth-1 parent  highlander-comment">
+		<article id="div-comment-3016621" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">Flankn</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016621">
+						<time datetime="2016-05-10T06:01:36+00:00">
+							May 10, 2016 at 6:01 am						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>&#8220;&#8230;with a salary commensurate of their skills.&#8221;<br />
+Umm.  Considering our salaries are similar to union sprinkler-fitter foremen, is that an insult?</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016621"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016621', '108d198a50', 'safe-comments-result-3016621');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3016621#respond' onclick='return addComment.moveForm( "div-comment-3016621", "3016621", "respond", "204297" )' aria-label='Reply to Flankn'>Reply</a></div>		</article><!-- .comment-body -->
+	<ol class="children">
+	<li id="comment-3016694" class="comment odd alt depth-2   highlander-comment">
+		<article id="div-comment-3016694" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">Greenaum</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016694">
+						<time datetime="2016-05-10T07:21:07+00:00">
+							May 10, 2016 at 7:21 am						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>Maybe you need a union, then.</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016694"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016694', '108d198a50', 'safe-comments-result-3016694');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3016694#respond' onclick='return addComment.moveForm( "div-comment-3016694", "3016694", "respond", "204297" )' aria-label='Reply to Greenaum'>Reply</a></div>		</article><!-- .comment-body -->
+	</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+	<li id="comment-3016664" class="comment even thread-even depth-1   highlander-comment">
+		<article id="div-comment-3016664" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">JIm B</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016664">
+						<time datetime="2016-05-10T06:45:32+00:00">
+							May 10, 2016 at 6:45 am						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>&#8220;PocketBone&#8221;?  Really? Surely he must have known the imagery he was invoking.  Is he perhaps implying it is hard to use?</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016664"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016664', '108d198a50', 'safe-comments-result-3016664');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3016664#respond' onclick='return addComment.moveForm( "div-comment-3016664", "3016664", "respond", "204297" )' aria-label='Reply to JIm B'>Reply</a></div>		</article><!-- .comment-body -->
+	</li><!-- #comment-## -->
+	<li id="comment-3016682" class="comment odd alt thread-odd thread-alt depth-1 parent  highlander-comment">
+		<article id="div-comment-3016682" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">Haddyhad</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016682">
+						<time datetime="2016-05-10T07:10:30+00:00">
+							May 10, 2016 at 7:10 am						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>Now we just need a &lt;$10 allwinner/rockchip/amlogic version</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016682"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016682', '108d198a50', 'safe-comments-result-3016682');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3016682#respond' onclick='return addComment.moveForm( "div-comment-3016682", "3016682", "respond", "204297" )' aria-label='Reply to Haddyhad'>Reply</a></div>		</article><!-- .comment-body -->
+	<ol class="children">
+	<li id="comment-3016688" class="comment even depth-2   highlander-comment">
+		<article id="div-comment-3016688" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">Rotopants</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016688">
+						<time datetime="2016-05-10T07:14:35+00:00">
+							May 10, 2016 at 7:14 am						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>Amen. I&#8217;ve been looking for something cheap but useful to stick into a Dreamcast VMU <a href="https://en.wikipedia.org/wiki/VMU" rel="nofollow" target="_blank">https://en.wikipedia.org/wiki/VMU</a></p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016688"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016688', '108d198a50', 'safe-comments-result-3016688');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3016688#respond' onclick='return addComment.moveForm( "div-comment-3016688", "3016688", "respond", "204297" )' aria-label='Reply to Rotopants'>Reply</a></div>		</article><!-- .comment-body -->
+	</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+	<li id="comment-3016836" class="comment byuser comment-author-martinmuunk odd alt thread-even depth-1 parent  highlander-comment">
+		<article id="div-comment-3016836" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">martinmuunk</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016836">
+						<time datetime="2016-05-10T09:31:54+00:00">
+							May 10, 2016 at 9:31 am						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>Dual GigE ?<br />
+It seems like a good contender for a low power, high quality firewall?</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016836"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016836', '108d198a50', 'safe-comments-result-3016836');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3016836#respond' onclick='return addComment.moveForm( "div-comment-3016836", "3016836", "respond", "204297" )' aria-label='Reply to martinmuunk'>Reply</a></div>		</article><!-- .comment-body -->
+	<ol class="children">
+	<li id="comment-3016879" class="comment even depth-2   highlander-comment">
+		<article id="div-comment-3016879" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">Doc Oct</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016879">
+						<time datetime="2016-05-10T10:18:01+00:00">
+							May 10, 2016 at 10:18 am						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>How long until someone takes several of these and makes a SBC? As in, single board cluster.</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016879"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016879', '108d198a50', 'safe-comments-result-3016879');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3016879#respond' onclick='return addComment.moveForm( "div-comment-3016879", "3016879", "respond", "204297" )' aria-label='Reply to Doc Oct'>Reply</a></div>		</article><!-- .comment-body -->
+	</li><!-- #comment-## -->
+	<li id="comment-3016991" class="comment odd alt depth-2 parent  highlander-comment">
+		<article id="div-comment-3016991" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">lwatcdr</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016991">
+						<time datetime="2016-05-10T13:27:15+00:00">
+							May 10, 2016 at 1:27 pm						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>It also supports SDIO so you could make it a  router with wifi as well.<br />
+I wonder if the GPIO could be used to interface an SATA controler.</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016991"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016991', '108d198a50', 'safe-comments-result-3016991');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3016991#respond' onclick='return addComment.moveForm( "div-comment-3016991", "3016991", "respond", "204297" )' aria-label='Reply to lwatcdr'>Reply</a></div>		</article><!-- .comment-body -->
+	<ol class="children">
+	<li id="comment-3017162" class="comment even depth-3 parent  highlander-comment">
+		<article id="div-comment-3017162" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">Paul Campbell</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3017162">
+						<time datetime="2016-05-10T18:42:43+00:00">
+							May 10, 2016 at 6:42 pm						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>no need for SATA do what the BB does and boot from EMMC flash</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3017162"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3017162', '108d198a50', 'safe-comments-result-3017162');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3017162#respond' onclick='return addComment.moveForm( "div-comment-3017162", "3017162", "respond", "204297" )' aria-label='Reply to Paul Campbell'>Reply</a></div>		</article><!-- .comment-body -->
+	<ol class="children">
+	<li id="comment-3017952" class="comment odd alt depth-4   highlander-comment">
+		<article id="div-comment-3017952" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">Alan</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3017952">
+						<time datetime="2016-05-11T12:44:48+00:00">
+							May 11, 2016 at 12:44 pm						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>Try saying that to a RAID controller</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3017952"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3017952', '108d198a50', 'safe-comments-result-3017952');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3017952#respond' onclick='return addComment.moveForm( "div-comment-3017952", "3017952", "respond", "204297" )' aria-label='Reply to Alan'>Reply</a></div>		</article><!-- .comment-body -->
+	</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+	<li id="comment-3016976" class="comment even thread-odd thread-alt depth-1 parent  highlander-comment">
+		<article id="div-comment-3016976" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">Mark B.</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016976">
+						<time datetime="2016-05-10T13:13:54+00:00">
+							May 10, 2016 at 1:13 pm						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>I remember thinking of this 2-3 years ago.</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016976"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016976', '108d198a50', 'safe-comments-result-3016976');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3016976#respond' onclick='return addComment.moveForm( "div-comment-3016976", "3016976", "respond", "204297" )' aria-label='Reply to Mark B.'>Reply</a></div>		</article><!-- .comment-body -->
+	<ol class="children">
+	<li id="comment-3016986" class="comment odd alt depth-2   highlander-comment">
+		<article id="div-comment-3016986" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">evad</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3016986">
+						<time datetime="2016-05-10T13:25:00+00:00">
+							May 10, 2016 at 1:25 pm						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>Yeah,</p>
+<p>Mentorel,  MYIR, etc. had a similar idea, but never got quite this small or at this price point.</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3016986"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3016986', '108d198a50', 'safe-comments-result-3016986');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3016986#respond' onclick='return addComment.moveForm( "div-comment-3016986", "3016986", "respond", "204297" )' aria-label='Reply to evad'>Reply</a></div>		</article><!-- .comment-body -->
+	</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+	<li id="comment-3017278" class="comment even thread-even depth-1   highlander-comment">
+		<article id="div-comment-3017278" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">JohnScnow</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3017278">
+						<time datetime="2016-05-10T23:46:46+00:00">
+							May 10, 2016 at 11:46 pm						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>Is ANYONE going to make one GAWD DAMNED REFERENCE of WHY? The Beagle Bones are Gud. Or Good? Ctrl-F &#8220;PRU&#8221; leads me to ZERO mentions of PRU&#8217;s. 55 comments and no mention. No mention of DAC or ACD speeds. No mention of BBBLue. </p>
+<p>How much Malathion and Model Glue did some of these folks smoke as teens? Again. Let&#8217;s get the Non-Corporate Hacker rules straight. Since lisp-tweak speak is all the couture.</p>
+<p>*Contribute a optimization or shortcut.<br />
+*Contribute a compatible extension.<br />
+*Point out a non-grammar nazi calculative error<br />
+*Suggest a possible workflow issue or work around<br />
+*Don&#8217;t shill, put down or elevate your &#8220;know-how&#8221; brand of crap.</p>
+<p><a href="https://s-media-cache-ak0.pinimg.com/736x/2d/69/62/2d6962311d038d10854fe208ffc397cb.jpg" target="_blank"><img src="https://s-media-cache-ak0.pinimg.com/736x/2d/69/62/2d6962311d038d10854fe208ffc397cb.jpg" style="max-width:100%;" /></a></p>
+<p>Sorry, Unless you explode and scream we won&#8217;t hear you.</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3017278"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3017278', '108d198a50', 'safe-comments-result-3017278');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3017278#respond' onclick='return addComment.moveForm( "div-comment-3017278", "3017278", "respond", "204297" )' aria-label='Reply to JohnScnow'>Reply</a></div>		</article><!-- .comment-body -->
+	</li><!-- #comment-## -->
+	<li id="comment-3017291" class="comment odd alt thread-odd thread-alt depth-1   highlander-comment">
+		<article id="div-comment-3017291" class="comment-body">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+										<b class="fn">Electronic Eel</b> <span class="says">says:</span>				</div><!-- .comment-author -->
+
+				<div class="comment-metadata">
+					<a href="http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#comment-3017291">
+						<time datetime="2016-05-11T00:00:43+00:00">
+							May 11, 2016 at 12:00 am						</time>
+					</a>
+									</div><!-- .comment-metadata -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>Why not use <a href="http://beaglecore.com/" rel="nofollow" target="_blank">http://beaglecore.com/</a> instead?</p>
+<p>With it&#8217;s footprint you won&#8217;t have problems with BGA fanout. It needs a bit more board space though.</p>
+			</div><!-- .comment-content -->
+			<div class="report-abuse">
+                
+			<span id="safe-comments-result-3017291"><a class="hide-if-no-js" href="javascript:void(0);" onclick="safe_report_comments_flag_comment( '3017291', '108d198a50', 'safe-comments-result-3017291');">Report comment</a></span>            </div>
+			<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://hackaday.com/2016/05/10/new-part-day-a-beaglebone-on-a-chip/?replytocom=3017291#respond' onclick='return addComment.moveForm( "div-comment-3017291", "3017291", "respond", "204297" )' aria-label='Reply to Electronic Eel'>Reply</a></div>		</article><!-- .comment-body -->
+	</li><!-- #comment-## -->
+        </ol><!-- .comment-list -->
+
+        
+    
+    
+    				<div id="respond" class="comment-respond">
+			<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/2016/05/10/new-part-day-a-beaglebone-on-a-chip/#respond" style="display:none;">Cancel reply</a></small></h3>				<form action="http://hackaday.com/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate>
+					<input type="hidden" id="highlander_comment_nonce" name="highlander_comment_nonce" value="b9f80023f3" /><input type="hidden" name="_wp_http_referer" value="/2016/05/10/new-part-day-a-beaglebone-on-a-chip/" />
+<input type="hidden" name="hc_post_as" id="hc_post_as" value="guest" />
+
+<div class="comment-form-field comment-textarea">
+	<label for="comment">Enter your comment here...</label>
+	<div id="comment-form-comment"><textarea id="comment" name="comment" title="Enter your comment here..."></textarea></div>
+</div>
+
+<div id="comment-form-identity">
+
+	<div id="comment-form-nascar">
+		<p>Fill in your details below or click an icon to log in:</p>
+		<ul>
+			<li class="selected" style="display:none;">
+				<a href="#comment-form-guest" id="postas-guest" title="Guest">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:WordPress.com" id="postas-wordpress" title="WordPress.com">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Twitter" id="postas-twitter" title="Twitter">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Facebook" id="postas-facebook" title="Facebook">
+					<span></span>
+				</a>
+			</li>
+			<li>
+		</ul>
+	</div>
+
+	<div id="comment-form-guest" class="comment-form-service selected">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+<a href="https://gravatar.com/site/signup/" target="_blank">				<img src="" alt="Gravatar" width="25" class="no-grav" />
+</a>			</div>
+
+				<div class="comment-form-fields">
+				<div class="comment-form-field comment-form-email">
+					<label for="email">Email <span class="required">(required)</span> <span class="nopublish">(Address never made public)</span></label>
+					<div class="comment-form-input"><input id="email" name="email" type="email" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-author">
+					<label for="author">Name <span class="required">(required)</span></label>
+					<div class="comment-form-input"><input id="author" name="author" type="text" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-url">
+					<label for="url">Website</label>
+					<div class="comment-form-input"><input id="url" name="url" type="text" value="" /></div>
+				</div>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-wordpress" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="" alt="WordPress.com Logo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="wp_avatar" id="wordpress-avatar" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_user_id" id="wordpress-user_id" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_access_token" id="wordpress-access_token" class="comment-meta-wordpress" value="" />
+				<p class="comment-form-posting-as pa-wordpress"><strong></strong> You are commenting using your WordPress.com account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'wordpress' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-twitter" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="" alt="Twitter picture" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="twitter_avatar" id="twitter-avatar" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_user_id" id="twitter-user_id" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_access_token" id="twitter-access_token" class="comment-meta-twitter" value="" />
+				<p class="comment-form-posting-as pa-twitter"><strong></strong> You are commenting using your Twitter account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'twitter' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-facebook" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="" alt="Facebook photo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="fb_avatar" id="facebook-avatar" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_user_id" id="facebook-user_id" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_access_token" id="facebook-access_token" class="comment-meta-facebook" value="" />
+				<p class="comment-form-posting-as pa-facebook"><strong></strong> You are commenting using your Facebook account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'facebook' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-googleplus" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="" alt="Google+ photo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="googleplus_avatar" id="googleplus-avatar" class="comment-meta-googleplus" value="" />
+				<input type="hidden" name="googleplus_user_id" id="googleplus-user_id" class="comment-meta-googleplus" value="" />
+				<input type="hidden" name="googleplus_access_token" id="googleplus-access_token" class="comment-meta-googleplus" value="" />
+				<p class="comment-form-posting-as pa-googleplus"><strong></strong> You are commenting using your Google+ account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'googleplus' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+
+	<div id="comment-form-load-service" class="comment-form-service">
+		<div class="comment-form-posting-as-cancel"><a href="javascript:HighlanderComments.cancelExternalWindow();">Cancel</a></div>
+		<p>Connecting to %s</p>
+	</div>
+
+</div>
+
+<script type="text/javascript">
+var highlander_expando_javascript = function(){
+	var input = document.createElement( 'input' ),
+	    comment = jQuery( '#comment' );
+
+	if ( 'placeholder' in input ) {
+		comment.attr( 'placeholder', jQuery( '.comment-textarea label' ).remove().text() );
+	}
+
+	// Expando Mode: start small, then auto-resize on first click + text length
+	jQuery( '#comment-form-identity' ).hide();
+	jQuery( '#comment-form-subscribe' ).hide();
+	jQuery( '#commentform .form-submit' ).hide();
+
+	comment.css( { 'height':'10px' } ).one( 'focus', function() {
+		var timer = setInterval( HighlanderComments.resizeCallback, 10 )
+		jQuery( this ).animate( { 'height': HighlanderComments.initialHeight } ).delay( 100 ).queue( function(n) { clearInterval( timer ); HighlanderComments.resizeCallback(); n(); } );
+		jQuery( '#comment-form-identity' ).slideDown();
+		jQuery( '#comment-form-subscribe' ).slideDown();
+		jQuery( '#commentform .form-submit' ).slideDown();
+	});
+}
+jQuery(document).ready( highlander_expando_javascript );
+</script>
+
+<div id="comment-form-subscribe">
+	<p class="comment-subscription-form"><input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" tabindex="6"/> <label class="subscribe-label" id="subscribe-label" for="subscribe" style="display: inline;">Notify me of new comments via email.</label></p><p class="post-subscription-form"><input type="checkbox" name="subscribe_blog" id="subscribe_blog" value="subscribe" style="width: auto;" tabindex="7"/> <label class="subscribe-label" id="subscribe-blog-label" for="subscribe_blog"  style="display: inline;">Notify me of new posts via email.</label></p></div>
+
+
+
+
+<p class="form-submit"><input name="submit" type="submit" id="comment-submit" class="submit" value="Post Comment" /> <input type='hidden' name='comment_post_ID' value='204297' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+</p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="5634d39ee9" /></p>
+<input type="hidden" name="genseq" value="1463257278" />
+<p style="display: none;"><input type="hidden" id="ak_js" name="ak_js" value="65"/></p>				</form>
+					</div><!-- #respond -->
+		<div style="clear: both"></div>
+</div><!-- #comments -->
+
+        
+        </main><!-- #main -->
+    </div><!-- #primary -->
+
+
+<div id="secondary" class="widget-area" role="complementary">
+
+    <div class="sidebar-ads-holder">
+        <script type='text/javascript'>
+            /* [id428] 300x250 */
+            OA_show(428);
+        </script>
+    </div>
+
+    <!-- store ad -->
+    <iframe class="sidebar-store-ad" scrolling="no" frameborder="0" align="top" marginwidth="0" marginheight="0" src="//search.supplyframe.com/partner/31/464/<search term>"></iframe>
+
+    <aside id="search-2" class="widget widget_search"><h1 class="widget-title">Search</h1><form role="search" method="get" class="search-form" action="http://hackaday.com/">
+				<label>
+					<span class="screen-reader-text">Search for:</span>
+					<input type="search" class="search-field" placeholder="Search &hellip;" value="" name="s" />
+				</label>
+				<input type="submit" class="search-submit" value="Search" />
+			</form></aside><aside id="hackadayfollowus-2" class="widget widget-follow-us"><h1 class="widget-title">Never miss a hack</h1>
+			<a href="https://www.facebook.com/pages/Hack-a-Day/136115233068429" target="_blank" class="icon-social icon-facebook">Follow on facebook</a>
+			<a href="https://plus.google.com/+hackaday/posts" target="_blank" class="icon-social icon-plusone">Follow on google+</a>
+			<a href="https://twitter.com/hackaday" target="_blank" class="icon-social icon-twitter">Follow on twitter</a>
+			<a href="https://www.youtube.com/user/hackaday" target="_blank" class="icon-social icon-youtube">Follow on youtube</a>
+			<a href="https://hackaday.com/blog/feed/" target="_blank" class="icon-social icon-rss">Follow on rss</a>
+			<a href="mailto:tips@hackaday.com" class="icon-social icon-contact">Contact us</a>
+		</aside><aside id="hackadaysubscribe-3" class="widget widget-had-subscribe"><h1 class="widget-title">Subscribe</h1>
+            <form role="subscribe" action="//hackaday.us9.list-manage.com/subscribe/post?u=dfadb71b0b15629cef5abf016&amp;id=f37880df9f" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="subscribe-form validate" target="_blank" novalidate>
+                <div id="mc_embed_signup_scroll">
+                <label for="mce-EMAIL">
+                    <input type="email" value="" name="EMAIL" class="subscribe-field" placeholder="Enter Email Address" id="mce-EMAIL" required>
+                </label>
+                <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+                <div style="position: absolute; left: -5000px;"><input type="text" name="b_dfadb71b0b15629cef5abf016_f37880df9f" tabindex="-1" value=""></div>
+                <input type="submit" class="subscribe-submit" id="mc-embedded-subscribe" value="Subscribe">
+                </div>
+            </form>
+		</aside><aside id="hackadayrecentposts-2" class="widget widget-recent-posts"><h1 class="widget-title">If you missed it</h1>
+	<ul>
+			<li>
+			<a href="http://hackaday.com/2016/05/13/improvised-radio-sport-with-a-ten-tec-omni-a-at-hamvention/" class="recent-image">
+						<img src="https://hackadaycom.files.wordpress.com/2016/03/radio-fire-thumb.jpg?w=300&#038;h=300" alt="">
+			</a>
+			<div class="entry-intro">
+				<h2>
+					<a href="http://hackaday.com/2016/05/13/improvised-radio-sport-with-a-ten-tec-omni-a-at-hamvention/">Two Guys, a Hotel Room and a Radio Fire</a>
+				</h2>
+				<a href="http://hackaday.com/2016/05/13/improvised-radio-sport-with-a-ten-tec-omni-a-at-hamvention//#comments" class="comment-link">
+					<span class="icon-hackaday icon-hackaday-comment"></span> 36 Comments				</a>
+			</div>
+		</li>
+			<li>
+			<a href="http://hackaday.com/2016/05/12/to-see-within-making-medical-x-rays/" class="recent-image">
+						<img src="https://hackadaycom.files.wordpress.com/2016/05/xray-thumb.jpg?w=300&#038;h=300" alt="">
+			</a>
+			<div class="entry-intro">
+				<h2>
+					<a href="http://hackaday.com/2016/05/12/to-see-within-making-medical-x-rays/">To See Within: Making Medical X-rays</a>
+				</h2>
+				<a href="http://hackaday.com/2016/05/12/to-see-within-making-medical-x-rays//#comments" class="comment-link">
+					<span class="icon-hackaday icon-hackaday-comment"></span> 43 Comments				</a>
+			</div>
+		</li>
+			<li>
+			<a href="http://hackaday.com/2016/05/12/safety-cleanliness-documentation-and-more-habits-that-make-your-work-better/" class="recent-image">
+						<img src="https://hackadaycom.files.wordpress.com/2016/05/habits-thumb.jpg?w=300&#038;h=300" alt="">
+			</a>
+			<div class="entry-intro">
+				<h2>
+					<a href="http://hackaday.com/2016/05/12/safety-cleanliness-documentation-and-more-habits-that-make-your-work-better/">Path to Craftsmanship: Safety, Cleanliness, and Documentation as Habits</a>
+				</h2>
+				<a href="http://hackaday.com/2016/05/12/safety-cleanliness-documentation-and-more-habits-that-make-your-work-better//#comments" class="comment-link">
+					<span class="icon-hackaday icon-hackaday-comment"></span> 47 Comments				</a>
+			</div>
+		</li>
+			<li>
+			<a href="http://hackaday.com/2016/05/11/looking-mains-voltage-in-the-eye-and-surviving-part-1/" class="recent-image">
+						<img src="https://hackadaycom.files.wordpress.com/2016/05/voltage-thumb.jpg?w=300&#038;h=300" alt="">
+			</a>
+			<div class="entry-intro">
+				<h2>
+					<a href="http://hackaday.com/2016/05/11/looking-mains-voltage-in-the-eye-and-surviving-part-1/">Looking Mains Voltage In The Eye And Surviving</a>
+				</h2>
+				<a href="http://hackaday.com/2016/05/11/looking-mains-voltage-in-the-eye-and-surviving-part-1//#comments" class="comment-link">
+					<span class="icon-hackaday icon-hackaday-comment"></span> 178 Comments				</a>
+			</div>
+		</li>
+			<li>
+			<a href="http://hackaday.com/2016/05/10/dont-ignore-the-artists-supply-store/" class="recent-image">
+						<img src="https://hackadaycom.files.wordpress.com/2016/04/2016-04-25-13-45-00.jpg?w=300&#038;h=300" alt="">
+			</a>
+			<div class="entry-intro">
+				<h2>
+					<a href="http://hackaday.com/2016/05/10/dont-ignore-the-artists-supply-store/">Don&#8217;t Ignore the Artist&#8217;s Supply Store</a>
+				</h2>
+				<a href="http://hackaday.com/2016/05/10/dont-ignore-the-artists-supply-store//#comments" class="comment-link">
+					<span class="icon-hackaday icon-hackaday-comment"></span> 44 Comments				</a>
+			</div>
+		</li>
+		</ul>
+	<a href="http://hackaday.com/category/featured/">More from this category</a>
+	</aside><aside id="categories-2" class="widget widget_categories"><h1 class="widget-title">Categories</h1><label class="screen-reader-text" for="cat">Categories</label><select name='cat' id='cat' class='postform' >
+	<option value='-1'>Select Category</option>
+	<option class="level-0" value="114554125">3d Printer hacks</option>
+	<option class="level-0" value="18020710">Android Hacks</option>
+	<option class="level-0" value="18020705">Arduino Hacks</option>
+	<option class="level-0" value="27981650">ARM</option>
+	<option class="level-0" value="33199679">Ask Hackaday</option>
+	<option class="level-0" value="64298109">ATtiny Hacks</option>
+	<option class="level-0" value="25122024">Beer Hacks</option>
+	<option class="level-0" value="12115263">blackberry hacks</option>
+	<option class="level-0" value="422570206">Business</option>
+	<option class="level-0" value="23971598">car hacks</option>
+	<option class="level-0" value="11894719">Cellphone Hacks</option>
+	<option class="level-0" value="35745764">chemistry hacks</option>
+	<option class="level-0" value="24483654">classic hacks</option>
+	<option class="level-0" value="31677810">clock hacks</option>
+	<option class="level-0" value="18755632">cnc hacks</option>
+	<option class="level-0" value="568165">computer hacks</option>
+	<option class="level-0" value="78428">cons</option>
+	<option class="level-0" value="5738">contests</option>
+	<option class="level-0" value="3923181">cooking hacks</option>
+	<option class="level-0" value="2588813">Crowd Funding</option>
+	<option class="level-0" value="422570209">Current Events</option>
+	<option class="level-0" value="10969032">digital audio hacks</option>
+	<option class="level-0" value="10969033">digital cameras hacks</option>
+	<option class="level-0" value="10969034">downloads hacks</option>
+	<option class="level-0" value="107827385">drone hacks</option>
+	<option class="level-0" value="63176382">Engine Hacks</option>
+	<option class="level-0" value="422570207">Engineering</option>
+	<option class="level-0" value="212825112">Fail of the Week</option>
+	<option class="level-0" value="35890">Featured</option>
+	<option class="level-0" value="551890">firefox hacks</option>
+	<option class="level-0" value="53446541">FPGA</option>
+	<option class="level-0" value="18020562">g1 hacks</option>
+	<option class="level-0" value="320557">google hacks</option>
+	<option class="level-0" value="10969036">gps hacks</option>
+	<option class="level-0" value="24535490">green hacks</option>
+	<option class="level-0" value="190105353">Hackaday Columns</option>
+	<option class="level-0" value="27311668">Hackaday links</option>
+	<option class="level-0" value="289711781">Hackaday Store</option>
+	<option class="level-0" value="21755374">Hackerspaces</option>
+	<option class="level-0" value="6310599">HackIt</option>
+	<option class="level-0" value="10969037">handhelds hacks</option>
+	<option class="level-0" value="79">hardware</option>
+	<option class="level-0" value="421979219">History</option>
+	<option class="level-0" value="66307084">Holiday Hacks</option>
+	<option class="level-0" value="10969038">home entertainment hacks</option>
+	<option class="level-0" value="5660882">home hacks</option>
+	<option class="level-0" value="2708">how-to</option>
+	<option class="level-0" value="422570204">Interest</option>
+	<option class="level-0" value="908478">internet hacks</option>
+	<option class="level-0" value="831">Interviews</option>
+	<option class="level-0" value="1416772">iphone hacks</option>
+	<option class="level-0" value="1275163">ipod hacks</option>
+	<option class="level-0" value="4157506">Kindle hacks</option>
+	<option class="level-0" value="46717088">Kinect hacks</option>
+	<option class="level-0" value="10969048">laptops hacks</option>
+	<option class="level-0" value="10969055">laser hacks</option>
+	<option class="level-0" value="18020716">led hacks</option>
+	<option class="level-0" value="10626">lifehacks</option>
+	<option class="level-0" value="729674">linux hacks</option>
+	<option class="level-0" value="20732807">lockpicking hacks</option>
+	<option class="level-0" value="10969060">macs hacks</option>
+	<option class="level-0" value="2377605">major tom</option>
+	<option class="level-0" value="11284667">Medical hacks</option>
+	<option class="level-0" value="139916">Microcontrollers</option>
+	<option class="level-0" value="5611793">misc hacks</option>
+	<option class="level-0" value="18020730">multitouch hacks</option>
+	<option class="level-0" value="22652725">musical hacks</option>
+	<option class="level-0" value="18020722">netbook hacks</option>
+	<option class="level-0" value="6166512">Network Hacks</option>
+	<option class="level-0" value="103">news</option>
+	<option class="level-0" value="1861880">nintendo ds hacks</option>
+	<option class="level-0" value="114555425">nintendo gameboy hacks</option>
+	<option class="level-0" value="18020685">nintendo hacks</option>
+	<option class="level-0" value="4992726">nintendo wii hacks</option>
+	<option class="level-0" value="118011206">Nook Hacks</option>
+	<option class="level-0" value="422570205">Original Art</option>
+	<option class="level-0" value="114556430">palm pre hacks</option>
+	<option class="level-0" value="245123">parts</option>
+	<option class="level-0" value="10969081">peripherals hacks</option>
+	<option class="level-0" value="16325149">phone hacks</option>
+	<option class="level-0" value="10969088">playstation hacks</option>
+	<option class="level-0" value="2060">podcasts</option>
+	<option class="level-0" value="10969096">portable audio hacks</option>
+	<option class="level-0" value="10969099">portable video hacks</option>
+	<option class="level-0" value="588444">psp hacks</option>
+	<option class="level-0" value="23971578">radio hacks</option>
+	<option class="level-0" value="47">rants</option>
+	<option class="level-0" value="69218551">Raspberry Pi</option>
+	<option class="level-0" value="21870780">repair hacks</option>
+	<option class="level-0" value="212824350">Retrotechtacular</option>
+	<option class="level-0" value="309">reviews</option>
+	<option class="level-0" value="10969101">robots hacks</option>
+	<option class="level-0" value="30302">roundup</option>
+	<option class="level-0" value="10969111">security hacks</option>
+	<option class="level-0" value="422570203">Skills</option>
+	<option class="level-0" value="268522">slider</option>
+	<option class="level-0" value="2301">Software Development</option>
+	<option class="level-0" value="3796421">software hacks</option>
+	<option class="level-0" value="10969116">solar hacks</option>
+	<option class="level-0" value="10969121">tablet pcs hacks</option>
+	<option class="level-0" value="3075183">teardown</option>
+	<option class="level-0" value="12936984">Tech Hacks</option>
+	<option class="level-0" value="227104736">The Hackaday Prize</option>
+	<option class="level-0" value="10969130">tool hacks</option>
+	<option class="level-0" value="25277004">toy hacks</option>
+	<option class="level-0" value="10969134">transportation hacks</option>
+	<option class="level-0" value="1">Uncategorized</option>
+	<option class="level-0" value="3184456">video hacks</option>
+	<option class="level-0" value="34942364">Virtual Reality</option>
+	<option class="level-0" value="50802420">weapons hacks</option>
+	<option class="level-0" value="12552193">wearable hacks</option>
+	<option class="level-0" value="39510952">Weekly roundup</option>
+	<option class="level-0" value="4891215">wireless hacks</option>
+	<option class="level-0" value="7079455">xbox hacks</option>
+</select>
+
+<script type='text/javascript'>
+/* <![CDATA[ */
+(function() {
+	var dropdown = document.getElementById( "cat" );
+	function onCatChange() {
+		if ( dropdown.options[ dropdown.selectedIndex ].value > 0 ) {
+			location.href = "http://hackaday.com/?cat=" + dropdown.options[ dropdown.selectedIndex ].value;
+		}
+	}
+	dropdown.onchange = onCatChange;
+})();
+/* ]]> */
+</script>
+
+</aside><aside id="hackadayrecentposts-3" class="widget widget-recent-posts"><h1 class="widget-title">Our Columns</h1>
+	<ul>
+			<li>
+			<a href="http://hackaday.com/2016/05/14/hacklet-107-3d-printing-projects/" class="recent-image">
+						<img src="https://hackadaycom.files.wordpress.com/2015/02/hacklet-thumb.png?w=300&#038;h=300" alt="">
+			</a>
+			<div class="entry-intro">
+				<h2>
+					<a href="http://hackaday.com/2016/05/14/hacklet-107-3d-printing-projects/">Hacklet 107 &#8211; 3D Printing Projects</a>
+				</h2>
+				<a href="http://hackaday.com/2016/05/14/hacklet-107-3d-printing-projects//#comments" class="comment-link">
+					<span class="icon-hackaday icon-hackaday-comment"></span> 1 Comment				</a>
+			</div>
+		</li>
+			<li>
+			<a href="http://hackaday.com/2016/05/13/phoenix-perry-forward-futures/" class="recent-image">
+						<img src="https://hackadaycom.files.wordpress.com/2016/05/perry_4_thumbnail.png?w=300&#038;h=300" alt="">
+			</a>
+			<div class="entry-intro">
+				<h2>
+					<a href="http://hackaday.com/2016/05/13/phoenix-perry-forward-futures/">Phoenix Perry: Forward Futures</a>
+				</h2>
+				<a href="http://hackaday.com/2016/05/13/phoenix-perry-forward-futures//#comments" class="comment-link">
+					<span class="icon-hackaday icon-hackaday-comment"></span> 34 Comments				</a>
+			</div>
+		</li>
+			<li>
+			<a href="http://hackaday.com/2016/05/11/mike-szczys-ends-8-bit-vs-32-bit-holy-war/" class="recent-image">
+						<img src="https://hackadaycom.files.wordpress.com/2016/05/mike_talk_5_thumbnail1.png?w=300&#038;h=300" alt="">
+			</a>
+			<div class="entry-intro">
+				<h2>
+					<a href="http://hackaday.com/2016/05/11/mike-szczys-ends-8-bit-vs-32-bit-holy-war/">Mike Szczys Ends 8-Bit vs 32-Bit Holy War!</a>
+				</h2>
+				<a href="http://hackaday.com/2016/05/11/mike-szczys-ends-8-bit-vs-32-bit-holy-war//#comments" class="comment-link">
+					<span class="icon-hackaday icon-hackaday-comment"></span> 101 Comments				</a>
+			</div>
+		</li>
+			<li>
+			<a href="http://hackaday.com/2016/05/11/open-robots-with-open-roberta/" class="recent-image">
+						<img src="https://hackadaycom.files.wordpress.com/2016/04/roberta_tn.png?w=300&#038;h=300" alt="">
+			</a>
+			<div class="entry-intro">
+				<h2>
+					<a href="http://hackaday.com/2016/05/11/open-robots-with-open-roberta/">Open Robots with Open Roberta</a>
+				</h2>
+				<a href="http://hackaday.com/2016/05/11/open-robots-with-open-roberta//#comments" class="comment-link">
+					<span class="icon-hackaday icon-hackaday-comment"></span> 9 Comments				</a>
+			</div>
+		</li>
+			<li>
+			<a href="http://hackaday.com/2016/05/11/peachy-printer-collapses-investor-built-a-house-instead-of-a-printer/" class="recent-image">
+						<img src="https://hackadaycom.files.wordpress.com/2015/02/crowdfunding-thumb.jpg?w=300&#038;h=300" alt="">
+			</a>
+			<div class="entry-intro">
+				<h2>
+					<a href="http://hackaday.com/2016/05/11/peachy-printer-collapses-investor-built-a-house-instead-of-a-printer/">Peachy Printer Collapses, Investor Built A House Instead Of A Printer</a>
+				</h2>
+				<a href="http://hackaday.com/2016/05/11/peachy-printer-collapses-investor-built-a-house-instead-of-a-printer//#comments" class="comment-link">
+					<span class="icon-hackaday icon-hackaday-comment"></span> 153 Comments				</a>
+			</div>
+		</li>
+		</ul>
+	<a href="http://hackaday.com/category/hackaday-columns/">More from this category</a>
+	</aside><aside id="recent-comments-2" class="widget widget_recent_comments"><h1 class="widget-title">Recent comments</h1>				<ul id="recentcomments">
+											<li class="recentcomments">
+							Mark on <a href="http://hackaday.com/2016/05/14/custom-case-lends-retro-look-to-smart-tv/#comment-3020626">Custom Case Lends Retro Look to Smart TV</a>						</li>
+
+												<li class="recentcomments">
+							Marty on <a href="http://hackaday.com/2016/05/07/software-defined-radio-app-store/#comment-3020625">Software Defined Radio App Store</a>						</li>
+
+												<li class="recentcomments">
+							Dave on <a href="http://hackaday.com/2016/05/13/captain-americas-mighty-shield-features-electromagnets/#comment-3020622">Captain America&#8217;s Mighty Shield with 7200N of Powerful Electromagnets!</a>						</li>
+
+												<li class="recentcomments">
+							Dax on <a href="http://hackaday.com/2016/05/14/hacklet-107-3d-printing-projects/#comment-3020621">Hacklet 107 &#8211; 3D Printing Projects</a>						</li>
+
+												<li class="recentcomments">
+							awall99 on <a href="http://hackaday.com/2016/05/14/custom-case-lends-retro-look-to-smart-tv/#comment-3020617">Custom Case Lends Retro Look to Smart TV</a>						</li>
+
+												<li class="recentcomments">
+							<a href='http://whatthegell.wordpress.com' rel='external nofollow' class='url'>codexslartibartfast</a> on <a href="http://hackaday.com/2016/05/14/stealthy-mortar-board-unleashes-bling-at-graduation-ceremony/#comment-3020615">Stealthy Mortar Board Unleashes Bling at Graduation Ceremony</a>						</li>
+
+												<li class="recentcomments">
+							<a href='http://www.ekriirke.com/' rel='external nofollow' class='url'>Erik Johnson</a> on <a href="http://hackaday.com/2016/05/13/were-headed-to-maker-faire-will-you-be-there/#comment-3020614">We&#8217;re Headed to Maker Faire, Will You Be There?</a>						</li>
+
+												<li class="recentcomments">
+							Chris on <a href="http://hackaday.com/2016/05/14/hackaday-at-hamvention/#comment-3020605">Hackaday At Hamvention</a>						</li>
+
+												<li class="recentcomments">
+							<a href='http://chronology.weebly.com' rel='external nofollow' class='url'>gmg</a> on <a href="http://hackaday.com/2016/04/27/slim-and-classy-word-clock-shows-the-weather-too/#comment-3020598">Slim and Classy Word Clock Shows the Weather Too</a>						</li>
+
+												<li class="recentcomments">
+							<a href='http://twitter.com/j0nlussier' rel='external nofollow' class='url'>Jon Lussier (@j0nlussier)</a> on <a href="http://hackaday.com/2016/05/13/hackaday-prize-entry-a-low-cost-robot-arm/#comment-3020591">Hackaday Prize Entry: A Low-Cost Robot Arm</a>						</li>
+
+										</ul>
+				</aside><aside id="hackadayfeed-2" class="widget widget-hackaday-feed"><h1 class="widget-title">Now on Hackaday.io</h1>
+			<ul>
+									<li><a href="http://www.hackaday.io/project/11346-Coffee%20Maker%20Delta%203D%20Printer">Aaron Shaw liked Coffee Maker Delta 3D Printer.</a></li>
+										<li><a href="http://www.hackaday.io/project/11522-Pinout%20Gallery#j-discussion-56468">Mark wrote a reply on Pinout Gallery.</a></li>
+										<li><a href="http://www.hackaday.io/project/11346-Coffee%20Maker%20Delta%203D%20Printer">jcchurch has updated components for the project titled Coffee Maker Delta 3D Printer.</a></li>
+										<li><a href="http://www.hackaday.io/project/11661-Astral%20AR">Psaeva01 liked Astral AR.</a></li>
+										<li><a href="http://www.hackaday.io/project/9992-Low%20Cost%20VGA%20Terminal%20Module">auclark1800 liked Low Cost VGA Terminal Module.</a></li>
+										<li><a href="http://www.hackaday.io/project/1677-SolarSurfer">mati15000 liked SolarSurfer.</a></li>
+										<li><a href="http://www.hackaday.io/project/11346-Coffee%20Maker%20Delta%203D%20Printer">Jarrett liked Coffee Maker Delta 3D Printer.</a></li>
+										<li><a href="http://www.hackaday.io/project/1797-autoCut">greg.guzman12 liked autoCut.</a></li>
+										<li><a href="http://www.hackaday.io/project/9461-LiFePO4wered/Pi">migel628 liked LiFePO4wered/Pi.</a></li>
+										<li><a href="http://www.hackaday.io/project/10537-linear%20stepper%20motor%203d%20printer">auclark1800 liked linear stepper motor 3d printer.</a></li>
+						</ul>
+	</aside>
+    <div class="sidebar-ads-holder">
+        <script type='text/javascript'>
+            /* [id427] 160x600 */
+            OA_show(427);
+        </script>
+    </div>
+
+</div><!-- #secondary -->
+
+    </div><!-- #content -->
+
+</div><!-- #page -->
+
+<footer id="colophon" class="site-footer" role="contentinfo">
+    <div id="footer" class="site-footer-container">
+
+        <a href="http://hackaday.com/" rel="home">
+            <img src="https://s0.wp.com/wp-content/themes/vip/hackaday-2/img/logo.png" alt="Logo" class="logo-img">
+        </a>
+
+        <div class="menu-footer-menu-container"><ul id="menu-footer-menu" class="menu"><li id="menu-item-141410" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-141410"><a href="http://hackaday.com/">Home</a></li>
+<li id="menu-item-141411" class="menu-item menu-item-type-post_type menu-item-object-page current_page_parent menu-item-141411"><a href="http://hackaday.com/blog/">Blog</a></li>
+<li id="menu-item-141412" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-141412"><a href="http://hackaday.io">Hackaday.io</a></li>
+<li id="menu-item-141413" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-141413"><a href="http://store.hackaday.com">Store</a></li>
+<li id="menu-item-141414" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-141414"><a title="Build Something that Matters" href="http://hackaday.io/prize">Hackaday Prize</a></li>
+<li id="menu-item-152823" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-152823"><a href="http://www.youtube.com/user/hackaday/videos">Video</a></li>
+<li id="menu-item-141415" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-141415"><a href="http://hackaday.com/submit-a-tip/">Submit a tip</a></li>
+<li id="menu-item-141417" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-141417"><a href="https://hackadaycom.wordpress.com/about/">About</a></li>
+<li id="menu-item-141418" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-141418"><a href="http://hackaday.com/contact-us/">Contact us</a></li>
+</ul></div>
+        <aside id="hackadayfollowus-3" class="widget widget-follow-us"><h1 class="footer-widget-title">Never miss a hack</h1>
+			<a href="https://www.facebook.com/pages/Hack-a-Day/136115233068429" target="_blank" class="icon-social icon-facebook">Follow on facebook</a>
+			<a href="https://plus.google.com/+hackaday/posts" target="_blank" class="icon-social icon-plusone">Follow on google+</a>
+			<a href="https://twitter.com/hackaday" target="_blank" class="icon-social icon-twitter">Follow on twitter</a>
+			<a href="https://www.youtube.com/user/hackaday" target="_blank" class="icon-social icon-youtube">Follow on youtube</a>
+			<a href="https://hackaday.com/blog/feed/" target="_blank" class="icon-social icon-rss">Follow on rss</a>
+			<a href="mailto:tips@hackaday.com" class="icon-social icon-contact">Contact us</a>
+		</aside><aside id="hackadaysubscribe-2" class="widget widget-had-subscribe"><h1 class="footer-widget-title">Subscribe to Newsletter</h1>
+            <form role="subscribe" action="//hackaday.us9.list-manage.com/subscribe/post?u=dfadb71b0b15629cef5abf016&amp;id=f37880df9f" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="subscribe-form validate" target="_blank" novalidate>
+                <div id="mc_embed_signup_scroll">
+                <label for="mce-EMAIL">
+                    <input type="email" value="" name="EMAIL" class="subscribe-field" placeholder="Enter Email Address" id="mce-EMAIL" required>
+                </label>
+                <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+                <div style="position: absolute; left: -5000px;"><input type="text" name="b_dfadb71b0b15629cef5abf016_f37880df9f" tabindex="-1" value=""></div>
+                <input type="submit" class="subscribe-submit" id="mc-embedded-subscribe" value="Subscribe">
+                </div>
+            </form>
+		</aside>
+        <div class="site-info">
+            Copyright &copy; 2016            <span class="sep"> | </span>
+            <strong>Hackaday, Hack A Day, and the Skull and Wrenches Logo are Trademarks of Hackaday.com</strong>
+            <br />Powered by <a href="https://vip.wordpress.com/?utm_source=vip_powered_wpcom&#038;utm_medium=web&#038;utm_campaign=VIP%20Footer%20Credit" rel="generator nofollow" class="powered-by-wpcom">WordPress.com VIP</a>        </div><!-- .site-info -->
+
+    </div>
+</footer><!-- #colophon -->
+
+<img src="//analytics.supplyframe.com/trackingservlet/impression?action=pageImpression&amp;zone=HDay_article&amp;extra=title%3DNew+Part+Day%3A+A+BeagleBone+On+A+Chip" id="hdTrack" class="trackImg"><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-42734042-1', 'auto');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>
+<!-- Start Quantcast tag -->
+<script type="text/javascript">
+_qoptions={
+qacct:"p-cc6zkdHuZwUDM"
+};
+</script>
+<script type="text/javascript"
+src="//edge.quantserve.com/quant.js"></script>
+<noscript>
+<img src="//pixel.quantserve.com/pixel/p-cc6zkdHuZwUDM.gif"
+style="display: none;" border="0" height="1" width="1"
+alt="Quantcast"/>
+</noscript>
+
+<!-- wpcom_wp_footer -->
+	<div style="display:none">
+	</div>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var HighlanderComments = {"loggingInText":"Logging In\u2026","submittingText":"Posting Comment\u2026","postCommentText":"Post Comment","connectingToText":"Connecting to %s","commentingAsText":"%1$s: You are commenting using your %2$s account.","logoutText":"Log Out","loginText":"Log In","connectURL":"https:\/\/hackadaycom.wordpress.com\/public.api\/connect\/?action=request","logoutURL":"https:\/\/hackadaycom.wordpress.com\/wp-login.php?action=logout&_wpnonce=7e28590d29","homeURL":"http:\/\/hackaday.com\/","postID":"204297","gravDefault":"mystery","enterACommentError":"Please enter a comment","enterEmailError":"Please enter your email address here","invalidEmailError":"Invalid email address","enterAuthorError":"Please enter your name here","gravatarFromEmail":"This picture will show whenever you leave a comment. Click to customize it.","logInToExternalAccount":"Log in to use details from one of these accounts.","change":"Change","changeAccount":"Change Account","comment_registration":"","userIsLoggedIn":"","isJetpack":"0","text_direction":"ltr"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s0.wp.com/_static/??/wp-content/js/jquery/jquery.autoresize.js,/wp-content/mu-plugins/highlander-comments/script.js?m=1462457903j'></script>
+<script type='text/javascript' src='https://s1.wp.com/wp-content/mu-plugins/akismet-3.0/_inc/form.js?m=1404442431h'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var wpcomVipAnalytics = {"is_404":"0","is_home":"0","is_single":"1","is_front_page":"0","is_archive":"0","percentToTrack":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s0.wp.com/_static/??-eJyNkFuuwjAMRDeEG1FeX+iuJXIMdR5ObpMUunsCSAiBkCr5b87M2FaXBBilkBRlszI0MVK6djav1JsUKiRfzyxZeXaU1X+lSoMW42n8hMtAoSETJzVodNroGfp7uuiJz7pwlMWW7DiBZ3FwilgznPhrt99ez+gW07adNM6dieU5y2tw5PTCWdBX08CmYAyhWWGk5Ocu8NfZb2/t4Z5sHwWgRfu5MOZm+AvH9XZ32PS7/WFrb6/hnlk='></script>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script><script src="//stats.wp.com/w.js?52" type="text/javascript" async defer></script>
+<script type="text/javascript">
+_tkq = window._tkq || [];
+_stq = window._stq || [];
+_tkq.push(['storeContext', {'blog_id':'4779443','blog_tz':'-7','user_lang':'en','blog_lang':'en','user_id':'0'}]);
+_stq.push(['view', {'blog':'4779443','v':'wpcom','tz':'-7','user_id':'0','post':'204297','subd':'hackadaycom'}]);
+function st_vt() {var x=document.createElement("img");x.src="http://pixel.wp.com/g.gif?blog=4779443&v=wpcomvt&tz=-7&user_id=0&post=204297&subd=hackadaycom&rand="+Math.random();}
+_stq.push(['extra', {'crypt':'UE40eW5QN0p8M2Y/RE1BNmNJfGhxNCVxUDExYmtib2E/SzdEJm0lUEtbdFU0fFk4cHZvcUFrZT90Tn4yQm1+R3NyNTdkRXFNdWdRL28yNk8rbmNjbWVqU35PYUcuJnlOQ3EmcVpVVis9T2dqY0ZCN21FUT0lMlttTV8zfkFfJjJYTix6cVpWa2VyRjBXJWpYOFtvLWcsJVJOMStRWXEtWGMxfGxleUVXcTNycVRjQ3QlNUtldFJpaktaSE4rQ2E/TX41PXhiNjA2WHJvZEZ4cktGaj9Lblg/NVl1LkQ4LnhYZmFDekpFYiVFWHElXWNwSUI3eX5vTkxQS0RUR2Q9MTFUbWNBNEJmQm89WyxXNl8wanJZL0VKaVVqTUMuNmg='}]);
+_stq.push([ 'clickTrackerInit', '4779443', '204297' ]);
+	</script>
+<noscript><img src="http://pixel.wp.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /></noscript>
+<script>
+if ( 'object' === typeof wpcom_mobile_user_agent_info ) {
+
+	wpcom_mobile_user_agent_info.init();
+	var mobileStatsQueryString = "";
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedPlatformName )
+		mobileStatsQueryString += "&x_" + 'mobile_platforms' + '=' + wpcom_mobile_user_agent_info.matchedPlatformName;
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedUserAgentName )
+		mobileStatsQueryString += "&x_" + 'mobile_devices' + '=' + wpcom_mobile_user_agent_info.matchedUserAgentName;
+	
+	if( wpcom_mobile_user_agent_info.isIPad() )
+		mobileStatsQueryString += "&x_" + 'ipad_views' + '=' + 'views';
+
+	if( "" != mobileStatsQueryString ) {
+		new Image().src = document.location.protocol + '//pixel.wp.com/g.gif?v=wpcom-no-pv' + mobileStatsQueryString + '&baba=' + Math.random();
+	}
+	
+}
+</script>
+</body>
+</html>
+<!--
+	generated 100 seconds ago
+	generated in 0.451 seconds
+	served from batcache in 0.002 seconds
+	expires in 200 seconds
+-->

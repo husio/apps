@@ -1,0 +1,13 @@
+The current crop of ARM single board computers have a lot in common. Everything from the Odroid to the Raspberry Pi are built around Systems on a Chip, a piece of silicon that has just about everything you need to build a bare minimum board. You won’t find many hardware hackers playing around with these chips, though. That would require putting some RAM on the board, and some other high-speed connectors. Until now, the only people building these ARM boards were Real Engineers™, with a salary commensurate of their skills.
+This is now about to change. Octavo Systems has launched a new product that’s more or less 
+a BeagleBone on a chip
+. If you can handle putting a PCB with a BGA package in a toaster oven, you too can build your own ARM single board computer running Linux.
+Octavo’s new System in Package is the OSD335x family, featuring a Texas Instruments AM335x ARM Cortex A8 CPU, up to 1GB of DDR3, and peripherals that include 114 GPIOs, 6 UARTs, 2 SPIs, 2 I2Cs, 2x Gigabit Ethernet, and USB.
+The chips used in commercially available single board computers like the Pi and BeagleBone have hundreds of passive components sprinkled around the board. This makes designing one of these single board computers challenging, to say nothing about actually assembling the thing. Octavo is baking a bunch of these resistors, capacitors, and inductors right into this chip, allowing for extremely minimal boards running Linux. [Jason Kridner] – the BeagleBone guy – 
+is working on a PocketBone
+, a full-fledged Linux computer that will fit inside an Altoids tin.
+Of course, with this degree of integration, a BeagleBone on a chip won’t be cheap. The first part number of this family to be released, with the AM3358 CPU and 1GB of RAM, 
+sells for $50 in quantity one
+Still, this is something we haven’t seen before. It’s a Linux computer on a chip that 
+anyone
+ can use. There is an Eagle symbol for this module. This is a chip designed for hardware hackers, and we can’t wait to see what people using this chip will come up with.

@@ -1,0 +1,933 @@
+What are your main use cases and go to questions for Echo? How effective and useful it is?
+For those who also have Cortana/Siri/Google and Echo which one is most useful?
+
+          
+jordanarseno
+ 
+2 hours ago
+ 
+          
+
+                  
+
+                  
+I wrote a custom skill so I can say "Alexa, ask the bus stop, when is the next bus?" ... and she responds "x minutes" for the bus-stop outside my house. I use it everyday - such a time saver!
+
+              
+reply
+
+      
+
+          
+archgoon
+ 
+1 hour ago
+ 
+          
+
+                  
+
+                  
+For those interested, here's an integration with Alexa and One Bus Away, with instructions on how to build your own skill that uses the library.
+https://github.com/OneBusAway/onebusaway-alexa
+
+              
+reply
+
+      
+
+          
+samstave
+ 
+2 hours ago
+ 
+          
+
+                  
+
+                  
+Share please
+
+              
+reply
+
+      
+
+          
+jorde
+ 
+36 minutes ago
+ 
+          
+
+                  
+
+                  
+I never got into the habit of using Siri as it requires more interaction and voice recognition success rate with my light accent is somewhere around 75%.
+Echo on the other hand is awesome and picks up commands way better and knows more answers. My regular use cases are limited to timers, alarms, listening podcasts and dimming lights with Philips Hue.
+I wrote my own skill to return arriving bus schedules. It was surprisingly easy with Lambda and I open sourced the code with a tutorial: 
+https://github.com/jorilallo/muni-alexa-skill
+ Disclaimer: code is somewhat sloppy as I wrote it in ~1h based on Amazon's tutorials :)
+When it comes to skills, the Alexa app is horrible: very flaky and buggy, clearly Cortana (not native) and there's basically no discovery for skills. There's some great reddit threads where people list good skills.
+
+              
+reply
+
+    
+
+          
+BrentOzar
+ 
+2 hours ago
+ 
+          
+
+                  
+
+                  
+Kitchen appliance, basically. Timer, play music, listen to news, add stuff to my shopping list.
+The kitchen is the perfect spot for it because my phone and tablet are usually in the living room or on their chargers in my bedroom, and Siri doesn't work anywhere near as well in a big, noisy area like a kitchen. The microphone is so much more accurate and reliable than the Apple Watch on my wrist (which doesn't say much, because the Watch is so bad at this sort of thing.)
+
+              
+reply
+
+      
+
+          
+dreamsofdragons
+ 
+2 hours ago
+ 
+          
+
+                  
+
+                  
+Interesting, my Apple Watch is virtually perfect.  It actually really surprised me the other day, I was listening to Dan Carlin's Hardcore History the other day, and forgot what a satrap was, and it wasn't clear from the context.  Paused the podcast, asked what a satrap was, and it returned a definition.
+
+              
+reply
+
+      
+
+          
+balls187
+ 
+2 hours ago
+ 
+          
+
+                  
+
+                  
+Works great for timer, music, and daily news!
+
+              
+reply
+
+      
+
+          
+dcosson
+ 
+2 hours ago
+ 
+          
+
+                  
+
+                  
+I have the echo hooked up to a Harmony Hub[0], it's a universal remote that controls devices via IR or wifi that the echo can trigger via IFTTT. The Harmony Hub UX is annoyingly overdesigned IMO which makes it more complicated than it should be, but it still works pretty well. I can use it to turn up/down the volume of the tv, hit pause on the Apple TV when I get up to do something, turn on/off the fan if I get hot/cold, etc.
+The TV use is pretty neat since it takes so many clicks to navigate those menus. I'm hoping the echo will integrate natively with Apple TV or Fire TV, it would be sweet to be able to say "Alexa, play the latest Game of Thrones" and have it just start.
+http://www.logitech.com/en-us/product/harmony-hub
+
+              
+reply
+
+          
+bilalq
+ 
+1 hour ago
+ 
+          
+
+                  
+
+                  
+How are you able to do fine-grained actions like volume control and pause through Alexa? The IFTTT channel for Harmony seems to only have start/stop activity options. Do you have a skill hitting a server running in the background that makes API calls to your hub maybe?
+
+              
+reply
+
+      
+
+          
+dcosson
+ 
+13 minutes ago
+ 
+          
+
+                  
+
+                  
+No separate pieces. You can kind of hack it so that single actions are set up as an activity, i.e. one activity is turn it on, a separate activity is turn it on then hit volume up 5 times, separate one for volume down, separate one for play/pause, etc. In harmony's settings for the tv you have to set it not to manage the off state so it won't turn off the tv when you switch to volume up.
+It could be so much simpler, they really overcomplicated it
+
+              
+reply
+
+      
+
+          
+oogali
+ 
+1 hour ago
+ 
+          
+
+                  
+
+                  
+Initially, my wife and I just used it for weather, music, and to occasionally order an Uber.
+But we just had a newborn, so I built a custom skill for us to serve as log of our son's activities. So our primary use is now that.
+https://www.youtube.com/watch?v=7CqBmjxOFCQ
+https://www.youtube.com/watch?v=UHaTUm9sQpM
+The first custom skill I wrote that calls out to an API to do CNAM (caller ID) lookups. So when I get calls from a weird number, I can quickly get the corresponding name (if there is one). This was mainly an exercise to see how Alexa/Echo would pronounce various names and abbreviations.
+
+              
+reply
+
+          
+ohazi
+ 
+2 hours ago
+ 
+          
+
+                  
+
+                  
+I don't. I think people who do are crazy.
+
+              
+reply
+
+      
+
+          
+dreamcompiler
+ 
+2 hours ago
+ 
+          
+
+                  
+
+                  
+Judgmental tone notwithstanding, I resonate with this. The idea of an always-on, always-connected gizmo that I can't audit and that listens to everything in my house gives me the creeps. Why are security-aware people not bothered by this idea? Am I missing something?
+
+              
+reply
+
+      
+
+          
+archgoon
+ 
+1 hour ago
+ 
+          
+
+                  
+
+                  
+Hi,
+The echo does allow you to see a history of all previous recordings sent to Amazon (Settings > History), along with the actual voice samples that were sent.
+Now granted, I don't think you'd be able to ensure that all packets that were sent corresponded to what is displayed there, but you can estimate it based on the sizes of packets and maximum data that 
+ be sent. Would a proxy server that you controlled resolve your concerns? Or is it more "I don't know what's happening on the backend"?
+
+              
+reply
+
+          
+wepple
+ 
+1 hour ago
+ 
+          
+
+                  
+
+                  
+> Why are security-aware people not bothered by this idea?
+I personally don't think we can stop the tide of devices like this. I'm very selective about which devices & services I choose to partake in.
+This is where I believe we can have some potential (if minimal) input. Granted, once it's in 'the cloud' we've lost all control, but at a minimum I think we're going to continue to see a rise in tooling to be able to critically assess the devices we have in our lives.
+
+              
+reply
+
+    
+
+          
+endergen
+ 
+49 minutes ago
+ 
+          
+
+                  
+
+                  
+Do you not use a mobile phone? An always on device that has a 4G connection and is strapped to your body?
+
+              
+reply
+
+      
+
+          
+cylinder
+ 
+1 hour ago
+ 
+          
+
+                  
+
+                  
+It seems like one more thing to worry about. I don't see the point. I'd much rather someone invent a way for my dishwasher to load itself.
+
+              
+reply
+
+      
+
+          
+ams6110
+ 
+1 hour ago
+ 
+          
+
+                  
+
+                  
+I also don't and don't ever plan to get one. I don't have any home automation devices of any kind, as the ones I have tried (thermostats, mostly) have been abjectly useless and only made my life more complicated and frustrating.
+As to crazy, I'm more of the "to each his own."
+
+              
+reply
+
+      
+
+          
+WesleyJohnson
+ 
+2 hours ago
+ 
+          
+
+                  
+
+                  
+Same as was most everyone else has listed: kitchen timer, play music, occasionally ask her the time. A new skill was recently released that lets you control your alarm.com system and I have Vivint (ugh) which is backed by Alarm.com so it works. I've played with that a bit, but not as much I'd like. Oh and  shopping list from time to time, but the mobile app is terrible so it's not much fun to use once you're actually in the store and trying to shop.
+
+              
+reply
+
+      
+
+          
+asimuvPR
+ 
+2 hours ago
+ 
+          
+
+                  
+
+                  
+. Beautiful. :)
+
+              
+reply
+
+      
+
+          
+ams6110
+ 
+1 hour ago
+ 
+          
+
+                  
+
+                  
+Hm yes, a female that is utterly servile and obedient. Perfect.
+
+              
+reply
+
+      
+
+          
+asimuvPR
+ 
+1 hour ago
+ 
+          
+
+                  
+
+                  
+Her, as in a machine to which I have developed an emotional connection which 
+ to have a female name as it's own. The tie is between the name Alexa and the user. Had amazon named it AZ5000, this person would probably have called it 
+. But 
+ shows a bond. One which is uncommon between humans and machines.
+My comment is on the beauty of the bond between the user and the machine. Do not read anymore into it or give it negative connotations.
+
+              
+reply
+
+      
+
+          
+melloclello
+ 
+9 minutes ago
+ 
+          
+
+                  
+
+                  
+I think perhaps I would be more comfortable with a Star Wars droid style name like 'AZ', tbh
+
+              
+reply
+
+      
+
+          
+ams6110
+ 
+37 minutes ago
+ 
+          
+
+                  
+
+                  
+Fair enough. My reply was sarcastic BTW, but highlighting that Amazon chose to give a female name and persona to a device that does what it is told without question. Is it possible to reassign its gender and call it "Alex" and give it a male voice?
+I do think that emotional bonds between humans and machines are fundamently unhealthy, but that's got a long history so it's nothing new (e.g. sailors calling their ships "her").
+
+              
+reply
+
+      
+
+          
+asimuvPR
+ 
+26 minutes ago
+ 
+          
+
+                  
+
+                  
+I apologize for not understanding your response as sarcastic.
+
+              
+reply
+
+      
+
+          
+kogir
+ 
+17 minutes ago
+ 
+          
+
+                  
+
+                  
+I listen to my flash briefing (news podcasts/summaries) every morning, and occasionally reorder bulk items like paper towels and toilet paper.
+
+              
+reply
+
+      
+
+          
+bilalq
+ 
+1 hour ago
+ 
+          
+
+                  
+
+                  
+I've been meaning to expand Alexa's abilities to be more tailored to my life, but in the meantime, these are the things I use:
+  * Light control through Philips Hue: "Alexa, turn on lamps", "Alexa, dim hallway lights to 50%"
+  * Assistance when cooking: "Alexa, start a 5 minute timer", "Alexa, how many teaspoons are in a tablespoon?", "Alexa how many grams are in an ounce?"
+  * Entertainment control through Logitech Harmony Hub & IFTTT: "Alexa, trigger Netflix", "Alexa, trigger FireTV", "Alexa, trigger shutdown"
+  * Getting ready: "Alexa, how's the weather?", "Alexa, will it rain tomorrow?"
+  * Easy music controls: "Alexa, play some music", "Alexa, play songs by Imagine Dragons", "Alexa turn it [up|down]"
+  * Enabling laziness:
+    * When I wake up but don't want to open my eyes: "Alexa, what time is it?"
+    * When I'm already in bed and want to close lights, TV, etc...: "Alexa trigger naptime"
+
+
+Things I wish I could do (and probably could do if I spent the time to make it so):
+  * Control colors/scenes on my Hue lights: "Alexa, set the scene to warm", "Alexa, set the scene to variety"
+  * Use fine-grained controls on my TV and devices: "Alexa, play Daredevil on Netflix", "Alexa, turn down the TV volume by 5"
+
+              
+reply
+
+          
+curiousDog
+ 
+2 hours ago
+ 
+          
+
+                  
+
+                  
+I have the echo. For me, the annoying part is when you play music at a slightly loud volume, it can't hear you anymore. So i have to physically go up to the device (I didn't buy the remote). Other than that, I also use it to add household items to my shopping list.
+
+              
+reply
+
+      
+
+          
+epaulson
+ 
+2 hours ago
+ 
+          
+
+                  
+
+                  
+Weather, kitchen timer/alarm to start something at a specific time, control a few LIFX bulbs, the common household shopping list, a bluetooth speaker. Occasional sports scores.
+The microphone is really good and I can talk to it from a room over, so it's the sort of thing I can ask it about the weather as I'm walking to the door to put the leash on the dog and not break my stride.
+I wish the Amazon shopping list had a better API, because I'd like to use that list for things outside of the Echo app.
+
+              
+reply
+
+          
+matchagaucho
+ 
+34 minutes ago
+ 
+          
+
+                  
+
+                  
+A typical day:
+
+              
+reply
+
+          
+echelon
+ 
+2 hours ago
+ 
+          
+
+                  
+
+                  
+I use it to set alarms, control my lighting, and check the weather. I find it kind of useless for music since it doesn't have a lot of the bands I listen to (it only plays "samples"), and it usually cycles the worst tracks first for some reason. I wish it would integrate with Google Play or have a non-Cloud (ie. local network) API. I've written my own home automation gateway (turn on the tv, set mood lighting, control blinds), but I'm unwilling to open it up to Amazon's cloud.
+
+              
+reply
+
+      
+
+          
+hsod
+ 
+2 hours ago
+ 
+          
+
+                  
+
+                  
+Do you have Amazon Prime? My Echo automatically plays from the Prime Music library which seems to have all the music I listen to (full songs, not samples). I've also integrated mine with Spotify though since that's where all my playlists are.
+
+              
+reply
+
+      
+
+          
+arbabu
+ 
+2 hours ago
+ 
+          
+
+                  
+
+                  
+How do you control your lighting with Echo?
+
+              
+reply
+
+      
+
+          
+markbao
+ 
+1 hour ago
+ 
+          
+
+                  
+
+                  
+I don't do smart home, which seems to be the main use for it – instead, I use a simple remote control to turn on/off my lights, which is way easier for me than saying "Alexa turn on bedroom light" and waiting for it (I've tried this and unplugged the smart outlet the next day).
+• Weather and sometimes news in the morning as I'm getting ready.
+• As a Spotify player that I can control from my sofa / bed / elsewhere through Spotify Connect, so basically a quasi-Sonos.
+Other than that, I haven't really found any good uses for it.
+
+              
+reply
+
+    
+
+          
+wkrause
+ 
+1 hour ago
+ 
+          
+
+                  
+
+                  
+I wrote a skill that lets me ask what tech events are coming up, or are on a give day. Took half a day, and most of that time was spent figuring out aws lambda for the first time and writing the scraper for the event list I was pulling from. Now before I leave for work I can ask if anything is happening tonight.
+
+              
+reply
+
+      
+
+          
+jraines
+ 
+1 hour ago
+ 
+          
+
+                  
+
+                  
+every morning I say, "Alexa, news" and that's pretty much it.  Occasionally I ask for the weather (for which I still have to specify the city, because Alexa doesn't understand "Set my home [location] to [current city]".  Once I used it to order a whisk, which was pretty cool, I'll admit.
+If I have a question which I think a voice assistant could answer, I pick up my phone and use the Google app 100% of the time because it is so much better than Alexa it's not funny.  It regularly outperforms my expectations, where Alexa regularly underperforms them.
+
+              
+reply
+
+      
+
+          
+GabrielF00
+ 
+1 hour ago
+ 
+          
+
+                  
+
+                  
+If you go into the companion app and set your location, it should give you the weather for your city automatically when you say "Alexa, what's the weather".
+
+              
+reply
+
+      
+
+          
+malanj
+ 
+1 hour ago
+ 
+          
+
+                  
+
+                  
+The app allows you to specify your home city (as long as it's in the US)
+
+              
+reply
+
+      
+
+          
+jackcarter
+ 
+1 hour ago
+ 
+          
+
+                  
+
+                  
+I use it for exactly 3 things:
+* Checking how long until my train arrives. This is by far the most useful application for me; I use it every morning. I bought the Echo so that I could develop a Chicago train app (CTA Tracker), but there seems to be one for every major city now.
+
+              
+reply
+
+    
+
+          
+erikcw
+ 
+1 hour ago
+ 
+          
+
+                  
+
+                  
+I use it to play white noise to soothe my newborn (hands free control is a great benefit when the baby is crying!).
+Other than that, lots of use from the kitchen. As a timer, to listen to music, control my Hue lighting....
+I also coded up a custom Skill to control my Anova via a little Bluetooth proxy I wrote[1].
+https://github.com/erikcw/pycirculate
+
+              
+reply
+
+    
+
+          
+consto
+ 
+7 minutes ago
+ 
+          
+
+                  
+
+                  
+Not at all
+
+              
+reply
+
+      
+
+          
+gourneau
+ 
+35 minutes ago
+ 
+          
+
+                  
+
+                  
+I use it with WeMos to toggle lights in my house. I lot more fun than using light switches :)
+
+              
+reply
+
+      
+
+          
+meatsock
+ 
+2 hours ago
+ 
+          
+
+                  
+
+                  
+it's a good solution to listening to the radio for me, it'll tune in any fm or am station by call letters, so i can keep up with news and everything. its great to be able to tune in more than just the local stations. a young relative loves to hear new jokes on echo as well.
+
+              
+reply
+
+      
+
+          
+dlevine
+ 
+1 hour ago
+ 
+          
+
+                  
+
+                  
+I set a lot of kitchen timers and alarms. I also use it to play music.
+It seems to work pretty well for my use cases. With alarms and timers, the accuracy is about 100%. With music, it's maybe 70%.
+
+              
+reply
+
+      
+
+          
+late2part
+ 
+2 hours ago
+ 
+          
+
+                  
+
+                  
+I use it to play music, set timers when cooking or when we need to leave, games for the kids, to spell words, ask what time it is in other time zones/cities, and to help enrich Amazon's passive listening analysis of my life so they can provide me with better shopping experience.
+
+              
+reply
+
+      
+
+          
+payne92
+ 
+3 hours ago
+ 
+          
+
+                  
+
+                  
+Primary:  fancy kitchen timer.
+
+              
+reply
+
+      
+
+          
+igotsideas
+ 
+2 hours ago
+ 
+          
+
+                  
+
+                  
+Music, timer, weather, lights, alarm, sport scores & schedules.
+
+              
+reply
+
+      
+
+          
+mpdehaan2
+ 
+2 hours ago
+ 
+          
+
+                  
+
+                  
+Hmm, I have yet to explore any of the skills, but need to.
+I tell it to control my Hue lights, and ask it jokes, and occasionally ask it for the weather - though Dark Sky is a lot better for weather data.
+
+              
+reply
+
+          
+pbreit
+ 
+2 hours ago
+ 
+          
+
+                  
+
+                  
+Mostly music, timers and weather. I don't use the questioning very much. I'd like to use it for talk radio/podcasts with something like Antenna Radio.
+
+              
+reply
+
+      
+
+          
+dominotw
+ 
+2 hours ago
+ 
+          
+
+                  
+
+                  
+Music in bathroom .
+
+              
+reply
+
+    
+
+          
+veeragoni
+ 
+2 hours ago
+ 
+          
+
+                  
+
+                  
+npr, baby rhymes, control nest, some skills occasionally, as a bluetooth speaker at parties, weather forecast, find nearby places
+
+              
+reply
+
+      
+Guidelines
+
+        | 
+FAQ
+
+        | 
+Support
+
+        | 
+API
+
+        | 
+Security
+
+        | 
+Lists
+
+        | 
+Bookmarklet
+
+        | 
+DMCA
+
+        | 
+Apply to YC
+
+        | 
+Contact

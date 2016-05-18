@@ -1,0 +1,9 @@
+http://blog.mbassem.com/2016/05/15/handling-user-defined-signals-in-go/
+http://golangweekly.com/issues/109
+https://news.ycombinator.com/item?id=11701440
+https://feeds.votehub.eu/
+https://medium.com/@turbo_MaCk/elm-0-17-successful-upgrade-of-real-world-app-and-some-soft-of-guide-to-all-of-this-cafd59dec56f
+https://www.reddit.com/r/golang/comments/4jhkcw/any_good_books_on_go_web_developement/
+http://blog.melkerlitsgard.se/2016/05/12/cache-sizes-with-cpuid/
+http://yosefk.com/blog/love-thy-coworker-thy-work-not-necessarily.html
+http://www.joelotter.com/kajero/
